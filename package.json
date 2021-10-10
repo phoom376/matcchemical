@@ -9,9 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
+    "axios": "^0.22.0",
+    "bootstrap": "^5.0.0-beta3",
+    "boxicons": "^2.0.9",
+    "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
     "next": "11.1.2",
+    "node-sass": "^6.0.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",
