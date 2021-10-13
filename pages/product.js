@@ -15,8 +15,6 @@ export default function product() {
     }
   }, []);
 
-  console.log(products);
-
   const handleImage = (e) => {
     const render = new FileReader();
 
@@ -53,7 +51,6 @@ export default function product() {
             p_image: p_image,
           },
         ]);
-      
       });
   };
 
