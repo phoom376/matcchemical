@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -157,7 +158,7 @@ export default function product() {
         </button>
 
         <div className="box-product mt-3">
-          {/* {products &&
+          {products &&
             products.map((i, k) => {
               return (
                 <div className="card" key={i._id} style={{ width: "18rem" }}>
@@ -173,7 +174,7 @@ export default function product() {
                   </div>
                 </div>
               );
-            })} */}
+            })}
         </div>
       </div>
     </div>

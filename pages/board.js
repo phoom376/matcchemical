@@ -35,8 +35,8 @@ export default function Board() {
 
         {boards.map((i, k) => {
           return (
-            <div>
-              <div style={{ width: "500px" }}>
+            <div key={i._id}>
+              <div style={{ width: "500px" }}  >
                 <h3>Board Name: {i.b_name}</h3>
                 <h5>Last Time Update: {i.time}</h5>
 
