@@ -164,7 +164,7 @@ export default function product() {
                   <img
                     src={i.p_image}
                     className="card-img-top"
-                    key={i._id}
+                    key={k}
                     alt="..."
                   />
                   <div className="card-body">
