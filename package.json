@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "homepage": "https://phoom376.github.io/products/",
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "axios": "^0.22.0",
