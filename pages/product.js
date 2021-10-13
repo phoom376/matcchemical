@@ -161,12 +161,7 @@ export default function product() {
             products.map((i, k) => {
               return (
                 <div className="card" key={i._id} style={{ width: "18rem" }}>
-                  <img
-                    src={i.p_image}
-                    className="card-img-top"
-                    key={k}
-                    alt="..."
-                  />
+                  <img src={i.p_image} className="card-img-top" alt="..." />
                   <div className="card-body">
                     <h5 className="card-title">{i.p_name}</h5>
                     <p>Price: {i.p_price}</p>
