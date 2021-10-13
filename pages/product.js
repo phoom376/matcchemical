@@ -160,25 +160,23 @@ export default function product() {
           {products &&
             products.map((i, k) => {
               return (
-                <>
-                  <div className="card" key={i._id} style={{ width: "18rem" }}>
-                    <img
-                      src={i.p_image}
-                      className="card-img-top"
-                      key={k}
-                      alt="..."
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{i.p_name}</h5>
-                      <p>Price: {i.p_price}</p>
-                      <p> QTY: {i.p_qty}</p>
+                <div className="card" key={i._id} style={{ width: "18rem" }}>
+                  <img
+                    src={i.p_image}
+                    className="card-img-top"
+                    key={i._id}
+                    alt="..."
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{i.p_name}</h5>
+                    <p>Price: {i.p_price}</p>
+                    <p> QTY: {i.p_qty}</p>
 
-                      <a href="#" className="btn btn-primary">
-                        Go somewhere
-                      </a>
-                    </div>
+                    <a href="#" className="btn btn-primary">
+                      Go somewhere
+                    </a>
                   </div>
-                </>
+                </div>
               );
             })}
         </div>
