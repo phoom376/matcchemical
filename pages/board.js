@@ -34,9 +34,6 @@ export default function Board() {
         <h1>Board</h1>
 
         {boards.map((i, k) => {
-          const DateTime = i.updatedAt;
-        
-        ;
           return (
             <div>
               <div style={{ width: "500px" }}>
