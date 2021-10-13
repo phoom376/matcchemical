@@ -26,12 +26,8 @@ export default function Home() {
   const [page, setPage] = useState(Cookies.get("page"));
   const [online, setOnline] = useState(false);
 
-
-
-  useEffect(async () => {
-    await veryfyToken();
-
-  
+  useEffect(() => {
+    veryfyToken();
 
     if (!Cookies.get("auth")) {
       Router.push("/");
@@ -39,10 +35,9 @@ export default function Home() {
 
     if (navigator.onLine) {
       setOnline(navigator.onLine);
-    }else{
-      setOnline(false)
-
-      }
+    } else {
+      setOnline(false);
+    }
   }, []);
 
   const veryfyToken = async () => {

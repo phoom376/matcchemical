@@ -10,7 +10,7 @@ export default function product() {
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (products.length === 0) {
       getProduct();
     }

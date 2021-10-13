@@ -5,7 +5,7 @@ import { ProgressBar } from "react-bootstrap";
 export default function Board() {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
-  useEffect(async () => {
+  useEffect(() => {
     const gProduct = setInterval(() => {
       getBoard();
     }, 1000);
