@@ -10,8 +10,14 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMeesage] = useState("");
+  const [online, setOnline] = useState(false);
   useEffect(async () => {
     await cookieCheck();
+    if (navigator.onLine) {
+      setOnline(navigator.onLine);
+    } else {
+      setOnline(false);
+    }
   }, []);
 
   const cookieCheck = async () => {
@@ -43,23 +49,23 @@ export default function Login() {
     e.preventDefault();
     if ((email, password) !== "") {
       console.log("Login");
-      try{
-      axios
-        .post("http://localhost:4001/login", {
-          email: email,
-          password: password,
-        })
-        .then((res) => {
-          if (res.data.message) {
-            setMeesage(res.data.message);
-          } else {
-            setMeesage("");
-            cookie.set("token", res.data.token);
-            Router.push("/home");
-          }
-        });
-      }catch(err){
-        console.log(err)
+      try {
+        axios
+          .post("http://localhost:4001/login", {
+            email: email,
+            password: password,
+          })
+          .then((res) => {
+            if (res.data.message) {
+              setMeesage(res.data.message);
+            } else {
+              setMeesage("");
+              cookie.set("token", res.data.token);
+              Router.push("/home");
+            }
+          });
+      } catch (err) {
+        console.log(err);
       }
     } else {
       setMeesage("Pleas Input Email And Password");
@@ -76,7 +82,7 @@ export default function Login() {
             <h1>LoginPage</h1>
 
             <form onSubmit={handleSubmit}>
-              <p style={{fontWeight:"bold"}}>{timers}</p>
+              <p style={{ fontWeight: "bold" }}>{timers}</p>
               <p style={{ color: "red" }}>{message}</p>
               <div className="mb-3">
                 <label className="form-label">Email</label>
@@ -109,6 +115,9 @@ export default function Login() {
       );
     }
   };
-
-  return login();
+  if (online) {
+    return login();
+  } else {
+    return <div>OFFLINE PLEASE CONNECT INTERNET</div>;
+  }
 }

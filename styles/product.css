@@ -1,0 +1,27 @@
+.img {
+  width: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 20px;
+}
+
+.box-product {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.box-product .card {
+  margin-right: 10px;
+}
+
+.box-product .card .card-img-top {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+}
+/*# sourceMappingURL=product.css.map */
