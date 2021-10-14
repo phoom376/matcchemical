@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function product() {
+export default function Product() {
   const [p_name, setP_name] = useState("");
   const [p_price, setP_price] = useState(0);
   const [p_qty, setP_qty] = useState(0);
