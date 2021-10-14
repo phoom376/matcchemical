@@ -27,7 +27,7 @@ export default function Home() {
   const [online, setOnline] = useState(false);
 
   useEffect(() => {
-    veryfyToken();
+    verifyToken();
 
     if (!Cookies.get("auth")) {
       Router.push("/");
@@ -40,7 +40,7 @@ export default function Home() {
     }
   }, []);
 
-  const veryfyToken = async () => {
+  const verifyToken = async () => {
     const tmpToken = await Cookies.get("token");
 
     await axios

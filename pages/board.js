@@ -34,12 +34,20 @@ export default function Board() {
         <h1>Board</h1>
 
         {boards.map((i, k) => {
+          const DateTime = i.time;
+          const newDateTime = DateTime.split(" ");
+          const date = newDateTime[0];
+          const time = newDateTime[1];
           return (
             <div key={i._id}>
-              <div style={{ width: "500px" }}  >
+              <div style={{ width: "500px" }}>
                 <h3>Board Name: {i.b_name}</h3>
-                <h5>Last Time Update: {i.time}</h5>
-
+                <h5>
+                  Last Time Update:{" "}
+                  <span style={{ color: "blue", fontWeight: "bold" }}>
+                    {date} {time}
+                  </span>
+                </h5>
                 <h3>PH</h3>
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
                   <span style={{ flex: "1" }}>0</span>

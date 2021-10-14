@@ -1,16 +1,18 @@
 import axios from "axios";
 import "../styles/login.module.css";
-import Link from "next/link";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import cookie from "js-cookie";
-import Cookies from "js-cookie";
+
 export default function Login() {
   const [timers, setTimers] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMeesage] = useState("");
   const [online, setOnline] = useState(false);
+  const time = new Date();
+
+  console.log(time.getUTCMinutes() + 1);
   useEffect(() => {
     cookieCheck();
     if (navigator.onLine) {
@@ -20,8 +22,9 @@ export default function Login() {
     }
   }, []);
 
-  const cookieCheck = () => {
-    if (Cookies.get("token")) {
+  const cookieCheck = async () => {
+    const token = await cookie.get("token");
+    if (token) {
       Router.push("/home");
     } else {
       timer();
@@ -73,7 +76,7 @@ export default function Login() {
   };
 
   const login = () => {
-    if (Cookies.get("token")) {
+    if (cookie.get("token")) {
       return <div></div>;
     } else {
       return (
