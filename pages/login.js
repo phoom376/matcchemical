@@ -11,8 +11,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [message, setMeesage] = useState("");
   const [online, setOnline] = useState(false);
-  useEffect(async () => {
-    await cookieCheck();
+  useEffect(() => {
+    cookieCheck();
     if (navigator.onLine) {
       setOnline(navigator.onLine);
     } else {
@@ -20,7 +20,7 @@ export default function Login() {
     }
   }, []);
 
-  const cookieCheck = async () => {
+  const cookieCheck = () => {
     if (Cookies.get("token")) {
       Router.push("/home");
     } else {
@@ -28,7 +28,7 @@ export default function Login() {
     }
   };
 
-  const timer = async () => {
+  const timer = () => {
     setInterval(() => {
       const time = new Date();
 
