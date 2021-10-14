@@ -61,7 +61,7 @@ export default function product() {
     });
   };
 
-  const addProduct = () => {
+  const AddProduct = () => {
     return (
       <div className="container main">
         <form>
@@ -127,7 +127,7 @@ export default function product() {
     <div>
       <h1>Poduct Page</h1>
 
-      {open && addProduct()}
+      {open && AddProduct()}
       {open ? (
         <button
           onClick={() => {
