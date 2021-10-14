@@ -27,17 +27,20 @@ export default function Home() {
   const [online, setOnline] = useState(false);
 
   useEffect(() => {
-    verifyToken();
+    const Verify = async () => {
+      await verifyToken();
+      if (!Cookies.get("auth")) {
+        Router.push("/");
+      }
 
-    if (!Cookies.get("auth")) {
-      Router.push("/");
-    }
+      if (navigator.onLine) {
+       await  setOnline (navigator.onLine);
+      } else {
+        await  setOnline(false);
+      }
+    };
 
-    if (navigator.onLine) {
-      setOnline(navigator.onLine);
-    } else {
-      setOnline(false);
-    }
+    Verify();
   }, []);
 
   const verifyToken = async () => {
@@ -175,8 +178,10 @@ export default function Home() {
               <BiLogOut id="logout" onClick={logout} />
             </div>
           </div>
-          <div className={classnames("home_content m-5", { active: open })}>
-            <Page />
+          <div className={classnames("home_content", { active: open })}>
+            <div className="home_page">
+              <Page />
+            </div>
           </div>
         </div>
         <footer></footer>

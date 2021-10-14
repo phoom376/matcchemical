@@ -31,41 +31,43 @@ export default function Board() {
   } else {
     return (
       <div>
-        <h1>Board</h1>
+        <h1>Board Page</h1>
 
-        {boards.map((i, k) => {
-          const DateTime = i.time;
-          const newDateTime = DateTime.split(" ");
-          const date = newDateTime[0];
-          const time = newDateTime[1];
-          return (
-            <div key={i._id}>
-              <div style={{ width: "500px" }}>
-                <h3>Board Name: {i.b_name}</h3>
-                <h5>
-                  Last Time Update:{" "}
-                  <span style={{ color: "blue", fontWeight: "bold" }}>
-                    {date} {time}
-                  </span>
-                </h5>
-                <h3>PH</h3>
-                <div style={{ display: "flex", flexWrap: "wrap" }}>
-                  <span style={{ flex: "1" }}>0</span>
-                  <span>14</span>
+        <div className="box_board">
+          {boards.map((i, k) => {
+            const DateTime = i.time;
+            const newDateTime = DateTime.split(" ");
+            const date = newDateTime[0];
+            const time = newDateTime[1];
+            return (
+              <div className="board" key={i._id}>
+                <div>
+                  <h3>Board Name: {i.b_name}</h3>
+                  <h5>
+                    Last Time Update:{" "}
+                    <span style={{ color: "blue", fontWeight: "bold" }}>
+                      {date} {time}
+                    </span>
+                  </h5>
+                  <h3>PH</h3>
+                  <div style={{ display: "flex", flexWrap: "wrap" }}>
+                    <span style={{ flex: "1" }}>0</span>
+                    <span>14</span>
+                  </div>
+
+                  <ProgressBar
+                    variant="success"
+                    label={i.ph + " PH"}
+                    now={i.ph}
+                    max="14"
+                  />
                 </div>
-
-                <ProgressBar
-                  variant="success"
-                  label={i.ph + " PH"}
-                  now={i.ph}
-                  max="14"
-                />
+                <p>FLOW: {i.flow}</p>
+                <p>TOATAL: {i.total}</p>
               </div>
-              <p>FLOW: {i.flow}</p>
-              <p>TOATAL: {i.total}</p>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }

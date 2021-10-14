@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -44,7 +43,7 @@ export default function Product() {
       .then((res) => {
         console.log(res.data.message);
         setProducts([
-          ...products,
+          ...Products,
           {
             p_name: p_name,
             p_price: p_price,
@@ -63,8 +62,11 @@ export default function Product() {
 
   const AddProduct = () => {
     return (
-      <div className="container main">
-        <form>
+      <div className="container add_product">
+        <div className="title">
+          <p>Product Form</p>
+        </div>
+        <form className="form">
           <div className="mb-3">
             <label className="form-label">Product Name:</label>
             <input
@@ -123,59 +125,74 @@ export default function Product() {
     );
   };
 
+  const DeleteProduct = async (id) => {
+    await axios.delete(`http://localhost:4001/delete/${id}`).then(() => {
+      setProducts(
+        Products.filter((val) => {
+          return val._id !== id;
+        })
+      );
+    });
+  };
+
   return (
     <div>
       <h1>Poduct Page</h1>
 
       {open && AddProduct()}
-      {open ? (
-        <button
-          onClick={() => {
-            setOpen(!open);
-          }}
-          className="btn btn-outline-info"
-        >
-          Hide addProduct
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            setOpen(!open);
-          }}
-          className="btn btn-outline-info"
-        >
-          Show addProduct
-        </button>
-      )}
-      <div>
-        <button
-          className="btn btn-outline-primary mt-3"
-          onClick={() => {
-            getProduct();
-          }}
-        >
-          Show Product
-        </button>
-
-        <div className="box-product mt-3">
-          {Products &&
-            Products.map((i, k) => {
-              return (
-                <div className="card" key={i._id} style={{ width: "18rem" }}>
-                  <img src={i.p_image} className="card-img-top" alt="..." />
-                  <div className="card-body">
-                    <h5 className="card-title">{i.p_name}</h5>
-                    <p>Price: {i.p_price}</p>
-                    <p> QTY: {i.p_qty}</p>
-
-                    <a href="#" className="btn btn-primary">
-                      Go somewhere
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
+      <div className="button">
+        {open ? (
+          <a
+            onClick={() => {
+              setOpen(!open);
+            }}
+            className="btn btn-outline-info"
+          >
+            Hide addProduct
+          </a>
+        ) : (
+          <a
+            onClick={() => {
+              setOpen(!open);
+            }}
+            className="btn btn-outline-info"
+          >
+            Show addProduct
+          </a>
+        )}
+        <div>
+          <a
+            className="btn btn-outline-primary mt-3"
+            onClick={() => {
+              getProduct();
+            }}
+          >
+            Show Product
+          </a>
         </div>
+      </div>
+
+      <div className="box-product mt-3">
+        {Products &&
+          Products.map((i, k) => {
+            return (
+              <div className="card" key={i._id}>
+                <img src={i.p_image} className="card-img-top" alt="..." />
+                <div className="card-body">
+                  <h5 className="card-title">{i.p_name}</h5>
+                  <p>Price: {i.p_price}</p>
+                  <p> QTY: {i.p_qty}</p>
+
+                  <a
+                    className="btn btn-outline-danger"
+                    onClick={()=>DeleteProduct(i._id)}
+                  >
+                    Delete
+                  </a>
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

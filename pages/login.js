@@ -14,12 +14,16 @@ export default function Login() {
 
   console.log(time.getUTCMinutes() + 1);
   useEffect(() => {
-    cookieCheck();
-    if (navigator.onLine) {
-      setOnline(navigator.onLine);
-    } else {
-      setOnline(false);
-    }
+    const Verify = async () => {
+      await cookieCheck();
+      if (navigator.onLine) {
+        setOnline(navigator.onLine);
+      } else {
+        setOnline(false);
+      }
+    };
+
+    Verify();
   }, []);
 
   const cookieCheck = async () => {

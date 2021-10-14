@@ -1,0 +1,15 @@
+.box_board {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.box_board .board {
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 30rem;
+}
+/*# sourceMappingURL=board.css.map */
