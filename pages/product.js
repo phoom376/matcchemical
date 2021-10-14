@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+const Swal = require("sweetalert2");
 
 export default function Product() {
   const [p_name, setP_name] = useState("");
@@ -40,17 +41,21 @@ export default function Product() {
         p_qty: p_qty,
         p_image: p_image,
       })
-      .then((res) => {
-        console.log(res.data.message);
-        setProducts([
-          ...Products,
-          {
-            p_name: p_name,
-            p_price: p_price,
-            p_qty: p_qty,
-            p_image: p_image,
-          },
-        ]);
+      .then(() => {
+        Swal.fire("Product Added");
+
+        getProduct();
+
+        setP_image("");
+        setP_name("");
+        setP_price(0);
+        setP_qty(0);
+        document.getElementById("p_name").value = "";
+        document.getElementById("p_price").value = "";
+        document.getElementById("p_qty").value = "";
+        document.getElementById("p_image").value = "";
+
+        setOpen(!open);
       });
   };
 
@@ -58,6 +63,13 @@ export default function Product() {
     await axios.get("http://localhost:4001/getproduct").then((res) => {
       setProducts(res.data);
     });
+  };
+
+  const restForm = () => {
+    setP_image("");
+    setP_name("");
+    setP_price(0);
+    setP_qty(0);
   };
 
   const AddProduct = () => {
@@ -73,6 +85,7 @@ export default function Product() {
               className="form-control"
               type="text"
               name="p_name"
+              id="p_name"
               onChange={(e) => {
                 setP_name(e.target.value);
               }}
@@ -83,6 +96,7 @@ export default function Product() {
             <input
               className="form-control"
               type="number"
+              id="p_price"
               onChange={(e) => {
                 setP_price(e.target.value);
               }}
@@ -93,6 +107,7 @@ export default function Product() {
             <input
               className="form-control"
               type="number"
+              id="p_qty"
               onChange={(e) => {
                 setP_qty(e.target.value);
               }}
@@ -107,6 +122,7 @@ export default function Product() {
 
             <input
               className="form-control"
+              id="p_image"
               type="file"
               name="file"
               onChange={handleImage}
@@ -119,6 +135,13 @@ export default function Product() {
             onClick={handleSubmit}
           >
             Add Product
+          </button>
+          <button
+            className="btn btn-outline-warning m-lg-2"
+            type="reset"
+            onClick={restForm}
+          >
+            Clear
           </button>
         </form>
       </div>
@@ -185,7 +208,7 @@ export default function Product() {
 
                   <a
                     className="btn btn-outline-danger"
-                    onClick={()=>DeleteProduct(i._id)}
+                    onClick={() => DeleteProduct(i._id)}
                   >
                     Delete
                   </a>
