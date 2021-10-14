@@ -8,7 +8,7 @@ export default function product() {
   const [p_qty, setP_qty] = useState(0);
   const [p_image, setP_image] = useState("");
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [Products, setProducts] = useState([]);
 
   useEffect(() => {
     if (products.length === 0) {
@@ -158,8 +158,8 @@ export default function product() {
         </button>
 
         <div className="box-product mt-3">
-          {products &&
-            products.map((i, k) => {
+          {Products &&
+            Products.map((i, k) => {
               return (
                 <div className="card" key={i._id} style={{ width: "18rem" }}>
                   <img src={i.p_image} className="card-img-top" alt="..." />
