@@ -11,7 +11,7 @@ export default function Product() {
   const [Products, setProducts] = useState([]);
 
   useEffect(() => {
-    if (products.length === 0) {
+    if (Products.length === 0) {
       getProduct();
     }
   }, []);
