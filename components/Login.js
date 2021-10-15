@@ -3,16 +3,15 @@ import "../styles/login.module.css";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import cookie from "js-cookie";
+import Link from "next/link";
 
-export default function Login() {
+const Login = () => {
   const [timers, setTimers] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMeesage] = useState("");
   const [online, setOnline] = useState(false);
-  const time = new Date();
 
-  console.log(time.getUTCMinutes() + 1);
   useEffect(() => {
     const Verify = async () => {
       await cookieCheck();
@@ -30,6 +29,7 @@ export default function Login() {
     const token = await cookie.get("token");
     if (token) {
       Router.push("/home");
+      <Link to="/home"/>
     } else {
       timer();
     }
@@ -69,6 +69,8 @@ export default function Login() {
               setMeesage("");
               cookie.set("token", res.data.token);
               Router.push("/home");
+              <Link passHref href="/home"/>
+
             }
           });
       } catch (err) {
@@ -84,7 +86,7 @@ export default function Login() {
       return <div></div>;
     } else {
       return (
-        <div>
+        <div className="center">
           <div className="main">
             <h1>LoginPage</h1>
 
@@ -127,4 +129,6 @@ export default function Login() {
   } else {
     return <div>OFFLINE PLEASE CONNECT INTERNET</div>;
   }
-}
+};
+
+export default Login;

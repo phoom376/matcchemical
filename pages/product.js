@@ -21,42 +21,53 @@ export default function Product() {
 
     console.log(e.target.files[0].size);
     if (e.target.files[0].size > 500000) {
-      alert("Image File to large");
-    }
-    render.onload = (e) => {
-      setP_image(e.target.result);
-      console.log(e.target.result);
-    };
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Imgae To Large!",
+      });
+      setP_name("");
 
-    render.readAsDataURL(e.target.files[0]);
+      document.getElementById("p_image").value = "";
+    } else {
+      render.onload = (e) => {
+        setP_image(e.target.result);
+        console.log(e.target.result);
+      };
+
+      render.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if ((p_name, p_image) !== "" && (p_price, p_qty) !== 0) {
+      await axios
+        .post("http://localhost:4001/addproduct", {
+          p_name: p_name,
+          p_price: p_price,
+          p_qty: p_qty,
+          p_image: p_image,
+        })
+        .then(() => {
+          Swal.fire("Product Added");
 
-    await axios
-      .post("http://localhost:4001/addproduct", {
-        p_name: p_name,
-        p_price: p_price,
-        p_qty: p_qty,
-        p_image: p_image,
-      })
-      .then(() => {
-        Swal.fire("Product Added");
+          getProduct();
 
-        getProduct();
+          setP_image("");
+          setP_name("");
+          setP_price(0);
+          setP_qty(0);
+          document.getElementById("p_name").value = "";
+          document.getElementById("p_price").value = "";
+          document.getElementById("p_qty").value = "";
+          document.getElementById("p_image").value = "";
 
-        setP_image("");
-        setP_name("");
-        setP_price(0);
-        setP_qty(0);
-        document.getElementById("p_name").value = "";
-        document.getElementById("p_price").value = "";
-        document.getElementById("p_qty").value = "";
-        document.getElementById("p_image").value = "";
-
-        setOpen(!open);
-      });
+          setOpen(!open);
+        });
+    } else {
+      Swal.fire("Input?", "All In Put Is Required", "question");
+    }
   };
 
   const getProduct = async () => {
@@ -149,12 +160,25 @@ export default function Product() {
   };
 
   const DeleteProduct = async (id) => {
-    await axios.delete(`http://localhost:4001/delete/${id}`).then(() => {
-      setProducts(
-        Products.filter((val) => {
-          return val._id !== id;
-        })
-      );
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:4001/delete/${id}`).then(() => {
+          setProducts(
+            Products.filter((val) => {
+              return val._id !== id;
+            })
+          );
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        });
+      }
     });
   };
 
