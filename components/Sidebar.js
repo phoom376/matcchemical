@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
 import Router from "next/router";
 import axios from "axios";
 import jwt from "jsonwebtoken";
@@ -15,41 +15,53 @@ import {
 import { BiLogOut } from "react-icons/bi";
 import classnames from "classnames";
 import Link from "next/link";
-import Product from "../pages/product";
-import Board from "../pages/board";
 
 const Sidebar = ({ children }) => {
   const [username, setUsername] = useState(Cookies.get("username"));
   const [open, setOpen] = useState(true);
+  const [auth, setAuth] = useState(false);
 
   const logout = () => {
     Object.keys(Cookies.get()).forEach((e) => {
       Cookies.remove(e);
     });
+
     Router.push("/");
-    <Link to="/" />;
+    <Link href="/" />;
   };
 
   useEffect(() => {
     const Verify = async () => {
+      await CookieCheck();
       await verifyToken();
       if (!Cookies.get("auth")) {
+        Object.keys(Cookies.get()).forEach((e) => {
+          Cookies.remove(e);
+        });
         Router.push("/");
-        <Link to="/"></Link>;
-      } else {
       }
     };
 
     Verify();
   }, []);
 
+  const CookieCheck = () => {
+    if (!Cookies.get("token")) {
+      Object.keys(Cookies.get()).forEach((e) => {
+        Cookies.remove(e);
+      });
+      Router.push("/");
+    }
+  };
+
   const verifyToken = async () => {
     const tmpToken = await Cookies.get("token");
 
     await axios
-      .post("http://localhost:4001/auth", { token: tmpToken })
+      .post("https://userlogapi.herokuapp.com/auth", { token: tmpToken })
       .then((res) => {
         if (res.data.isAuth) {
+          setAuth(res.data.isAuth);
           const decode = jwt.decode(tmpToken);
           Cookies.set("auth", true);
           Cookies.set("username", decode.username);
@@ -59,83 +71,87 @@ const Sidebar = ({ children }) => {
   };
 
   const Home = () => {
-    return (
-      <>
-        <header>
-          <meta charSet="UTF-8" />
+    if (auth) {
+      return (
+        <>
+          <header>
+            <meta charSet="UTF-8" />
 
-          <title>Home</title>
-        </header>
-        <div>
-          <div className={classnames("sidebar", { active: open })}>
-            <div className="logo_content">
-              <div className="logo">
-                <IoCube className="icon" />
+            <title>Home</title>
+          </header>
+          <div>
+            <div className={classnames("sidebar", { active: open })}>
+              <div className="logo_content">
+                <div className="logo">
+                  <IoCube className="icon" />
 
-                <div className="logo_name">CUBE</div>
-              </div>
-              <GiHamburgerMenu
-                id="btn"
-                onClick={() => {
-                  setOpen(!open);
-                }}
-              />
-            </div>
-            <div className="nav_list">
-              <li>
-                <div className="search">
-                  <AiOutlineSearch
-                    className="ic"
-                    onClick={() => {
-                      setOpen(!open);
-                    }}
-                  />
-                  <input className="link_name" />
+                  <div className="logo_name">CUBE</div>
                 </div>
-              </li>
+                <GiHamburgerMenu
+                  id="btn"
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                />
+              </div>
+              <div className="nav_list">
+                <li>
+                  <div className="search">
+                    <AiOutlineSearch
+                      className="ic"
+                      onClick={() => {
+                        setOpen(!open);
+                      }}
+                    />
+                    <input className="link_name" />
+                  </div>
+                </li>
 
-              <li>
-                <a>
-                  <AiFillDashboard className="ic" />
-                  <span className="link_name">Dashboard</span>
-                </a>
-                <span className="t-tip">Dashboard</span>
-              </li>
-
-              <li>
-                <Link href="/product">
+                <li>
                   <a>
-                    <FaProductHunt className="ic" />
-                    <span className="link_name">Products</span>
+                    <AiFillDashboard className="ic" />
+                    <span className="link_name">Dashboard</span>
                   </a>
-                </Link>
-                <span className="t-tip">Product</span>
-              </li>
-              <li>
-                <Link href="/board">
-                  <a>
-                    <SiArduino className="ic" />
-                    <span className="link_name">Board</span>
-                  </a>
-                </Link>
+                  <span className="t-tip">Dashboard</span>
+                </li>
 
-                <span className="t-tip">Board</span>
-              </li>
+                <li>
+                  <Link href="/product">
+                    <a>
+                      <FaProductHunt className="ic" />
+                      <span className="link_name">Products</span>
+                    </a>
+                  </Link>
+                  <span className="t-tip">Product</span>
+                </li>
+                <li>
+                  <Link href="/board">
+                    <a>
+                      <SiArduino className="ic" />
+                      <span className="link_name">Board</span>
+                    </a>
+                  </Link>
+
+                  <span className="t-tip">Board</span>
+                </li>
+              </div>
+
+              <div className="profile">
+                <FaUserCircle className="ic" />
+                <span className="profile_name">{username}</span>
+                <BiLogOut id="logout" onClick={logout} />
+              </div>
             </div>
-
-            <div className="profile">
-              <FaUserCircle className="ic" />
-              <span className="profile_name">{username}</span>
-              <BiLogOut id="logout" onClick={logout} />
+            <div className={classnames("home_content", { active: open })}>
+              <div className="home_page">{children}</div>
             </div>
           </div>
-          <div className={classnames("home_content", { active: open })}>
-            <div className="home_page">{children}</div>
-          </div>
-        </div>
-        <footer></footer>
-      </>
-    );
+          <footer></footer>
+        </>
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
   };
 
   return Home();

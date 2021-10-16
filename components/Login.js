@@ -58,7 +58,7 @@ const Login = () => {
       console.log("Login");
       try {
         axios
-          .post("http://localhost:4001/login", {
+          .post("https://userlogapi.herokuapp.com/login", {
             email: email,
             password: password,
           })
@@ -69,8 +69,8 @@ const Login = () => {
               setMeesage("");
               cookie.set("token", res.data.token);
               Router.push("/home");
-              <Link passHref href="/home"/>
-
+              <Link to="/home"/>
+              
             }
           });
       } catch (err) {

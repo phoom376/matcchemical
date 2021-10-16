@@ -43,7 +43,7 @@ export default function Product() {
     e.preventDefault();
     if ((p_name, p_image) !== "" && (p_price, p_qty) !== 0) {
       await axios
-        .post("http://localhost:4001/addproduct", {
+        .post("https://userlogapi.herokuapp.com/addproduct", {
           p_name: p_name,
           p_price: p_price,
           p_qty: p_qty,
@@ -71,7 +71,7 @@ export default function Product() {
   };
 
   const getProduct = async () => {
-    await axios.get("http://localhost:4001/getproduct").then((res) => {
+    await axios.get("https://userlogapi.herokuapp.com/getproduct").then((res) => {
       setProducts(res.data);
     });
   };
@@ -170,7 +170,7 @@ export default function Product() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:4001/delete/${id}`).then(() => {
+        axios.delete(`https://userlogapi.herokuapp.com/delete/${id}`).then(() => {
           setProducts(
             Products.filter((val) => {
               return val._id !== id;
