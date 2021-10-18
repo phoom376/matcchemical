@@ -62,9 +62,9 @@ export default function Board() {
                         {tmpDT.getFullYear() === now.getFullYear() ||
                         tmpDT.getDate() === now.getDate() ||
                         tmpDT.getDay() === now.getDay() || tmpDT.getHours() === tmpDT.getHours() || tmpDT.getMinutes() === now.getMinutes() || tmpDT.getSeconds() + 30 > now.getSeconds() ? (
-                          <span style={{color:"red"}}>ONLINE</span>
+                          <span style={{color:"green"}}>ONLINE</span>
                         ) : (
-                          <span style={{color:"green"}}>OFFLINE</span>
+                          <span style={{color:"red"}}>OFFLINE</span>
                         )}
                       </p>
 
