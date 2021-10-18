@@ -59,12 +59,12 @@ export default function Board() {
                       <h3>Board Name: {i.b_name}</h3>
                       <p>
                         BOARD{" "}
-                        {tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() || tmpDT.getHours() !== tmpDT.getHours() || tmpDT.getMinutes() !== now.getMinutes() || tmpDT.getSeconds() + 30 < now.getSeconds() ? (
-                          <span style={{color:"red"}}> OFFLINE</span>
+                        {tmpDT.getFullYear() === now.getFullYear() ||
+                        tmpDT.getDate() === now.getDate() ||
+                        tmpDT.getDay() === now.getDay() || tmpDT.getHours() === tmpDT.getHours() || tmpDT.getMinutes() === now.getMinutes() || tmpDT.getSeconds() + 30 > now.getSeconds() ? (
+                          <span style={{color:"red"}}>ONLINE</span>
                         ) : (
-                          <span style={{color:"green"}}>ONLINE</span>
+                          <span style={{color:"green"}}>OFFLINE</span>
                         )}
                       </p>
 
