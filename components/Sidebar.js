@@ -83,9 +83,10 @@ const Sidebar = ({ children }) => {
             <div className={classnames("sidebar", { active: open })}>
               <div className="logo_content">
                 <div className="logo">
-                  <IoCube className="icon" />
+                  <img src="https://www.img.in.th/images/278dc6880042d3e3b752ce0b330cd482.png" className="icon" />
+                  {/* <IoCube className="icon" /> */}
 
-                  <div className="logo_name">CUBE</div>
+                  <div className="logo_name">MATCHCHEMICAL</div>
                 </div>
                 <GiHamburgerMenu
                   id="btn"

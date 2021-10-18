@@ -1,27 +1,118 @@
-body  {
+body {
+  // background-image: linear-gradient(to bottom right , #5294b4 ,#9b90b7);
 }
 
- .btn{
-    
-    border-radius: 20px;
-
+.btn-login {
+  font-weight: bold;
+  color: white;
+  border-radius: 20px;
+  padding: 6px 20px 6px 20px;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: white;
+  width: 100%;
 }
 
-.center{
-    min-height: 100vh;
-    padding: 0 0.5rem;
+.btn-login:hover {
+  border-color: #5c459b;
+  color: #5c459b;
+}
+.btn-login:focus {
+  border-color: #5c459b;
+  color: #5c459b;
+}
+
+.center {
+  background-image: linear-gradient(to bottom right, #5c459b, #05ace3);
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main {
+  color: white;
+  background-color: #1d9fc5;
+  margin: 50px;
+  padding: 30px;
+  width: 800px;
+  height: 450px;
+  box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+
+  .login-form {
+      position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    flex-wrap: wrap;
+    
+    .logo-box{
+        position: absolute;
+        // border: 1px white solid;
+        .logo {
+            padding:10px;
+           width: 400px;
+         }
+    }
+   
+
+    .form-box {
+        position: absolute;
+        left: 65%;
+      .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      .form-control {
+        border-radius: 30px;
+      }
+    }
+  }
 }
 
-.main{
-    margin: 50px;
-    padding: 30px;
-    width: 40%;
-    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
+@media screen and (max-width: 1600px) {
+  .main {
+    width: 400px;
+    height: 700px;
+    .login-form{
+        .logo-box{
+            top:0px;
+            left: 20%;
+            .logo{
+                width: 180px;
+            }
+        }
+
+        .form-box{
+            left: 20%;
+            top:180px
+        }
+    }
+    
+  }
 }
 
+@media screen and (max-device-width: 375px) {
+  .main {
+    width: 80%;
+    height: 600px;
+
+    .login-form{
+        .logo-box{
+            top:0px;
+            left: 8%;
+            .logo{
+                width: 180px;
+            }
+        }
+
+        .form-box{
+            left: 6%;
+            top:180px
+        }
+    }
+
+  }
+}

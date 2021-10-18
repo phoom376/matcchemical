@@ -38,7 +38,7 @@ export default function Board() {
             boards.map((i, k) => {
               if(i.ph !== null){const flow = Number(i.flow);
               const dateTime = i.uDate;
-
+              const d = new Da
               const newDateTime = dateTime.split("T");
               const date = newDateTime[0];
 

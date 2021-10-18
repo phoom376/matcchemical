@@ -29,7 +29,7 @@ const Login = () => {
     const token = await cookie.get("token");
     if (token) {
       Router.push("/home");
-      <Link to="/home"/>
+      <Link to="/home" />;
     } else {
       timer();
     }
@@ -69,8 +69,7 @@ const Login = () => {
               setMeesage("");
               cookie.set("token", res.data.token);
               Router.push("/home");
-              <Link to="/home"/>
-              
+              <Link to="/home" />;
             }
           });
       } catch (err) {
@@ -88,37 +87,48 @@ const Login = () => {
       return (
         <div className="center">
           <div className="main">
-            <h1>LoginPage</h1>
-
-            <form onSubmit={handleSubmit}>
-              <p style={{ fontWeight: "bold" }}>{timers}</p>
-              <p style={{ color: "red" }}>{message}</p>
-              <div className="mb-3">
-                <label className="form-label">Email</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  name="email"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                ></input>
+            <div className="login-form">
+              <div className="logo-box" >
+                <img className="logo" src="https://www.img.in.th/images/278dc6880042d3e3b752ce0b330cd482.png"></img>
               </div>
-              <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input
-                  className="form-control"
-                  type="password"
-                  name="email"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                ></input>
+              <div className="form-box">
+                <div className="title">
+                  <p>MATCHCHEMICAL</p>
+                  <p>Sign in</p>
+                </div>
+                <form onSubmit={handleSubmit}>
+                  <p style={{ fontWeight: "bold" }}>{timers}</p>
+                  <p style={{ color: "red" }}>{message}</p>
+                  <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="email"
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                    ></input>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <input
+                      className="form-control"
+                      type="password"
+                      name="email"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                    ></input>
+                  </div>
+                  <div className="mt-4">
+                    <button className="btn-login" type="submit">
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
-              <button className="btn btn-outline-primary" type="submit">
-                Login
-              </button>
-            </form>
+            </div>
           </div>
         </div>
       );
