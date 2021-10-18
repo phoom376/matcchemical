@@ -64,7 +64,6 @@
 }
 
 .main .login-form .logo-box {
-  position: absolute;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
@@ -79,7 +78,6 @@
 .main .login-form .form-box {
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
-  position: absolute;
   left: 65%;
 }
 
@@ -93,23 +91,25 @@
   border-radius: 30px;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 660px) {
   .main {
     width: 400px;
     height: 700px;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
   }
+  .main .login-form {
+    left: 18%;
+  }
   .main .login-form .logo-box {
     top: 0px;
-    left: 25%;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
   }
   .main .login-form .logo-box .logo {
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    width: 180px;
+    width: 200px;
   }
   .main .login-form .form-box {
     left: 16%;
@@ -119,20 +119,21 @@
   }
 }
 
-@media screen and (max-device-width: 375px) {
+@media screen and (max-device-width: 420px) {
   .main {
     width: 80%;
-    height: 620px;
+  }
+  .main .login-form {
+    left: 5%;
   }
   .main .login-form .logo-box {
     top: 0px;
-    left: 10%;
+    margin-left: 20px;
   }
   .main .login-form .logo-box .logo {
     width: 180px;
   }
   .main .login-form .form-box {
-    left: 3%;
     top: 180px;
   }
 }
