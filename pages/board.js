@@ -46,8 +46,8 @@ export default function Board() {
               const dayjs = require("dayjs");
               const now = new Date();
               const tmpDT = new Date(newformat);
-              console.log(tmpDT.getFullYear());
-              console.log(now.getDate());
+              {/* console.log(tmpDT.toLocaleString()); */}
+              console.log(now.toLocaleString());
               {
                 /* console.log(newformat);
               console.log(now.format("YYYY-MM-DD hh:mm:ss")); */
