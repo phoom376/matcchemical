@@ -61,7 +61,7 @@ export default function Board() {
                         BOARD{" "}
                         {tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() || tmpDT.getHours() !== tmpDT.getHours() || tmpDT.getMinutes() !== now.getMinutes() || tmpDT.getSeconds() + 15 < now.getSeconds() ? (
+                        tmpDT.getDay() !== now.getDay() || tmpDT.getHours() !== tmpDT.getHours() || tmpDT.getMinutes() !== now.getMinutes() || tmpDT.getSeconds() + 30 < now.getSeconds() ? (
                           <span style={{color:"red"}}> OFFLINE</span>
                         ) : (
                           <span style={{color:"green"}}>ONLINE</span>
