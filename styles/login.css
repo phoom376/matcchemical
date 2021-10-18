@@ -48,6 +48,8 @@
   height: 450px;
   -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .main .login-form {
@@ -57,18 +59,26 @@
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .main .login-form .logo-box {
   position: absolute;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .main .login-form .logo-box .logo {
   padding: 10px;
   width: 400px;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .main .login-form .form-box {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   position: absolute;
   left: 65%;
 }
@@ -83,38 +93,46 @@
   border-radius: 30px;
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1000px) {
   .main {
     width: 400px;
     height: 700px;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
   }
   .main .login-form .logo-box {
     top: 0px;
-    left: 20%;
+    left: 25%;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
   }
   .main .login-form .logo-box .logo {
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
     width: 180px;
   }
   .main .login-form .form-box {
-    left: 20%;
+    left: 16%;
     top: 180px;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
   }
 }
 
 @media screen and (max-device-width: 375px) {
   .main {
     width: 80%;
-    height: 600px;
+    height: 620px;
   }
   .main .login-form .logo-box {
     top: 0px;
-    left: 8%;
+    left: 10%;
   }
   .main .login-form .logo-box .logo {
     width: 180px;
   }
   .main .login-form .form-box {
-    left: 6%;
+    left: 3%;
     top: 180px;
   }
 }

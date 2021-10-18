@@ -1,12 +1,47 @@
+.box_board {
+  margin-top: 20px;
+  display: flex;
+  .board {
+ 
+    
+    box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+    padding: 30px;
 
-.box_board{
-    margin-top: 20px;
-    display: flex;
-    .board {
-        border-radius: 10px;
-        box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
-          padding: 20px;
-        width: 30rem;
+    .board-header{
+      text-align: center;
+    }
+
+    .board-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-content: center;
+      flex-wrap: wrap;
+      div{
+        margin: 10px;
+
+        .progress-box{
+          max-width: 200px;
+          min-width: 150px;
+        }
+
+        .title{
+          font-size: 20px;
+          font-weight: bold;
+        }
+
+
       }
+    }
+  }
 }
 
+@media screen and (max-device-width: 375px) {
+
+  .box_board{
+    .board{
+      padding: 20px;
+    }
+  }
+  
+}

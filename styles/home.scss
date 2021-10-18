@@ -246,16 +246,17 @@ body {
 }
 
 .home_content {
-  position: absolute;
+  position: relative;
   height: auto;
-  width: calc(auto - 80px);
+  width: calc(100% - 80px);
   left: 80px;
+  z-index: -1;
   transition: all 0.5s ease;
   .home_page{
     padding: 40px;
   }
   &.active {
-    width: calc(auto - 280px);
+    width: calc(100% - 280px);
 
     left: 280px;
   }
