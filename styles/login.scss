@@ -68,8 +68,16 @@ body {
       left: 65%;
       .title {
         text-align: center;
-        font-weight: bold;
         font-size: 1.5rem;
+        #logo{
+          background-image: linear-gradient(to bottom right, #5c459b, #9b90b7);
+          color: transparent;
+          -webkit-background-clip: text;
+          -moz-background-clip: text;
+          background-clip: text;
+          font-size: 1.8rem;
+          font-weight: bold;
+        }
       }
 
       .form-control {

@@ -87,7 +87,7 @@ const Login = () => {
               </div>
               <div className="form-box">
                 <div className="title">
-                  <p>MATCHCHEMICAL</p>
+                  <p id="logo">MATCHCHEMICAL</p>
                   <p>Sign in</p>
                 </div>
                 <form onSubmit={handleSubmit}>

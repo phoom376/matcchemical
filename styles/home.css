@@ -272,12 +272,8 @@ body {
   transition: all 0.5s ease;
 }
 
-.home_content .home_page {
-  padding: 40px;
-}
-
 .home_content.active {
-  width: calc(100% - 280px);
-  left: 280px;
+  width: calc(100% - 290px);
+  left: 290px;
 }
 /*# sourceMappingURL=home.css.map */

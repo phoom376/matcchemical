@@ -254,11 +254,11 @@ body {
   // z-index: -1;
   transition: all 0.5s ease;
   .home_page{
-    padding: 40px;
+    // padding: 40px;
   }
   &.active {
-    width: calc(100% - 280px);
+    width: calc(100% - 290px);
 
-    left: 280px;
+    left: 290px;
   }
 }

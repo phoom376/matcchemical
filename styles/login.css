@@ -85,8 +85,17 @@
 
 .main .login-form .form-box .title {
   text-align: center;
-  font-weight: bold;
   font-size: 1.5rem;
+}
+
+.main .login-form .form-box .title #logo {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#5c459b), to(#9b90b7));
+  background-image: linear-gradient(to bottom right, #5c459b, #9b90b7);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 .main .login-form .form-box .form-control {
