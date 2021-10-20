@@ -11,19 +11,42 @@
     box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
     padding: 10px;
     .board-header {
-      text-align: center;
     }
 
     .button-box {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      text-align: center;
       .box {
         margin: 10px;
         box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
         padding: 20px;
-        width: 200px;
+        min-width: 200px;
+        flex: 1;
+
+        .form-input{
+          border-radius: 20px;
+          padding: 6px 20px 6px 20px;
+          background-color: rgba(0, 0, 0, 0);
+          border-color: #05ace3;
+          outline:#05ace3;
+          width: 100%;
+        }
+        .form-input:hover{
+          border-radius: 20px;
+          padding: 6px 20px 6px 20px;
+          background-color: rgba(0, 0, 0, 0);
+          border-color: #5c459b;
+          width: 100%;
+        }
+        .form-input:focus{
+          border-radius: 20px;
+          padding: 6px 20px 6px 20px;
+          background-color: rgba(0, 0, 0, 0);
+          border-color: #5c459b;
+          width: 100%;
+          outline: #5c459b;
+        }
         .button-title {
           font-weight: bold;
         }

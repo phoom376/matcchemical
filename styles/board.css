@@ -19,10 +19,6 @@
   padding: 10px;
 }
 
-.box_board .board .board-header {
-  text-align: center;
-}
-
 .box_board .board .button-box {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -32,7 +28,6 @@
           justify-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  text-align: center;
 }
 
 .box_board .board .button-box .box {
@@ -40,7 +35,36 @@
   -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
           box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
   padding: 20px;
-  width: 200px;
+  min-width: 200px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.box_board .board .button-box .box .form-input {
+  border-radius: 20px;
+  padding: 6px 20px 6px 20px;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: #05ace3;
+  outline: #05ace3;
+  width: 100%;
+}
+
+.box_board .board .button-box .box .form-input:hover {
+  border-radius: 20px;
+  padding: 6px 20px 6px 20px;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: #5c459b;
+  width: 100%;
+}
+
+.box_board .board .button-box .box .form-input:focus {
+  border-radius: 20px;
+  padding: 6px 20px 6px 20px;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: #5c459b;
+  width: 100%;
+  outline: #5c459b;
 }
 
 .box_board .board .button-box .box .button-title {
