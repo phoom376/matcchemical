@@ -7,13 +7,50 @@
 }
 
 .box_board .board {
-  -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
-          box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
-  padding: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+          box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+  padding: 10px;
 }
 
 .box_board .board .board-header {
   text-align: center;
+}
+
+.box_board .board .button-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  text-align: center;
+}
+
+.box_board .board .button-box .box {
+  margin: 10px;
+  -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+          box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+  padding: 20px;
+  width: 200px;
+}
+
+.box_board .board .button-box .box .button-title {
+  font-weight: bold;
+}
+
+.box_board .board .button-box .box .btn {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
 }
 
 .box_board .board .board-box {
