@@ -163,90 +163,97 @@ const boards = ({ boards }) => {
 
             <div className="button-box">
               <div className="box">
-                <p className="button-title">SCC</p>
-                {i.scc === 0 ? (
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={() => upDateSccControl(i._id, "SCC", 1)}
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
-                    }
-                  >
-                    OFF
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn btn-outline-success"
-                    onClick={() => upDateSccControl(i._id, "SCC", 0)}
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
-                    }
-                  >
-                    ON
-                  </button>
-                )}
+                <div className="box-title">
+                  <p className="button-title">SCC</p>
+                  {i.scc === 0 ? (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => upDateSccControl(i._id, "SCC", 1)}
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes()
+                      }
+                    >
+                      OFF
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-outline-success"
+                      onClick={() => upDateSccControl(i._id, "SCC", 0)}
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes()
+                      }
+                    >
+                      ON
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="box">
-                <p className="button-title">Valve</p>
-                {i.valve === 0 ? (
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger mb-3"
-                    onClick={() =>
-                      upDateValveControl(
-                        i._id,
-                        "valve",
-                        1,
-                        i.valvePh,
+                <div className="box-title">
+                  <p className="button-title">Valve</p>
+                  {i.valve === 0 ? (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger mb-3"
+                      onClick={() =>
+                        upDateValveControl(
+                          i._id,
+                          "valve",
+                          1,
+                          i.valvePh,
+                          i.valveTimer
+                        )
+                      }
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes() ||
+                        i.valvePh ||
                         i.valveTimer
-                      )
-                    }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() || 
-                      i.valvePh || i.valveTimer
-                    }
-                  >
-                    OFF
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn btn-outline-success mb-3"
-                    onClick={() =>
-                      upDateValveControl(
-                        i._id,
-                        "valve",
-                        0,
-                        i.valvePh,
+                      }
+                    >
+                      OFF
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-outline-success mb-3"
+                      onClick={() =>
+                        upDateValveControl(
+                          i._id,
+                          "valve",
+                          0,
+                          i.valvePh,
+                          i.valveTimer
+                        )
+                      }
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes() ||
+                        i.valvePh ||
                         i.valveTimer
-                      )
-                    }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() || 
-                      i.valvePh || i.valveTimer
-                    }
-                  >
-                    ON
-                  </button>
-                )}
+                      }
+                    >
+                      ON
+                    </button>
+                  )}
+                </div>
+
                 <div className="form-check form-switch mb-2 ">
                   <input
                     className="form-check-input"
@@ -296,7 +303,7 @@ const boards = ({ boards }) => {
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()  
+                      tmpDT.getMinutes() !== now.getMinutes()
                     }
                     checked={i.valveTimer}
                   />
@@ -346,8 +353,6 @@ const boards = ({ boards }) => {
                     </div>
                     <div>
                       <button
-                      style={{}}
-                        className="btn"
                         id="set"
                         disabled={
                           tmpDT.getFullYear() !== now.getFullYear() ||

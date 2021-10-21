@@ -67,7 +67,12 @@
   outline: #5c459b;
 }
 
-.box_board .board .button-box .box .button-title {
+.box_board .board .button-box .box .box-title {
+  text-align: center;
+}
+
+.box_board .board .button-box .box .box-title .button-title {
+  font-size: 30px;
   font-weight: bold;
 }
 
@@ -75,6 +80,20 @@
   height: 100px;
   width: 100px;
   border-radius: 50%;
+}
+
+.box_board .board .button-box .box #set {
+  width: 100%;
+  padding: 5px;
+  border-radius: 30px;
+  background-color: rgba(92, 69, 155, 0);
+  color: #5c459b;
+  border-color: #5c459b;
+}
+
+.box_board .board .button-box .box #set:hover {
+  color: white;
+  background-color: #5c459b;
 }
 
 .box_board .board .board-box {
