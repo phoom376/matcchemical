@@ -110,7 +110,7 @@ const Login = () => {
                     <label className="form-label">Email</label>
                     <input
                       className="form-control"
-                      type="text"
+                      type="email"
                       name="email"
                       onChange={(e) => {
                         setEmail(e.target.value);

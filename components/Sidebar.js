@@ -33,13 +33,13 @@ const Sidebar = ({ children }) => {
   useEffect(() => {
     const Verify = async () => {
       await CookieCheck();
-      await verifyToken();
-      if (!Cookies.get("auth")) {
-        Object.keys(Cookies.get()).forEach((e) => {
-          Cookies.remove(e);
-        });
-        Router.push("/");
-      }
+      // await verifyToken();
+      // if (!Cookies.get("auth")) {
+      //   Object.keys(Cookies.get()).forEach((e) => {
+      //     Cookies.remove(e);
+      //   });
+      //   Router.push("/");
+      // }
     };
 
     Verify();
@@ -63,7 +63,7 @@ const Sidebar = ({ children }) => {
         if (res.data.isAuth) {
           setAuth(res.data.isAuth);
           const decode = jwt.decode(tmpToken);
-          Cookies.set("auth", true);
+          // Cookies.set("auth", true);
           Cookies.set("username", decode.username);
           setUsername(Cookies.get("username"));
         }
@@ -71,7 +71,7 @@ const Sidebar = ({ children }) => {
   };
 
   const Home = () => {
-    if (auth) {
+    // if (auth) {
       return (
         <>
           <header>
@@ -150,9 +150,9 @@ const Sidebar = ({ children }) => {
           <footer></footer>
         </>
       );
-    } else {
-      return <div>Loading...</div>;
-    }
+    // } else {
+    //   return <div>Loading...</div>;
+    // }
   };
 
   return Home();

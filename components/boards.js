@@ -2,9 +2,11 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 const Swal = require("sweetalert2");
 import axios from "axios";
+import Select from "react-select";
 import { useState } from "react";
 
 const server = "https://boardapi.herokuapp.com";
+const test = "http://localhost:4002";
 
 const upDateSccControl = (id, type, scc) => {
   if (type === "SCC") {
@@ -24,8 +26,6 @@ const upDateSccControl = (id, type, scc) => {
 };
 
 const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
-  console.log(id, type, valve, valvePh, valueTimer);
-
   if (type === "valve") {
     axios
       .post(`${server}/updateValveControl`, {
@@ -121,8 +121,39 @@ const setValvePH = (e, id, type) => {
         });
       });
   }
+};
 
-  console.log(id, Number(start), stop);
+const setDayTime = (e, id, type) => {
+  const day = document.getElementById("day").value;
+  const typeSS = document.getElementById("type").value;
+  const time = document.getElementById("time").value;
+  console.log(day, time,typeSS);
+  if (day !== "" && time !== "") {
+    axios
+      .post(`${server}/updateValveControl`, {
+        b_id: id,
+        type: type,
+        day: String(day),
+        time: String(time),
+        typeSS: typeSS,
+      })
+      .then(() => {
+        Swal.fire({
+          title: "PLEASE WAIT!",
+          timer: 500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      });
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Input DAY AND TIME",
+    });
+  }
 };
 
 const boards = ({ boards }) => {
@@ -135,6 +166,7 @@ const boards = ({ boards }) => {
       const time = newDateTime[1].split(".");
       const now = new Date();
       const tmpDT = new Date(dateTime);
+      const timer = i.timer;
       return (
         <div className="board" key={i._id}>
           <div className="mb-3 ">
@@ -159,6 +191,106 @@ const boards = ({ boards }) => {
                   {date} {time[0]}
                 </span>
               </p>
+            </div>
+
+            <div className="board-box">
+              <div>
+                <p className="title">PH</p>
+                <br />
+                <div className="progress-box">
+                  <CircularProgressbar
+                    value={i.ph}
+                    maxValue={14}
+                    circleRatio={0.7}
+                    styles={{
+                      trail: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                      },
+
+                      path: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                        stroke: "#5c459b",
+                      },
+                      text: {
+                        fill: "#05ace3",
+                        fontSize: "15px",
+                      },
+                    }}
+                    strokeWidth={10}
+                    text={`${i.ph} PH`}
+                  />
+                </div>
+              </div>
+              <div>
+                <p className="title">WATER FLOW</p>
+                {flow > 0 ? (
+                  <span style={{ color: "green" }}>Water Flowing</span>
+                ) : (
+                  <span style={{ color: "red" }}>Water Not Flow</span>
+                )}
+                <div className="progress-box">
+                  <CircularProgressbar
+                    value={flow}
+                    maxValue={100}
+                    circleRatio={0.7}
+                    styles={{
+                      trail: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                      },
+
+                      path: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                        stroke: "#5c459b",
+                      },
+                      text: {
+                        fill: "#05ace3",
+                        fontSize: "15px",
+                      },
+                    }}
+                    strokeWidth={10}
+                    text={`${flow} L/H `}
+                  />
+                </div>
+              </div>
+              <div>
+                <p className="title">WATER TOTAL</p>
+                <br />
+                <div className="progress-box">
+                  <CircularProgressbar
+                    value={i.total}
+                    maxValue={1000}
+                    circleRatio={0.7}
+                    styles={{
+                      trail: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                      },
+
+                      path: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                        stroke: "#5c459b",
+                      },
+                      text: {
+                        fill: "#05ace3",
+                        fontSize: "15px",
+                      },
+                    }}
+                    strokeWidth={10}
+                    text={`${i.total} L\n`}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="button-box">
@@ -278,9 +410,7 @@ const boards = ({ boards }) => {
                     }
                     checked={i.valvePh}
                   />
-                  <label class="form-check-label" for="flexSwitchCheckDefault">
-                    PH
-                  </label>
+                  <label className="form-check-label">PH</label>
                 </div>
 
                 <div className="form-check form-switch">
@@ -307,13 +437,11 @@ const boards = ({ boards }) => {
                     }
                     checked={i.valveTimer}
                   />
-                  <label class="form-check-label" for="flexSwitchCheckDefault">
-                    TIMER
-                  </label>
+                  <label className="form-check-label">TIMER</label>
                 </div>
 
                 {i.valvePh && (
-                  <form>
+                  <form className="mt-3">
                     <p>PH</p>
                     <div className="mb-3">
                       <label>START:</label>
@@ -376,130 +504,61 @@ const boards = ({ boards }) => {
                 )}
 
                 {i.valveTimer && (
-                  <form>
-                    <p>Timer</p>
-                    <div className="mb-3">
-                      <label>START:</label>
-                      <input
-                        className="form-input"
-                        type="number"
-                        min="0"
-                        max="14"
-                      ></input>
-                    </div>
-                    <div className="mb-3">
-                      <label>STOP:</label>
-                      <input
-                        className="form-input"
-                        type="number"
-                        min="0"
-                        max="14"
-                      ></input>
-                    </div>
-                    <div>
-                      <button className="btn btn-outline-primary">SET</button>
-                    </div>
-                  </form>
+                  <>
+                    <form className="mt-3">
+                      <p>Timer</p>
+
+                      <div className="mb-3">
+                        <div className="form-group mb-3">
+                          <select className="form-control" id="type">
+                            <option value="Start">Start</option>
+                            <option value="Stop">Stop</option>
+                          </select>
+                        </div>
+                        <div className="form-group mb-3">
+                          <select className="form-control" id="day">
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                          </select>
+                        </div>
+                        <input
+                          id="time"
+                          className="form-input"
+                          type="time"
+                        ></input>
+                      </div>
+                      <div>
+                        <button
+                          id="set"
+                          onClick={(e) =>
+                            setDayTime(e.preventDefault(), i._id, "addTimer")
+                          }
+                        >
+                          ADD
+                        </button>
+                      </div>
+                    </form>
+
+                    {timer.length > 0 &&
+                      timer.map((i, k) => {
+                        return (
+                          <>
+                            <div className="mt-3" key={i._id}>
+                              <label>Timer:{k + 1}</label>
+                              <span>
+                                DAY: {i.day} TIME: {i.time} TYPE: {i.typeSS}
+                              </span>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </>
                 )}
-              </div>
-            </div>
-            <div className="board-box">
-              <div>
-                <p className="title">PH</p>
-                <br />
-                <div className="progress-box">
-                  <CircularProgressbar
-                    value={i.ph}
-                    maxValue={14}
-                    circleRatio={0.7}
-                    styles={{
-                      trail: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                      },
-
-                      path: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                        stroke: "#5c459b",
-                      },
-                      text: {
-                        fill: "#05ace3",
-                        fontSize: "15px",
-                      },
-                    }}
-                    strokeWidth={10}
-                    text={`${i.ph} PH`}
-                  />
-                </div>
-              </div>
-              <div>
-                <p className="title">WATER FLOW</p>
-                {flow > 0 ? (
-                  <span style={{ color: "green" }}>Water Flowing</span>
-                ) : (
-                  <span style={{ color: "red" }}>Water Not Flow</span>
-                )}
-                <div className="progress-box">
-                  <CircularProgressbar
-                    value={flow}
-                    maxValue={100}
-                    circleRatio={0.7}
-                    styles={{
-                      trail: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                      },
-
-                      path: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                        stroke: "#5c459b",
-                      },
-                      text: {
-                        fill: "#05ace3",
-                        fontSize: "15px",
-                      },
-                    }}
-                    strokeWidth={10}
-                    text={`${flow} L/H `}
-                  />
-                </div>
-              </div>
-              <div>
-                <p className="title">WATER TOTAL</p>
-                <br />
-                <div className="progress-box">
-                  <CircularProgressbar
-                    value={i.total}
-                    maxValue={1000}
-                    circleRatio={0.7}
-                    styles={{
-                      trail: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                      },
-
-                      path: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                        stroke: "#5c459b",
-                      },
-                      text: {
-                        fill: "#05ace3",
-                        fontSize: "15px",
-                      },
-                    }}
-                    strokeWidth={10}
-                    text={`${i.total} L\n`}
-                  />
-                </div>
               </div>
             </div>
           </div>
