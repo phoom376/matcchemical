@@ -24,7 +24,7 @@ const upDateSccControl = (id, type, scc) => {
 };
 
 const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
-  console.log(id, type, valve ,valvePh, valueTimer);
+  console.log(id, type, valve, valvePh, valueTimer);
 
   if (type === "valve") {
     axios
@@ -33,7 +33,7 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
         type: type,
         valve: valve,
       })
-      .then((res) => {
+      .then(() => {
         Swal.fire({
           title: "PLEASE WAIT!",
           timer: 2000,
@@ -47,8 +47,7 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
 
   if (type === "valvePh") {
     const phOpen = valvePh;
-
-    console.log(phOpen);
+    console.log("PH");
     axios
       .post(`${server}/updateValveControl`, {
         b_id: id,
@@ -68,8 +67,7 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
   }
   if (type === "valveTimer") {
     const timerOpen = valueTimer;
-
-    console.log(timerOpen);
+    console.log("TIMER");
     axios
       .post(`${server}/updateValveControl`, {
         b_id: id,
@@ -89,10 +87,43 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
   }
 };
 
+const setValvePH = (e, id, type) => {
+  const start = document.getElementById("phStart").value;
+  const stop = document.getElementById("phStop").value;
 
-const setValvePH = () => {
-    
-}
+  if (
+    Number(start) === 0 ||
+    Number(stop) === 0 ||
+    start === "" ||
+    stop === ""
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Input Start and Stop",
+    });
+  } else {
+    axios
+      .post(`${server}/updateValveControl`, {
+        b_id: id,
+        type: type,
+        valvePhStart: Number(start),
+        valvePhStop: Number(stop),
+      })
+      .then((res) => {
+        Swal.fire({
+          title: "PLEASE WAIT!",
+          timer: 500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      });
+  }
+
+  console.log(id, Number(start), stop);
+};
 
 const boards = ({ boards }) => {
   return boards.map((i) => {
@@ -111,14 +142,14 @@ const boards = ({ boards }) => {
               <h3>Board Name: {i.b_name}</h3>
               <p>
                 BOARD STATUS:{" "}
-                {tmpDT.getFullYear() === now.getFullYear() &&
-                tmpDT.getDate() === now.getDate() &&
-                tmpDT.getDay() === now.getDay() &&
-                tmpDT.getHours() === tmpDT.getHours() &&
-                tmpDT.getMinutes() + 1 >= now.getMinutes() ? (
-                  <span style={{ color: "green" }}>ONLINE</span>
-                ) : (
+                {tmpDT.getFullYear() !== now.getFullYear() ||
+                tmpDT.getDate() !== now.getDate() ||
+                tmpDT.getDay() !== now.getDay() ||
+                tmpDT.getHours() !== tmpDT.getHours() ||
+                tmpDT.getMinutes() !== now.getMinutes() ? (
                   <span style={{ color: "red" }}>OFFLINE</span>
+                ) : (
+                  <span style={{ color: "green" }}>ONLINE</span>
                 )}
               </p>
 
@@ -136,7 +167,7 @@ const boards = ({ boards }) => {
                 {i.scc === 0 ? (
                   <button
                     type="button"
-                    className="btn btn-outline-warning"
+                    className="btn btn-outline-danger"
                     onClick={() => upDateSccControl(i._id, "SCC", 1)}
                     disabled={
                       tmpDT.getFullYear() !== now.getFullYear() ||
@@ -170,7 +201,7 @@ const boards = ({ boards }) => {
                 {i.valve === 0 ? (
                   <button
                     type="button"
-                    className="btn btn-outline-warning mb-3"
+                    className="btn btn-outline-danger mb-3"
                     onClick={() =>
                       upDateValveControl(
                         i._id,
@@ -185,7 +216,8 @@ const boards = ({ boards }) => {
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
+                      tmpDT.getMinutes() !== now.getMinutes() || 
+                      i.valvePh || i.valveTimer
                     }
                   >
                     OFF
@@ -208,15 +240,16 @@ const boards = ({ boards }) => {
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
+                      tmpDT.getMinutes() !== now.getMinutes() || 
+                      i.valvePh || i.valveTimer
                     }
                   >
                     ON
                   </button>
                 )}
-                <div class="form-check form-switch">
+                <div className="form-check form-switch mb-2 ">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckDefault"
@@ -229,7 +262,13 @@ const boards = ({ boards }) => {
                         i.valveTimer
                       )
                     }
-
+                    disabled={
+                      tmpDT.getFullYear() !== now.getFullYear() ||
+                      tmpDT.getDate() !== now.getDate() ||
+                      tmpDT.getDay() !== now.getDay() ||
+                      tmpDT.getHours() !== tmpDT.getHours() ||
+                      tmpDT.getMinutes() !== now.getMinutes()
+                    }
                     checked={i.valvePh}
                   />
                   <label class="form-check-label" for="flexSwitchCheckDefault">
@@ -237,9 +276,9 @@ const boards = ({ boards }) => {
                   </label>
                 </div>
 
-                <div class="form-check form-switch">
+                <div className="form-check form-switch">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckDefault"
@@ -252,7 +291,13 @@ const boards = ({ boards }) => {
                         i.valveTimer
                       )
                     }
-
+                    disabled={
+                      tmpDT.getFullYear() !== now.getFullYear() ||
+                      tmpDT.getDate() !== now.getDate() ||
+                      tmpDT.getDay() !== now.getDay() ||
+                      tmpDT.getHours() !== tmpDT.getHours() ||
+                      tmpDT.getMinutes() !== now.getMinutes()  
+                    }
                     checked={i.valveTimer}
                   />
                   <label class="form-check-label" for="flexSwitchCheckDefault">
@@ -266,23 +311,61 @@ const boards = ({ boards }) => {
                     <div className="mb-3">
                       <label>START:</label>
                       <input
+                        id="phStart"
+                        placeholder={i.valvePhStart}
                         className="form-input"
                         type="number"
                         min="0"
                         max="14"
+                        disabled={
+                          tmpDT.getFullYear() !== now.getFullYear() ||
+                          tmpDT.getDate() !== now.getDate() ||
+                          tmpDT.getDay() !== now.getDay() ||
+                          tmpDT.getHours() !== tmpDT.getHours() ||
+                          tmpDT.getMinutes() !== now.getMinutes()
+                        }
                       ></input>
                     </div>
                     <div className="mb-3">
                       <label>STOP:</label>
                       <input
+                        id="phStop"
+                        placeholder={i.valvePhStop}
                         className="form-input"
                         type="number"
                         min="0"
                         max="14"
+                        disabled={
+                          tmpDT.getFullYear() !== now.getFullYear() ||
+                          tmpDT.getDate() !== now.getDate() ||
+                          tmpDT.getDay() !== now.getDay() ||
+                          tmpDT.getHours() !== tmpDT.getHours() ||
+                          tmpDT.getMinutes() !== now.getMinutes()
+                        }
                       ></input>
                     </div>
                     <div>
-                      <button className="btn btn-outline-primary">SET</button>
+                      <button
+                      style={{}}
+                        className="btn"
+                        id="set"
+                        disabled={
+                          tmpDT.getFullYear() !== now.getFullYear() ||
+                          tmpDT.getDate() !== now.getDate() ||
+                          tmpDT.getDay() !== now.getDay() ||
+                          tmpDT.getHours() !== tmpDT.getHours() ||
+                          tmpDT.getMinutes() !== now.getMinutes()
+                        }
+                        onClick={(e) =>
+                          setValvePH(
+                            e.preventDefault(),
+                            i._id,
+                            "valvePhControl"
+                          )
+                        }
+                      >
+                        SET
+                      </button>
                     </div>
                   </form>
                 )}

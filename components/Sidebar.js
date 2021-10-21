@@ -83,7 +83,7 @@ const Sidebar = ({ children }) => {
             <div className={classnames("sidebar", { active: open })}>
               <div className="logo_content">
                 <div className="logo">
-                  <img src="https://www.img.in.th/images/278dc6880042d3e3b752ce0b330cd482.png" className="icon" />
+                  <img src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png" className="icon" />
                   {/* <IoCube className="icon" /> */}
 
                   <div className="logo_name">MATCHCHEMICAL</div>

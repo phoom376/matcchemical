@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import cookie from "js-cookie";
 import Link from "next/link";
 import dayjs from "dayjs";
+const Swal = require("sweetalert2");
 
 const Login = () => {
   const [now, setNow] = useState();
@@ -53,14 +54,26 @@ const Login = () => {
             email: email,
             password: password,
           })
-          .then((res) => {
+          .then(async (res) => {
             if (res.data.message) {
-              setMeesage(res.data.message);
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: res.data.message,
+              });
             } else {
+              await Swal.fire({
+                title: "PLEASE WAIT!",
+                timer: 500,
+                timerProgressBar: true,
+                didOpen: () => {
+                  Swal.showLoading();
+                },
+              });
               setMeesage("");
-              cookie.set("token", res.data.token);
-              Router.push("/home");
-              <Link to="/home" />;
+
+              await cookie.set("token", res.data.token);
+              await Router.push("/home");
             }
           });
       } catch (err) {
@@ -82,7 +95,7 @@ const Login = () => {
               <div className="logo-box">
                 <img
                   className="logo"
-                  src="https://www.img.in.th/images/278dc6880042d3e3b752ce0b330cd482.png"
+                  src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png"
                 ></img>
               </div>
               <div className="form-box">
