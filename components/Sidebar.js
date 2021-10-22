@@ -33,7 +33,7 @@ const Sidebar = ({ children }) => {
   useEffect(() => {
     const Verify = async () => {
       await CookieCheck();
-      // await verifyToken();
+      await verifyToken();
       // if (!Cookies.get("auth")) {
       //   Object.keys(Cookies.get()).forEach((e) => {
       //     Cookies.remove(e);

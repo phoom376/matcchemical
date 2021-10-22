@@ -127,26 +127,46 @@ const setDayTime = (e, id, type) => {
   const day = document.getElementById("day").value;
   const typeSS = document.getElementById("type").value;
   const time = document.getElementById("time").value;
-  console.log(day, time,typeSS);
+  const sTime = time.split(":");
+  const hours = sTime[0];
+  const min = sTime[1];
+  let newHours = "";
+  let newMin = "";
+
+  console.log(hours[0]);
+  if (hours[0] === "0") {
+    newHours = hours.replace("0", "");
+  } else {
+    newHours = hours;
+  }
+
+  if (min[0] === "0") {
+    newMin = min.replace("0", "");
+  } else {
+    newMin = min;
+  }
+
+  const newHM = newHours + ":" + newMin;
+  console.log(day, newHM, typeSS);
   if (day !== "" && time !== "") {
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        day: String(day),
-        time: String(time),
-        typeSS: typeSS,
-      })
-      .then(() => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 500,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-      });
+    // axios
+    //   .post(`${server}/updateValveControl`, {
+    //     b_id: id,
+    //     type: type,
+    //     day: String(day),
+    //     time: String(time),
+    //     typeSS: typeSS,
+    //   })
+    //   .then(() => {
+    //     Swal.fire({
+    //       title: "PLEASE WAIT!",
+    //       timer: 500,
+    //       timerProgressBar: true,
+    //       didOpen: () => {
+    //         Swal.showLoading();
+    //       },
+    //     });
+    //   });
   } else {
     Swal.fire({
       icon: "error",
