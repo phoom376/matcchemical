@@ -149,24 +149,24 @@ const setDayTime = (e, id, type) => {
   const newHM = newHours + ":" + newMin;
   console.log(day, newHM, typeSS);
   if (day !== "" && time !== "") {
-    // axios
-    //   .post(`${server}/updateValveControl`, {
-    //     b_id: id,
-    //     type: type,
-    //     day: String(day),
-    //     time: String(time),
-    //     typeSS: typeSS,
-    //   })
-    //   .then(() => {
-    //     Swal.fire({
-    //       title: "PLEASE WAIT!",
-    //       timer: 500,
-    //       timerProgressBar: true,
-    //       didOpen: () => {
-    //         Swal.showLoading();
-    //       },
-    //     });
-    //   });
+    axios
+      .post(`${server}/updateValveControl`, {
+        b_id: id,
+        type: type,
+        day: String(day),
+        time: String(time),
+        typeSS: typeSS,
+      })
+      .then(() => {
+        Swal.fire({
+          title: "PLEASE WAIT!",
+          timer: 500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      });
   } else {
     Swal.fire({
       icon: "error",
@@ -549,6 +549,7 @@ const boards = ({ boards }) => {
                         <input
                           id="time"
                           className="form-input"
+                          defaultValue="00:00"
                           type="time"
                         ></input>
                       </div>
