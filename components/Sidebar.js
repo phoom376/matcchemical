@@ -71,7 +71,7 @@ const Sidebar = ({ children }) => {
   };
 
   const Home = () => {
-    // if (auth) {
+     if (Cookies.get("token")) {
       return (
         <>
           <header>
@@ -150,9 +150,9 @@ const Sidebar = ({ children }) => {
           <footer></footer>
         </>
       );
-    // } else {
-    //   return <div>Loading...</div>;
-    // }
+    } else {
+      return <div>Loading...</div>;
+    }
   };
 
   return Home();

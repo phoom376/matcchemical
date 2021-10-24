@@ -53,7 +53,6 @@ export default function Product() {
           Swal.fire("Product Added");
 
           getProduct();
-
           setP_image("");
           setP_name("");
           setP_price(0);
@@ -62,7 +61,6 @@ export default function Product() {
           document.getElementById("p_price").value = "";
           document.getElementById("p_qty").value = "";
           document.getElementById("p_image").value = "";
-
           setOpen(!open);
         });
     } else {
@@ -71,9 +69,11 @@ export default function Product() {
   };
 
   const getProduct = async () => {
-    await axios.get("https://userlogapi.herokuapp.com/getproduct").then((res) => {
-      setProducts(res.data);
-    });
+    await axios
+      .get("https://userlogapi.herokuapp.com/getproduct")
+      .then((res) => {
+        setProducts(res.data);
+      });
   };
 
   const restForm = () => {
@@ -170,14 +170,16 @@ export default function Product() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`https://userlogapi.herokuapp.com/delete/${id}`).then(() => {
-          setProducts(
-            Products.filter((val) => {
-              return val._id !== id;
-            })
-          );
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-        });
+        axios
+          .delete(`https://userlogapi.herokuapp.com/delete/${id}`)
+          .then(() => {
+            setProducts(
+              Products.filter((val) => {
+                return val._id !== id;
+              })
+            );
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          });
       }
     });
   };

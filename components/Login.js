@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [message, setMeesage] = useState("");
   const [online, setOnline] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const Verify = async () => {
@@ -48,6 +49,17 @@ const Login = () => {
     e.preventDefault();
     if ((email, password) !== "") {
       console.log("Login");
+      setLoading(true);
+      if (loading) {
+        Swal.fire({
+          title: "PLEASE WAIT!",
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      }
+
       try {
         axios
           .post("https://userlogapi.herokuapp.com/login", {
@@ -62,16 +74,9 @@ const Login = () => {
                 text: res.data.message,
               });
             } else {
-              await Swal.fire({
-                title: "PLEASE WAIT!",
-                timer: 500,
-                timerProgressBar: true,
-                didOpen: () => {
-                  Swal.showLoading();
-                },
-              });
               setMeesage("");
-
+              setLoading(false);
+              Swal.close();
               await cookie.set("token", res.data.token);
               await Router.push("/home");
             }

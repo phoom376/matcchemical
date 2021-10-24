@@ -10,23 +10,30 @@ const test = "http://localhost:4002";
 
 const upDateSccControl = (id, type, scc) => {
   if (type === "SCC") {
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     axios
       .post(`${server}/updateSccControl`, { b_id: id, type: type, scc: scc })
       .then((res) => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+        Swal.close();
       });
   }
 };
 
 const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
   if (type === "valve") {
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     axios
       .post(`${server}/updateValveControl`, {
         b_id: id,
@@ -34,20 +41,20 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
         valve: valve,
       })
       .then(() => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+        Swal.close();
       });
   }
 
   if (type === "valvePh") {
     const phOpen = valvePh;
     console.log("PH");
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     axios
       .post(`${server}/updateValveControl`, {
         b_id: id,
@@ -55,19 +62,19 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
         valvePh: !phOpen,
       })
       .then((res) => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 500,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+        Swal.close();
       });
   }
   if (type === "valveTimer") {
     const timerOpen = valueTimer;
     console.log("TIMER");
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     axios
       .post(`${server}/updateValveControl`, {
         b_id: id,
@@ -75,14 +82,7 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
         valveTimer: !timerOpen,
       })
       .then((res) => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 500,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+        Swal.close();
       });
   }
 };
@@ -103,6 +103,13 @@ const setValvePH = (e, id, type) => {
       text: "Please Input Start and Stop",
     });
   } else {
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     axios
       .post(`${server}/updateValveControl`, {
         b_id: id,
@@ -110,20 +117,13 @@ const setValvePH = (e, id, type) => {
         valvePhStart: Number(start),
         valvePhStop: Number(stop),
       })
-      .then((res) => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 500,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+      .then(() => {
+        Swal.close();
       });
   }
 };
 
-const setDayTime = (e, id, type) => {
+const setDayTime = (e, id, type, length) => {
   const day = document.getElementById("day").value;
   const typeSS = document.getElementById("type").value;
   const time = document.getElementById("time").value;
@@ -148,30 +148,38 @@ const setDayTime = (e, id, type) => {
 
   const newHM = newHours + ":" + newMin;
   console.log(day, newHM, typeSS);
-  if (day !== "" && time !== "") {
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        day: String(day),
-        time: String(time),
-        typeSS: typeSS,
-      })
-      .then(() => {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timer: 500,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+  if (length <= 20) {
+    if (day !== "" && time !== "") {
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          day: String(day),
+          time: String(newHM),
+          typeSS: typeSS,
+        })
+        .then(() => {
+          Swal.close();
+        });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please Input DAY AND TIME",
+      });
+    }
   } else {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Please Input DAY AND TIME",
+      text: "Max Timer is 20",
     });
   }
 };
@@ -316,7 +324,7 @@ const boards = ({ boards }) => {
             <div className="button-box">
               <div className="box">
                 <div className="box-title">
-                  <p className="button-title">SCC</p>
+                  <p className="button-title">SCL</p>
                   {i.scc === 0 ? (
                     <button
                       type="button"
@@ -530,13 +538,33 @@ const boards = ({ boards }) => {
 
                       <div className="mb-3">
                         <div className="form-group mb-3">
-                          <select className="form-control" id="type">
+                          <select
+                            className="form-control"
+                            id="type"
+                            disabled={
+                              tmpDT.getFullYear() !== now.getFullYear() ||
+                              tmpDT.getDate() !== now.getDate() ||
+                              tmpDT.getDay() !== now.getDay() ||
+                              tmpDT.getHours() !== tmpDT.getHours() ||
+                              tmpDT.getMinutes() !== now.getMinutes()
+                            }
+                          >
                             <option value="Start">Start</option>
                             <option value="Stop">Stop</option>
                           </select>
                         </div>
                         <div className="form-group mb-3">
-                          <select className="form-control" id="day">
+                          <select
+                            className="form-control"
+                            id="day"
+                            disabled={
+                              tmpDT.getFullYear() !== now.getFullYear() ||
+                              tmpDT.getDate() !== now.getDate() ||
+                              tmpDT.getDay() !== now.getDay() ||
+                              tmpDT.getHours() !== tmpDT.getHours() ||
+                              tmpDT.getMinutes() !== now.getMinutes()
+                            }
+                          >
                             <option value="Sunday">Sunday</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
@@ -551,13 +579,32 @@ const boards = ({ boards }) => {
                           className="form-input"
                           defaultValue="00:00"
                           type="time"
+                          disabled={
+                            tmpDT.getFullYear() !== now.getFullYear() ||
+                            tmpDT.getDate() !== now.getDate() ||
+                            tmpDT.getDay() !== now.getDay() ||
+                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getMinutes() !== now.getMinutes()
+                          }
                         ></input>
                       </div>
                       <div>
                         <button
                           id="set"
                           onClick={(e) =>
-                            setDayTime(e.preventDefault(), i._id, "addTimer")
+                            setDayTime(
+                              e.preventDefault(),
+                              i._id,
+                              "addTimer",
+                              timer.length
+                            )
+                          }
+                          disabled={
+                            tmpDT.getFullYear() !== now.getFullYear() ||
+                            tmpDT.getDate() !== now.getDate() ||
+                            tmpDT.getDay() !== now.getDay() ||
+                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getMinutes() !== now.getMinutes()
                           }
                         >
                           ADD
@@ -580,6 +627,12 @@ const boards = ({ boards }) => {
                       })}
                   </>
                 )}
+              </div>
+
+              <div className="box">
+                <div className="box-title">
+                  <p className="box-title">BCL</p>
+                </div>
               </div>
             </div>
           </div>
