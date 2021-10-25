@@ -13,6 +13,8 @@ const upDateSccControl = (id, type, scc) => {
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
+      alowOutsideClick: false,
+      timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
       },
@@ -29,6 +31,8 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
   if (type === "valve") {
     Swal.fire({
       title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      alowOutsideClick: false,
       timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
@@ -51,6 +55,8 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
+      alowOutsideClick: false,
+      timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
       },
@@ -70,6 +76,8 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
     console.log("TIMER");
     Swal.fire({
       title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      alowOutsideClick: false,
       timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
@@ -105,6 +113,8 @@ const setValvePH = (e, id, type) => {
   } else {
     Swal.fire({
       title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      alowOutsideClick: false,
       timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
