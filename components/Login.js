@@ -11,9 +11,7 @@ const Login = () => {
   const [now, setNow] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMeesage] = useState("");
   const [online, setOnline] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const Verify = async () => {
@@ -45,47 +43,48 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if ((email, password) !== "") {
       console.log("Login");
-      setLoading(true);
-      if (loading) {
-        Swal.fire({
-          title: "PLEASE WAIT!",
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-      }
+
+      const wait = Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
 
       try {
-        axios
+        await axios
           .post("https://userlogapi.herokuapp.com/login", {
             email: email,
             password: password,
           })
-          .then(async (res) => {
+          .then((res) => {
             if (res.data.message) {
+              wait.close();
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: res.data.message,
               });
             } else {
-              setMeesage("");
-              setLoading(false);
-              Swal.close();
-              await cookie.set("token", res.data.token);
-              await Router.push("/home");
+              wait.close();
+              cookie.set("token", res.data.token);
+              Router.push("/home");
             }
           });
       } catch (err) {
         console.log(err);
       }
     } else {
-      setMeesage("Pleas Input Email And Password");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Pleas Input Email And Password",
+      });
     }
   };
 
@@ -110,7 +109,6 @@ const Login = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                   <p style={{ fontWeight: "bold" }}>DateTime: {now}</p>
-                  <p style={{ color: "red" }}>{message}</p>
                   <div className="mb-3">
                     <label className="form-label">Email</label>
                     <input
