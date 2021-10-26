@@ -32,8 +32,8 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
-      alowOutsideClick: false,
-      timerProgressBar: true,
+      allowOutsideClick: false,
+
       didOpen: () => {
         Swal.showLoading();
       },
@@ -55,8 +55,7 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
-      alowOutsideClick: false,
-      timerProgressBar: true,
+      allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
       },
@@ -77,8 +76,8 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
-      alowOutsideClick: false,
-      timerProgressBar: true,
+      allowOutsideClick: false,
+
       didOpen: () => {
         Swal.showLoading();
       },
@@ -114,8 +113,7 @@ const setValvePH = (e, id, type) => {
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
-      alowOutsideClick: false,
-      timerProgressBar: true,
+      allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
       },
@@ -194,6 +192,25 @@ const setDayTime = (e, id, type, length) => {
   }
 };
 
+const handleTimerDelete = (b_id, id) => {
+  Swal.fire({
+    title: "PLEASE WAIT!",
+    timerProgressBar: true,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  axios
+    .post(`${server}/updateValveControl`, {
+      b_id: b_id,
+      id: id,
+    })
+    .then(() => {
+      Swal.close();
+    });
+};
+
 const boards = ({ boards }) => {
   return boards.map((i) => {
     if (i.ph !== null) {
@@ -205,6 +222,7 @@ const boards = ({ boards }) => {
       const now = new Date();
       const tmpDT = new Date(dateTime);
       const timer = i.timer;
+      const b_id = i._id;
       return (
         <div className="board" key={i._id}>
           <div className="mb-3 ">
@@ -627,10 +645,18 @@ const boards = ({ boards }) => {
                         return (
                           <>
                             <div className="mt-3" key={i._id}>
-                              <label>Timer:{k + 1}</label>
+                              <p>Timer:{k + 1}</p>
                               <span>
                                 DAY: {i.day} TIME: {i.time} TYPE: {i.typeSS}
                               </span>
+                              <div>
+                                <button
+                                  className="btn btn-outline-danger"
+                                  onClick={() => handleTimerDelete(b_id, i._id)}
+                                >
+                                  Delete
+                                </button>
+                              </div>
                             </div>
                           </>
                         );

@@ -51,8 +51,7 @@ const Login = () => {
       const wait = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
-        alowOutsideClick: false,
-        closeOnClickOutside:false,
+        allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
         },
