@@ -57,21 +57,25 @@ const Sidebar = ({ children }) => {
   const verifyToken = async () => {
     const tmpToken = await Cookies.get("token");
 
-    await axios
-      .post("https://userlogapi.herokuapp.com/auth", { token: tmpToken })
-      .then((res) => {
-        if (res.data.isAuth) {
-          setAuth(res.data.isAuth);
-          const decode = jwt.decode(tmpToken);
-          // Cookies.set("auth", true);
-          Cookies.set("username", decode.username);
-          setUsername(Cookies.get("username"));
-        }
-      });
+    // await axios
+    //   .post("https://userlogapi.herokuapp.com/auth", { token: tmpToken })
+    //   .then((res) => {
+    //     if (res.data.isAuth) {
+    //       setAuth(res.data.isAuth);
+    //       const decode = jwt.decode(tmpToken);
+    //       // Cookies.set("auth", true);
+    //       Cookies.set("username", decode.username);
+    //       setUsername(Cookies.get("username"));
+    //     }
+    //   });
+
+    const decode = jwt.decode(tmpToken);
+    Cookies.set("username", decode.username);
+    setUsername(Cookies.get("username"));
   };
 
   const Home = () => {
-     if (Cookies.get("token")) {
+    if (Cookies.get("token")) {
       return (
         <>
           <header>
@@ -83,7 +87,10 @@ const Sidebar = ({ children }) => {
             <div className={classnames("sidebar", { active: open })}>
               <div className="logo_content">
                 <div className="logo">
-                  <img src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png" className="icon" />
+                  <img
+                    src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png"
+                    className="icon"
+                  />
                   {/* <IoCube className="icon" /> */}
 
                   <div className="logo_name">MATCHCHEMICAL</div>
@@ -116,7 +123,7 @@ const Sidebar = ({ children }) => {
                   <span className="t-tip">Dashboard</span>
                 </li>
 
-                <li>
+                {/* <li>
                   <Link href="/product">
                     <a>
                       <FaProductHunt className="ic" />
@@ -124,7 +131,7 @@ const Sidebar = ({ children }) => {
                     </a>
                   </Link>
                   <span className="t-tip">Product</span>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/board">
                     <a>

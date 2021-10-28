@@ -6,7 +6,7 @@ import Select from "react-select";
 import { useState } from "react";
 
 const server = "https://boardapi.herokuapp.com";
-const test = "http://localhost:4002";
+// const server = "http://localhost:4002";
 
 const upDateSccControl = (id, type, scc) => {
   if (type === "SCC") {
@@ -94,6 +94,52 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
   }
 };
 
+const upDateBclControl = (id, type, bcl, bclTimer) => {
+  if (type === "BCL") {
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    axios
+      .post(`${server}/updateBclControl`, {
+        b_id: id,
+        type: type,
+        bcl: bcl,
+      })
+      .then(() => {
+        Swal.close();
+      });
+  }
+
+  if (type === "bclTimer") {
+    const timerOpen = bclTimer;
+    console.log("TIMER");
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    axios
+      .post(`${server}/updateBclControl`, {
+        b_id: id,
+        type: type,
+        bclTimer: !timerOpen,
+      })
+      .then((res) => {
+        Swal.close();
+      });
+  }
+};
+
 const setValvePH = (e, id, type) => {
   const start = document.getElementById("phStart").value;
   const stop = document.getElementById("phStop").value;
@@ -131,51 +177,80 @@ const setValvePH = (e, id, type) => {
   }
 };
 
-const setDayTime = (e, id, type, length) => {
+const setDayTime = (e, id, ts, type, length) => {
   const day = document.getElementById("day").value;
   const typeSS = document.getElementById("type").value;
   const time = document.getElementById("time").value;
+  const bclDay = document.getElementById("bclDay").value;
+  const bclType = document.getElementById("bclType").value;
+  const bclTime = document.getElementById("bclTime").value;
+  const bTime = bclTime.split(":");
   const sTime = time.split(":");
+  const bclHours = bTime[0];
+  const bclMin = bTime[1];
   const hours = sTime[0];
   const min = sTime[1];
   let newHours = "";
   let newMin = "";
+  let newBclHours = "";
+  let newBclMin = "";
 
-  console.log(hours[0]);
-  if (hours[0] === "0") {
+  console.log(length);
+  if (hours[0] === "0" || bclHours[0] === "0") {
     newHours = hours.replace("0", "");
+    newBclHours = bclHours.replace("0", "");
   } else {
     newHours = hours;
+    newBclHours = bclHours;
   }
 
-  if (min[0] === "0") {
+  if (min[0] === "0" || bclMin[0] === "0") {
     newMin = min.replace("0", "");
+    newBclMin = bclMin.replace("0", "");
   } else {
     newMin = min;
+    newBclMin = bclMin;
   }
 
   const newHM = newHours + ":" + newMin;
+  const newBclHm = newBclHours + ":" + newBclMin;
   console.log(day, newHM, typeSS);
-  if (length <= 20) {
+  if (length < 20) {
     if (day !== "" && time !== "") {
       Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
+        allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
         },
       });
-      axios
-        .post(`${server}/updateValveControl`, {
-          b_id: id,
-          type: type,
-          day: String(day),
-          time: String(newHM),
-          typeSS: typeSS,
-        })
-        .then(() => {
-          Swal.close();
-        });
+      if (ts === "valve") {
+        axios
+          .post(`${server}/updateValveControl`, {
+            b_id: id,
+            type: type,
+            day: String(day),
+            time: String(newHM),
+            typeSS: typeSS,
+          })
+          .then(() => {
+            Swal.close();
+          });
+      }
+      if (ts === "bcl") {
+        axios
+          .post(`${server}/updateBclControl`, {
+            b_id: id,
+            type: type,
+            day: String(bclDay),
+            time: String(newBclHm),
+            typeSS: bclType,
+          })
+          .then(() => {
+            Swal.close();
+          });
+      }
     } else {
       Swal.fire({
         icon: "error",
@@ -192,7 +267,8 @@ const setDayTime = (e, id, type, length) => {
   }
 };
 
-const handleTimerDelete = (b_id, id) => {
+const handleTimerDelete = (type, b_id, id) => {
+  console.log(b_id, id);
   Swal.fire({
     title: "PLEASE WAIT!",
     timerProgressBar: true,
@@ -201,14 +277,26 @@ const handleTimerDelete = (b_id, id) => {
       Swal.showLoading();
     },
   });
-  axios
-    .post(`${server}/updateValveControl`, {
-      b_id: b_id,
-      id: id,
-    })
-    .then(() => {
-      Swal.close();
-    });
+  if (type === "valve") {
+    axios
+      .post(`${server}/valveTimerDelete`, {
+        b_id: b_id,
+        id: id,
+      })
+      .then(() => {
+        Swal.close();
+      });
+  }
+  if (type === "bcl") {
+    axios
+      .post(`${server}/bclTimerDelete`, {
+        b_id: b_id,
+        id: id,
+      })
+      .then(() => {
+        Swal.close();
+      });
+  }
 };
 
 const boards = ({ boards }) => {
@@ -217,18 +305,21 @@ const boards = ({ boards }) => {
       const flow = Number(i.flow);
       const dateTime = i.uDate;
       const newDateTime = dateTime.split("T");
-      const date = newDateTime[0];
-      const time = newDateTime[1].split(".");
       const now = new Date();
       const tmpDT = new Date(dateTime);
-      const timer = i.timer;
+      const valveTimer = i.valveTimers;
+      const bclTimer = i.bclTimers;
       const b_id = i._id;
+      const boardName = i.b_name;
+
       return (
         <div className="board" key={i._id}>
           <div className="mb-3 ">
             <div className="board-header">
-              <h3>Board Name: {i.b_name}</h3>
-              <p>
+              <p className="board-title">
+                BOARD NAME: {boardName.toUpperCase()}
+              </p>
+              <p className="board-status">
                 BOARD STATUS:{" "}
                 {tmpDT.getFullYear() !== now.getFullYear() ||
                 tmpDT.getDate() !== now.getDate() ||
@@ -244,7 +335,8 @@ const boards = ({ boards }) => {
               <p>
                 Last Time Update:{" "}
                 <span style={{ color: "blue", fontWeight: "bold" }}>
-                  {date} {time[0]}
+                  {tmpDT.getDay()}/{tmpDT.getMonth()}/{tmpDT.getFullYear()}{" "}
+                  {tmpDT.getHours()}:{tmpDT.getMinutes()}:{tmpDT.getSeconds()}
                 </span>
               </p>
             </div>
@@ -462,7 +554,8 @@ const boards = ({ boards }) => {
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
+                      tmpDT.getMinutes() !== now.getMinutes() ||
+                      i.valveTimer
                     }
                     checked={i.valvePh}
                   />
@@ -489,7 +582,8 @@ const boards = ({ boards }) => {
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== tmpDT.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
+                      tmpDT.getMinutes() !== now.getMinutes() ||
+                      i.valvePh
                     }
                     checked={i.valveTimer}
                   />
@@ -593,6 +687,7 @@ const boards = ({ boards }) => {
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
                           >
+                            <option value="Everyday">Everyday</option>
                             <option value="Sunday">Sunday</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
@@ -623,8 +718,9 @@ const boards = ({ boards }) => {
                             setDayTime(
                               e.preventDefault(),
                               i._id,
+                              "valve",
                               "addTimer",
-                              timer.length
+                              valveTimer.length
                             )
                           }
                           disabled={
@@ -640,8 +736,8 @@ const boards = ({ boards }) => {
                       </div>
                     </form>
 
-                    {timer.length > 0 &&
-                      timer.map((i, k) => {
+                    {valveTimer.length > 0 &&
+                      valveTimer.map((i, k) => {
                         return (
                           <>
                             <div className="mt-3" key={i._id}>
@@ -649,10 +745,19 @@ const boards = ({ boards }) => {
                               <span>
                                 DAY: {i.day} TIME: {i.time} TYPE: {i.typeSS}
                               </span>
-                              <div>
+                              <div style={{ textAlign: "center" }}>
                                 <button
                                   className="btn btn-outline-danger"
-                                  onClick={() => handleTimerDelete(b_id, i._id)}
+                                  onClick={() =>
+                                    handleTimerDelete("valve", b_id, i._id)
+                                  }
+                                  disabled={
+                                    tmpDT.getFullYear() !== now.getFullYear() ||
+                                    tmpDT.getDate() !== now.getDate() ||
+                                    tmpDT.getDay() !== now.getDay() ||
+                                    tmpDT.getHours() !== tmpDT.getHours() ||
+                                    tmpDT.getMinutes() !== now.getMinutes()
+                                  }
                                 >
                                   Delete
                                 </button>
@@ -667,8 +772,182 @@ const boards = ({ boards }) => {
 
               <div className="box">
                 <div className="box-title">
-                  <p className="box-title">BCL</p>
+                  <p className="button-title">BCL</p>
+                  {i.bcl === 0 ? (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() =>
+                        upDateBclControl(i._id, "BCL", 1, i.bclTimer)
+                      }
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes() ||
+                        i.bclTimer
+                      }
+                    >
+                      OFF
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-outline-success"
+                      onClick={() =>
+                        upDateBclControl(i._id, "BCL", 0, i.bclTimer)
+                      }
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes() ||
+                        i.bclTimer
+                      }
+                    >
+                      ON
+                    </button>
+                  )}
                 </div>
+
+                <div className="form-check form-switch mt-5">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    onChange={() =>
+                      upDateBclControl(i._id, "bclTimer", i.bcl, i.bclTimer)
+                    }
+                    disabled={
+                      tmpDT.getFullYear() !== now.getFullYear() ||
+                      tmpDT.getDate() !== now.getDate() ||
+                      tmpDT.getDay() !== now.getDay() ||
+                      tmpDT.getHours() !== tmpDT.getHours() ||
+                      tmpDT.getMinutes() !== now.getMinutes()
+                    }
+                    checked={i.bclTimer}
+                  />
+                  <label className="form-check-label">TIMER</label>
+                </div>
+
+                {i.bclTimer && (
+                  <>
+                    <form className="mt-3">
+                      <p>Timer</p>
+
+                      <div className="mb-3">
+                        <div className="form-group mb-3">
+                          <select
+                            className="form-control"
+                            id="bclType"
+                            disabled={
+                              tmpDT.getFullYear() !== now.getFullYear() ||
+                              tmpDT.getDate() !== now.getDate() ||
+                              tmpDT.getDay() !== now.getDay() ||
+                              tmpDT.getHours() !== tmpDT.getHours() ||
+                              tmpDT.getMinutes() !== now.getMinutes()
+                            }
+                          >
+                            <option value="Start">Start</option>
+                            <option value="Stop">Stop</option>
+                          </select>
+                        </div>
+                        <div className="form-group mb-3">
+                          <select
+                            className="form-control"
+                            id="bclDay"
+                            disabled={
+                              tmpDT.getFullYear() !== now.getFullYear() ||
+                              tmpDT.getDate() !== now.getDate() ||
+                              tmpDT.getDay() !== now.getDay() ||
+                              tmpDT.getHours() !== tmpDT.getHours() ||
+                              tmpDT.getMinutes() !== now.getMinutes()
+                            }
+                          >
+                            <option value="Everyday">Everyday</option>
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                          </select>
+                        </div>
+                        <input
+                          id="bclTime"
+                          className="form-input"
+                          defaultValue="00:00"
+                          type="time"
+                          disabled={
+                            tmpDT.getFullYear() !== now.getFullYear() ||
+                            tmpDT.getDate() !== now.getDate() ||
+                            tmpDT.getDay() !== now.getDay() ||
+                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getMinutes() !== now.getMinutes()
+                          }
+                        ></input>
+                      </div>
+                      <div>
+                        <button
+                          id="set"
+                          onClick={(e) =>
+                            setDayTime(
+                              e.preventDefault(),
+                              i._id,
+                              "bcl",
+                              "addTimer",
+                              bclTimer.length
+                            )
+                          }
+                          disabled={
+                            tmpDT.getFullYear() !== now.getFullYear() ||
+                            tmpDT.getDate() !== now.getDate() ||
+                            tmpDT.getDay() !== now.getDay() ||
+                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getMinutes() !== now.getMinutes()
+                          }
+                        >
+                          ADD
+                        </button>
+                      </div>
+                    </form>
+
+                    {bclTimer.length > 0 &&
+                      bclTimer.map((i, k) => {
+                        return (
+                          <>
+                            <div className="mt-3" key={i._id}>
+                              <p>Timer:{k + 1}</p>
+                              <span>
+                                DAY: {i.day} TIME: {i.time} TYPE: {i.typeSS}
+                              </span>
+                              <div style={{ textAlign: "center" }}>
+                                <button
+                                  className="btn btn-outline-danger"
+                                  onClick={() =>
+                                    handleTimerDelete("bcl", b_id, i._id)
+                                  }
+                                  disabled={
+                                    tmpDT.getFullYear() !== now.getFullYear() ||
+                                    tmpDT.getDate() !== now.getDate() ||
+                                    tmpDT.getDay() !== now.getDay() ||
+                                    tmpDT.getHours() !== tmpDT.getHours() ||
+                                    tmpDT.getMinutes() !== now.getMinutes()
+                                  }
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -13,9 +13,24 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  background-image: url("https://sv1.picz.in.th/images/2021/10/27/ubzQJn.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   -webkit-box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
           box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+  border-radius: 10px;
   padding: 20px;
+}
+
+.box_board .board .board-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.box_board .board .board-status {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .box_board .board .button-box {
@@ -31,10 +46,13 @@
 
 .box_board .board .button-box .box {
   margin: 10px;
+  background-color: white;
+  border-radius: 10px;
   -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
           box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
   padding: 20px;
-  min-width: 200px;
+  max-width: 200px;
+  min-width: 160px;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -71,13 +89,13 @@
 }
 
 .box_board .board .button-box .box .box-title .button-title {
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .box_board .board .button-box .box .btn {
-  height: 100px;
-  width: 100px;
+  height: 90px;
+  width: 90px;
   border-radius: 50%;
 }
 
@@ -116,12 +134,12 @@
 }
 
 .box_board .board .board-box div .progress-box {
-  max-width: 200px;
-  min-width: 150px;
+  max-width: 150px;
+  min-width: 50px;
 }
 
 .box_board .board .board-box div .title {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
 }
 

@@ -8,39 +8,54 @@
     justify-content: center;
     // background-color: #74c8e4;
 
+    background-image: url("https://sv1.picz.in.th/images/2021/10/27/ubzQJn.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+    border-radius: 10px;
     padding: 20px;
-    .board-header {
+    .board-title {
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .board-status{
+      font-size: 15px;
+      font-weight: bold;
     }
 
     .button-box {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+      
       .box {
         margin: 10px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
         box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
         padding: 20px;
-        min-width: 200px;
-    
+        max-width: 200px;
+        min-width: 160px;
+
         flex: 1;
 
-        .form-input{
+        .form-input {
           border-radius: 20px;
           padding: 6px 20px 6px 20px;
           background-color: rgba(0, 0, 0, 0);
           border-color: #05ace3;
-          outline:#05ace3;
+          outline: #05ace3;
           width: 100%;
         }
-        .form-input:hover{
+        .form-input:hover {
           border-radius: 20px;
           padding: 6px 20px 6px 20px;
           background-color: rgba(0, 0, 0, 0);
           border-color: #5c459b;
           width: 100%;
         }
-        .form-input:focus{
+        .form-input:focus {
           border-radius: 20px;
           padding: 6px 20px 6px 20px;
           background-color: rgba(0, 0, 0, 0);
@@ -49,32 +64,29 @@
           outline: #5c459b;
         }
 
-        .box-title{
+        .box-title {
           text-align: center;
           .button-title {
-            font-size:30px;
+            font-size: 20px;
             font-weight: bold;
           }
-  
         }
 
-        
         .btn {
-          height: 100px;
-          width: 100px;
+          height: 90px;
+          width: 90px;
           border-radius: 50%;
         }
-        #set{
+        #set {
           width: 100%;
           padding: 5px;
           border-radius: 30px;
           background-color: rgba(92, 69, 155, 0);
           color: #5c459b;
           border-color: #5c459b;
-
         }
 
-        #set:hover{
+        #set:hover {
           color: white;
           background-color: #5c459b;
         }
@@ -91,12 +103,12 @@
         margin: 10px;
 
         .progress-box {
-          max-width: 200px;
-          min-width: 150px;
+          max-width: 150px;
+          min-width: 50px;
         }
 
         .title {
-          font-size: 20px;
+          font-size: 15px;
           font-weight: bold;
         }
       }

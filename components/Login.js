@@ -38,8 +38,8 @@ const Login = () => {
   const cookieCheck = async () => {
     const token = await cookie.get("token");
     if (token) {
-      Router.push("/home");
-      <Link to="/home" />;
+      Router.push("/board");
+      <Link to="/board" />;
     }
   };
 
@@ -74,7 +74,7 @@ const Login = () => {
             } else {
               wait.close();
               cookie.set("token", res.data.token);
-              Router.push("/home");
+              Router.push("/board");
             }
           });
       } catch (err) {

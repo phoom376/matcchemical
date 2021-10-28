@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/company.css";
 import "../styles/login.css";
 import "../styles/home.css";
 import "../styles/product.css";
