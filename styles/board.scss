@@ -1,41 +1,62 @@
 .box_board {
-  margin-top: 20px;
   display: flex;
-  margin: 10px;
+  // margin: 10px;
+  padding: 10px;
+  border: 1px black solid;
+  width: 100%;
   .board {
     // color: white;
     display: flex;
     justify-content: center;
-    // background-color: #74c8e4;
+    background-color: #74c8e4;
+    width: 100%;
+    // border: 1px black solid;
 
-    background-image: url("https://sv1.picz.in.th/images/2021/10/27/ubzQJn.jpg");
+
+    // background-image: linear-gradient(
+    //   to bottom,
+    //   #ffff,
+    //   #97d8ec,
+    //   #8fe3ff,
+    //   #59d6ff
+    // );
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
     border-radius: 10px;
     padding: 20px;
-    .board-title {
-      font-size: 30px;
-      font-weight: bold;
-    }
-    .board-status{
-      font-size: 15px;
-      font-weight: bold;
+    .board-header {
+      background-color:  #8fe3ff;
+      color: white;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+
+      .board-title {
+        font-size: 30px;
+        font-weight: bold;
+      }
+      .board-status {
+        font-size: 15px;
+        font-weight: bold;
+      }
     }
 
     .button-box {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      
+
       .box {
         margin: 10px;
-        background-color: rgb(255, 255, 255);
+        background-color: #524A79;
+        color: white;
         border-radius: 10px;
         box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
         padding: 20px;
-        max-width: 200px;
+        // max-width: 200px;
         min-width: 160px;
 
         flex: 1;
@@ -94,11 +115,15 @@
     }
 
     .board-box {
+      margin: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
       align-content: center;
       flex-wrap: wrap;
+      box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+      border-radius: 10px;
+      // background-color: #3E3245;
       div {
         margin: 10px;
 

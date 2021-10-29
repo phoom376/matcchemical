@@ -1,9 +1,10 @@
 .box_board {
-  margin-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 10px;
+  padding: 10px;
+  border: 1px black solid;
+  width: 100%;
 }
 
 .box_board .board {
@@ -13,7 +14,8 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-image: url("https://sv1.picz.in.th/images/2021/10/27/ubzQJn.jpg");
+  background-color: #74c8e4;
+  width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -23,12 +25,22 @@
   padding: 20px;
 }
 
-.box_board .board .board-title {
+.box_board .board .board-header {
+  background-color: #8fe3ff;
+  color: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+          box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
+}
+
+.box_board .board .board-header .board-title {
   font-size: 30px;
   font-weight: bold;
 }
 
-.box_board .board .board-status {
+.box_board .board .board-header .board-status {
   font-size: 15px;
   font-weight: bold;
 }
@@ -46,12 +58,12 @@
 
 .box_board .board .button-box .box {
   margin: 10px;
-  background-color: white;
+  background-color: #524A79;
+  color: white;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
           box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
   padding: 20px;
-  max-width: 200px;
   min-width: 160px;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -114,6 +126,7 @@
 }
 
 .box_board .board .board-box {
+  margin: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -127,6 +140,9 @@
       align-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+          box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+  border-radius: 10px;
 }
 
 .box_board .board .board-box div {
