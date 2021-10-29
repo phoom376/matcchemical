@@ -2,6 +2,9 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 10px;
   width: 100%;
 }
@@ -42,6 +45,18 @@
 .box_board .board .board-header .board-status {
   font-size: 15px;
   font-weight: bold;
+}
+
+.box_board .board .board-header .board-status .online {
+  color: #04cc04;
+}
+
+.box_board .board .board-header .board-status .offline {
+  color: #eb0000;
+}
+
+.box_board .board .board-header .time {
+  color: royalblue;
 }
 
 .box_board .board .button-box {
@@ -108,6 +123,11 @@
   height: 90px;
   width: 90px;
   border-radius: 50%;
+}
+
+.box_board .board .button-box .box .success {
+  color: seagreen;
+  border-color: seagreen;
 }
 
 .box_board .board .button-box .box #set {

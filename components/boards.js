@@ -326,15 +326,15 @@ const boards = ({ boards }) => {
                 tmpDT.getDay() !== now.getDay() ||
                 tmpDT.getHours() !== tmpDT.getHours() ||
                 tmpDT.getMinutes() !== now.getMinutes() ? (
-                  <span style={{ color: "red" }}>OFFLINE</span>
+                  <span className="offline">OFFLINE</span>
                 ) : (
-                  <span style={{ color: "green" }}>ONLINE</span>
+                  <span className="online">ONLINE</span>
                 )}
               </p>
 
               <p>
                 Last Time Update:{" "}
-                <span style={{ color: "blue", fontWeight: "bold" }}>
+                <span className="time">
                   {tmpDT.getDay()}/{tmpDT.getMonth()}/{tmpDT.getFullYear()}{" "}
                   {tmpDT.getHours()}:{tmpDT.getMinutes()}:{tmpDT.getSeconds()}
                 </span>
@@ -480,7 +480,7 @@ const boards = ({ boards }) => {
               </div>
               <div className="box">
                 <div className="box-title">
-                  <p className="button-title">Valve</p>
+                  <p className="button-title">VALVE</p>
                   {i.valve === 0 ? (
                     <button
                       type="button"
@@ -509,7 +509,7 @@ const boards = ({ boards }) => {
                   ) : (
                     <button
                       type="button"
-                      className="btn btn-outline-success mb-3"
+                      className="btn success mb-3"
                       onClick={() =>
                         upDateValveControl(
                           i._id,

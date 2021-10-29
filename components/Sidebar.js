@@ -103,7 +103,7 @@ const Sidebar = ({ children }) => {
                 />
               </div>
               <div className="nav_list">
-                <li>
+                {/* <li>
                   <div className="search">
                     <AiOutlineSearch
                       className="ic"
@@ -113,7 +113,7 @@ const Sidebar = ({ children }) => {
                     />
                     <input className="link_name" />
                   </div>
-                </li>
+                </li> */}
 
                 <li>
                   <a>

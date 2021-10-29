@@ -1,6 +1,7 @@
 .box_board {
   display: flex;
   // margin: 10px;
+  justify-content: center;
   padding: 10px;
   // border: 1px black solid;
   width: 100%;
@@ -41,6 +42,17 @@
       .board-status {
         font-size: 15px;
         font-weight: bold;
+        .online{
+          color:#04cc04;
+        }
+        .offline{
+          color: rgb(235, 0, 0);
+        }
+        
+      }
+
+      .time{
+        color: royalblue;
       }
     }
 
@@ -97,6 +109,11 @@
           height: 90px;
           width: 90px;
           border-radius: 50%;
+        }
+
+        .success{
+          color: seagreen;
+          border-color: seagreen;
         }
         #set {
           width: 100%;
