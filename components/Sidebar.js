@@ -15,19 +15,29 @@ import {
 import { BiLogOut } from "react-icons/bi";
 import classnames from "classnames";
 import Link from "next/link";
+const Swal = require("sweetalert2");
 
 const Sidebar = ({ children }) => {
   const [username, setUsername] = useState(Cookies.get("username"));
   const [open, setOpen] = useState(true);
   const [auth, setAuth] = useState(false);
 
-  const logout = () => {
+  const logout = async () => {
+    const wait = Swal.fire({
+      title: "LOGOUT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     Object.keys(Cookies.get()).forEach((e) => {
       Cookies.remove(e);
     });
 
-    Router.push("/");
-    <Link href="/" />;
+    await Router.push("/");
+    await wait.close();
   };
 
   useEffect(() => {
@@ -116,10 +126,13 @@ const Sidebar = ({ children }) => {
                 </li> */}
 
                 <li>
-                  <a>
-                    <AiFillDashboard className="ic" />
-                    <span className="link_name">Dashboard</span>
-                  </a>
+                  <Link href="/dashboard">
+                    <a>
+                      <AiFillDashboard className="ic" />
+                      <span className="link_name">Dashboard</span>
+                    </a>
+                  </Link>
+
                   <span className="t-tip">Dashboard</span>
                 </li>
 
