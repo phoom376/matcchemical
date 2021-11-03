@@ -75,6 +75,7 @@ const Login = () => {
               wait.close();
               cookie.set("token", res.data.token);
               Router.push("/board");
+              <Link to="/board" />;
             }
           });
       } catch (err) {
