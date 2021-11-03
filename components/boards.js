@@ -228,8 +228,8 @@ const setValveEC = (e, id, type) => {
       .post(`${server}/updateValveControl`, {
         b_id: id,
         type: type,
-        valvePhStart: Number(start),
-        valvePhStop: Number(stop),
+        valveEcStart: Number(start),
+        valveEcStop: Number(stop),
       })
       .then(() => {
         Swal.close();
