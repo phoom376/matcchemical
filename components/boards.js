@@ -196,19 +196,27 @@ const setDayTime = (e, id, ts, type, length) => {
   let newBclMin = "";
 
   console.log(length);
-  if (hours[0] === "0" || bclHours[0] === "0") {
+  if (hours[0] === "0") {
     newHours = hours.replace("0", "");
-    newBclHours = bclHours.replace("0", "");
   } else {
     newHours = hours;
+  }
+
+  if (min[0] === "0") {
+    newMin = min.replace("0", "");
+  } else {
+    newMin = min;
+  }
+
+  if (bclHours[0] === "0") {
+    newBclHours = bclHours.replace("0", "");
+  } else {
     newBclHours = bclHours;
   }
 
-  if (min[0] === "0" || bclMin[0] === "0") {
-    newMin = min.replace("0", "");
+  if (bclMin[0] === "0") {
     newBclMin = bclMin.replace("0", "");
   } else {
-    newMin = min;
     newBclMin = bclMin;
   }
 
