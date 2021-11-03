@@ -595,7 +595,8 @@ const boards = ({ boards }) => {
                           "valve",
                           1,
                           i.valvePh,
-                          i.valveTimer
+                          i.valveEc,
+                          i.valveTimer,
                         )
                       }
                       disabled={
@@ -605,7 +606,8 @@ const boards = ({ boards }) => {
                         tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes() ||
                         i.valvePh ||
-                        i.valveTimer
+                        i.valveTimer ||
+                        i.valveEc
                       }
                     >
                       OFF
