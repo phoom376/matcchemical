@@ -178,93 +178,89 @@ const setValvePH = (e, id, type) => {
 };
 
 const setDayTime = (e, id, ts, type, length) => {
-  const day = document.getElementById("day").value;
-  const typeSS = document.getElementById("type").value;
-  const time = document.getElementById("time").value;
-  const bclDay = document.getElementById("bclDay").value;
-  const bclType = document.getElementById("bclType").value;
-  const bclTime = document.getElementById("bclTime").value;
-  const bTime = bclTime.split(":");
-  const sTime = time.split(":");
-  const bclHours = bTime[0];
-  const bclMin = bTime[1];
-  const hours = sTime[0];
-  const min = sTime[1];
-  let newHours = "";
-  let newMin = "";
-  let newBclHours = "";
-  let newBclMin = "";
-
-  console.log(length);
-  if (hours[0] === "0") {
-    newHours = hours.replace("0", "");
-  } else {
-    newHours = hours;
-  }
-
-  if (min[0] === "0") {
-    newMin = min.replace("0", "");
-  } else {
-    newMin = min;
-  }
-
-  if (bclHours[0] === "0") {
-    newBclHours = bclHours.replace("0", "");
-  } else {
-    newBclHours = bclHours;
-  }
-
-  if (bclMin[0] === "0") {
-    newBclMin = bclMin.replace("0", "");
-  } else {
-    newBclMin = bclMin;
-  }
-
   const newHM = newHours + ":" + newMin;
   const newBclHm = newBclHours + ":" + newBclMin;
   console.log(day, newHM, typeSS);
   if (length < 20) {
-    if (day !== "" && time !== "") {
-      Swal.fire({
-        title: "PLEASE WAIT!",
-        timerProgressBar: true,
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-      if (ts === "valve") {
-        axios
-          .post(`${server}/updateValveControl`, {
-            b_id: id,
-            type: type,
-            day: String(day),
-            time: String(newHM),
-            typeSS: typeSS,
-          })
-          .then(() => {
-            Swal.close();
-          });
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    if (ts === "valve") {
+      const day = document.getElementById("valveDay").value;
+      const typeSS = document.getElementById("valveType").value;
+      const time = document.getElementById("valveTime").value;
+      const sTime = time.split(":");
+
+      const hours = sTime[0];
+      const min = sTime[1];
+
+      let newHours = "";
+      let newMin = "";
+
+      if (hours[0] === "0") {
+        newHours = hours.replace("0", "");
+      } else {
+        newHours = hours;
       }
-      if (ts === "bcl") {
-        axios
-          .post(`${server}/updateBclControl`, {
-            b_id: id,
-            type: type,
-            day: String(bclDay),
-            time: String(newBclHm),
-            typeSS: bclType,
-          })
-          .then(() => {
-            Swal.close();
-          });
+
+      if (min[0] === "0") {
+        newMin = min.replace("0", "");
+      } else {
+        newMin = min;
       }
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Please Input DAY AND TIME",
-      });
+
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          day: String(day),
+          time: String(newHM),
+          typeSS: typeSS,
+        })
+        .then(() => {
+          Swal.close();
+        });
+    }
+    if (ts === "bcl") {
+      const bclDay = document.getElementById("bclDay").value;
+      const bclType = document.getElementById("bclType").value;
+      const bclTime = document.getElementById("bclTime").value;
+      const bTime = bclTime.split(":");
+
+      const bclHours = bTime[0];
+      const bclMin = bTime[1];
+
+      let newBclHours = "";
+      let newBclMin = "";
+
+      if (bclHours[0] === "0") {
+        newBclHours = bclHours.replace("0", "");
+      } else {
+        newBclHours = bclHours;
+      }
+
+      if (bclMin[0] === "0") {
+        newBclMin = bclMin.replace("0", "");
+      } else {
+        newBclMin = bclMin;
+      }
+
+      axios
+        .post(`${server}/updateBclControl`, {
+          b_id: id,
+          type: type,
+          day: String(bclDay),
+          time: String(newBclHm),
+          typeSS: bclType,
+        })
+        .then(() => {
+          Swal.close();
+        });
     }
   } else {
     Swal.fire({
@@ -332,7 +328,7 @@ const boards = ({ boards }) => {
                 {tmpDT.getFullYear() !== now.getFullYear() ||
                 tmpDT.getDate() !== now.getDate() ||
                 tmpDT.getDay() !== now.getDay() ||
-                tmpDT.getHours() !== tmpDT.getHours() ||
+                tmpDT.getHours() !== now.getHours() ||
                 tmpDT.getMinutes() !== now.getMinutes() ? (
                   <span className="offline">OFFLINE</span>
                 ) : (
@@ -462,7 +458,7 @@ const boards = ({ boards }) => {
                         tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
                         tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes()
                       }
                     >
@@ -477,7 +473,7 @@ const boards = ({ boards }) => {
                         tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
                         tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes()
                       }
                     >
@@ -506,7 +502,7 @@ const boards = ({ boards }) => {
                         tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
                         tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes() ||
                         i.valvePh ||
                         i.valveTimer
@@ -531,7 +527,7 @@ const boards = ({ boards }) => {
                         tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
                         tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes() ||
                         i.valvePh ||
                         i.valveTimer
@@ -561,7 +557,7 @@ const boards = ({ boards }) => {
                       tmpDT.getFullYear() !== now.getFullYear() ||
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
+                      tmpDT.getHours() !== now.getHours() ||
                       tmpDT.getMinutes() !== now.getMinutes() ||
                       i.valveTimer
                     }
@@ -589,7 +585,7 @@ const boards = ({ boards }) => {
                       tmpDT.getFullYear() !== now.getFullYear() ||
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
+                      tmpDT.getHours() !== now.getHours() ||
                       tmpDT.getMinutes() !== now.getMinutes() ||
                       i.valvePh
                     }
@@ -614,7 +610,7 @@ const boards = ({ boards }) => {
                           tmpDT.getFullYear() !== now.getFullYear() ||
                           tmpDT.getDate() !== now.getDate() ||
                           tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== tmpDT.getHours() ||
+                          tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
                       ></input>
@@ -632,7 +628,7 @@ const boards = ({ boards }) => {
                           tmpDT.getFullYear() !== now.getFullYear() ||
                           tmpDT.getDate() !== now.getDate() ||
                           tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== tmpDT.getHours() ||
+                          tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
                       ></input>
@@ -644,7 +640,7 @@ const boards = ({ boards }) => {
                           tmpDT.getFullYear() !== now.getFullYear() ||
                           tmpDT.getDate() !== now.getDate() ||
                           tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== tmpDT.getHours() ||
+                          tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
                         onClick={(e) =>
@@ -670,7 +666,7 @@ const boards = ({ boards }) => {
                         <div className="form-group mb-3">
                           <select
                             className="form-control"
-                            id="type"
+                            id="valveType"
                             disabled={
                               tmpDT.getFullYear() !== now.getFullYear() ||
                               tmpDT.getDate() !== now.getDate() ||
@@ -686,7 +682,7 @@ const boards = ({ boards }) => {
                         <div className="form-group mb-3">
                           <select
                             className="form-control"
-                            id="day"
+                            id="valveDay"
                             disabled={
                               tmpDT.getFullYear() !== now.getFullYear() ||
                               tmpDT.getDate() !== now.getDate() ||
@@ -706,7 +702,7 @@ const boards = ({ boards }) => {
                           </select>
                         </div>
                         <input
-                          id="time"
+                          id="valveTime"
                           className="form-input"
                           defaultValue="00:00"
                           type="time"
@@ -735,11 +731,11 @@ const boards = ({ boards }) => {
                             tmpDT.getFullYear() !== now.getFullYear() ||
                             tmpDT.getDate() !== now.getDate() ||
                             tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getHours() !== now.getHours() ||
                             tmpDT.getMinutes() !== now.getMinutes()
                           }
                         >
-                          ADD
+                          SET
                         </button>
                       </div>
                     </form>
@@ -763,7 +759,7 @@ const boards = ({ boards }) => {
                                     tmpDT.getFullYear() !== now.getFullYear() ||
                                     tmpDT.getDate() !== now.getDate() ||
                                     tmpDT.getDay() !== now.getDay() ||
-                                    tmpDT.getHours() !== tmpDT.getHours() ||
+                                    tmpDT.getHours() !== now.getHours() ||
                                     tmpDT.getMinutes() !== now.getMinutes()
                                   }
                                 >
@@ -792,7 +788,7 @@ const boards = ({ boards }) => {
                         tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
                         tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes() ||
                         i.bclTimer
                       }
@@ -810,7 +806,7 @@ const boards = ({ boards }) => {
                         tmpDT.getFullYear() !== now.getFullYear() ||
                         tmpDT.getDate() !== now.getDate() ||
                         tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== tmpDT.getHours() ||
+                        tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes() ||
                         i.bclTimer
                       }
@@ -833,7 +829,7 @@ const boards = ({ boards }) => {
                       tmpDT.getFullYear() !== now.getFullYear() ||
                       tmpDT.getDate() !== now.getDate() ||
                       tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== tmpDT.getHours() ||
+                      tmpDT.getHours() !== now.getHours() ||
                       tmpDT.getMinutes() !== now.getMinutes()
                     }
                     checked={i.bclTimer}
@@ -855,7 +851,7 @@ const boards = ({ boards }) => {
                               tmpDT.getFullYear() !== now.getFullYear() ||
                               tmpDT.getDate() !== now.getDate() ||
                               tmpDT.getDay() !== now.getDay() ||
-                              tmpDT.getHours() !== tmpDT.getHours() ||
+                              tmpDT.getHours() !== now.getHours() ||
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
                           >
@@ -871,7 +867,7 @@ const boards = ({ boards }) => {
                               tmpDT.getFullYear() !== now.getFullYear() ||
                               tmpDT.getDate() !== now.getDate() ||
                               tmpDT.getDay() !== now.getDay() ||
-                              tmpDT.getHours() !== tmpDT.getHours() ||
+                              tmpDT.getHours() !== now.getHours() ||
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
                           >
@@ -894,7 +890,7 @@ const boards = ({ boards }) => {
                             tmpDT.getFullYear() !== now.getFullYear() ||
                             tmpDT.getDate() !== now.getDate() ||
                             tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getHours() !== now.getHours() ||
                             tmpDT.getMinutes() !== now.getMinutes()
                           }
                         ></input>
@@ -915,7 +911,7 @@ const boards = ({ boards }) => {
                             tmpDT.getFullYear() !== now.getFullYear() ||
                             tmpDT.getDate() !== now.getDate() ||
                             tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== tmpDT.getHours() ||
+                            tmpDT.getHours() !== now.getHours() ||
                             tmpDT.getMinutes() !== now.getMinutes()
                           }
                         >
@@ -943,7 +939,7 @@ const boards = ({ boards }) => {
                                     tmpDT.getFullYear() !== now.getFullYear() ||
                                     tmpDT.getDate() !== now.getDate() ||
                                     tmpDT.getDay() !== now.getDay() ||
-                                    tmpDT.getHours() !== tmpDT.getHours() ||
+                                    tmpDT.getHours() !== now.getHours() ||
                                     tmpDT.getMinutes() !== now.getMinutes()
                                   }
                                 >
