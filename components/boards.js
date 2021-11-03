@@ -27,7 +27,7 @@ const upDateSccControl = (id, type, scc) => {
   }
 };
 
-const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
+const upDateValveControl = (id, type, valve, valvePh, valveEc, valueTimer) => {
   if (type === "valve") {
     Swal.fire({
       title: "PLEASE WAIT!",
@@ -70,6 +70,29 @@ const upDateValveControl = (id, type, valve, valvePh, valueTimer) => {
         Swal.close();
       });
   }
+
+  if (type === "valveEc") {
+    const ecOpen = valveEc;
+    console.log("EC");
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    axios
+      .post(`${server}/updateValveControl`, {
+        b_id: id,
+        type: type,
+        valveEc: !ecOpen,
+      })
+      .then((res) => {
+        Swal.close();
+      });
+  }
+
   if (type === "valveTimer") {
     const timerOpen = valueTimer;
     console.log("TIMER");
@@ -143,6 +166,43 @@ const upDateBclControl = (id, type, bcl, bclTimer) => {
 const setValvePH = (e, id, type) => {
   const start = document.getElementById("phStart").value;
   const stop = document.getElementById("phStop").value;
+
+  if (
+    Number(start) === 0 ||
+    Number(stop) === 0 ||
+    start === "" ||
+    stop === ""
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Input Start and Stop",
+    });
+  } else {
+    Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    axios
+      .post(`${server}/updateValveControl`, {
+        b_id: id,
+        type: type,
+        valvePhStart: Number(start),
+        valvePhStop: Number(stop),
+      })
+      .then(() => {
+        Swal.close();
+      });
+  }
+};
+
+const setValveEC = (e, id, type) => {
+  const start = document.getElementById("ecStart").value;
+  const stop = document.getElementById("ecStop").value;
 
   if (
     Number(start) === 0 ||
@@ -308,13 +368,16 @@ const boards = ({ boards }) => {
     if (i.ph !== null) {
       const flow = Number(i.flow);
       const dateTime = i.uDate;
-      const newDateTime = dateTime.split("T");
       const now = new Date();
       const tmpDT = new Date(dateTime);
       const valveTimer = i.valveTimers;
       const bclTimer = i.bclTimers;
       const b_id = i._id;
       const boardName = i.b_name;
+
+      // console.log(now.getHours());
+      // console.log(dateTime);
+      // console.log(tmpDT.getHours());
 
       return (
         <div className="board" key={i._id}>
@@ -346,37 +409,74 @@ const boards = ({ boards }) => {
             </div>
 
             <div className="board-box">
-              <div>
-                <p className="title">PH</p>
-                <br />
-                <div className="progress-box">
-                  <CircularProgressbar
-                    value={i.ph}
-                    maxValue={14}
-                    circleRatio={0.7}
-                    styles={{
-                      trail: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                      },
+              {i.ph && (
+                <div>
+                  <p className="title">PH</p>
+                  <br />
+                  <div className="progress-box">
+                    <CircularProgressbar
+                      value={i.ph}
+                      maxValue={14}
+                      circleRatio={0.7}
+                      styles={{
+                        trail: {
+                          strokeLinecap: "butt",
+                          transform: "rotate(-126deg)",
+                          transformOrigin: "center center",
+                        },
 
-                      path: {
-                        strokeLinecap: "butt",
-                        transform: "rotate(-126deg)",
-                        transformOrigin: "center center",
-                        stroke: "#5c459b",
-                      },
-                      text: {
-                        fill: "#05ace3",
-                        fontSize: "15px",
-                      },
-                    }}
-                    strokeWidth={10}
-                    text={`${i.ph} PH`}
-                  />
+                        path: {
+                          strokeLinecap: "butt",
+                          transform: "rotate(-126deg)",
+                          transformOrigin: "center center",
+                          stroke: "#5c459b",
+                        },
+                        text: {
+                          fill: "#05ace3",
+                          fontSize: "15px",
+                        },
+                      }}
+                      strokeWidth={10}
+                      text={`${i.ph} PH`}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {i.ec && (
+                <div>
+                  <p className="title">EC</p>
+                  <br />
+                  <div className="progress-box">
+                    <CircularProgressbar
+                      value={i.ec}
+                      maxValue={10000}
+                      circleRatio={0.7}
+                      styles={{
+                        trail: {
+                          strokeLinecap: "butt",
+                          transform: "rotate(-126deg)",
+                          transformOrigin: "center center",
+                        },
+
+                        path: {
+                          strokeLinecap: "butt",
+                          transform: "rotate(-126deg)",
+                          transformOrigin: "center center",
+                          stroke: "#5c459b",
+                        },
+                        text: {
+                          fill: "#05ace3",
+                          fontSize: "12px",
+                        },
+                      }}
+                      strokeWidth={10}
+                      text={`${i.ec} MS/CM`}
+                    />
+                  </div>
+                </div>
+              )}
+
               <div>
                 <p className="title">WATER FLOW</p>
                 {flow > 0 ? (
@@ -550,6 +650,7 @@ const boards = ({ boards }) => {
                         "valvePh",
                         i.valve,
                         i.valvePh,
+                        i.valveEc,
                         i.valveTimer
                       )
                     }
@@ -559,11 +660,42 @@ const boards = ({ boards }) => {
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== now.getHours() ||
                       tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valveTimer
+                      i.valveTimer ||
+                      i.valveEc
                     }
                     checked={i.valvePh}
                   />
                   <label className="form-check-label">PH</label>
+                </div>
+
+                <div className="form-check form-switch mb-2 ">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    onChange={() =>
+                      upDateValveControl(
+                        i._id,
+                        "valveEc",
+                        i.valve,
+                        i.valvePh,
+                        i.valveEc,
+                        i.valveTimer
+                      )
+                    }
+                    disabled={
+                      tmpDT.getFullYear() !== now.getFullYear() ||
+                      tmpDT.getDate() !== now.getDate() ||
+                      tmpDT.getDay() !== now.getDay() ||
+                      tmpDT.getHours() !== now.getHours() ||
+                      tmpDT.getMinutes() !== now.getMinutes() ||
+                      i.valveTimer ||
+                      i.valvePh
+                    }
+                    checked={i.valveEc}
+                  />
+                  <label className="form-check-label">EC</label>
                 </div>
 
                 <div className="form-check form-switch">
@@ -578,6 +710,7 @@ const boards = ({ boards }) => {
                         "valveTimer",
                         i.valve,
                         i.valvePh,
+                        i.valveEc,
                         i.valveTimer
                       )
                     }
@@ -587,7 +720,8 @@ const boards = ({ boards }) => {
                       tmpDT.getDay() !== now.getDay() ||
                       tmpDT.getHours() !== now.getHours() ||
                       tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valvePh
+                      i.valvePh ||
+                      i.valveEc
                     }
                     checked={i.valveTimer}
                   />
@@ -601,7 +735,7 @@ const boards = ({ boards }) => {
                       <label>START:</label>
                       <input
                         id="phStart"
-                        placeholder={i.valvePhStart}
+                        defaultValue={i.valvePhStart}
                         className="form-input"
                         type="number"
                         min="0"
@@ -619,7 +753,7 @@ const boards = ({ boards }) => {
                       <label>STOP:</label>
                       <input
                         id="phStop"
-                        placeholder={i.valvePhStop}
+                        defaultValue={i.valvePhStop}
                         className="form-input"
                         type="number"
                         min="0"
@@ -648,6 +782,69 @@ const boards = ({ boards }) => {
                             e.preventDefault(),
                             i._id,
                             "valvePhControl"
+                          )
+                        }
+                      >
+                        SET
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {i.valveEc && (
+                  <form className="mt-3">
+                    <p>EC</p>
+                    <div className="mb-3">
+                      <label>START:</label>
+                      <input
+                        id="ecStart"
+                        defaultValue={i.valveEcStart}
+                        className="form-input"
+                        type="number"
+                        min="0"
+                        max="10000"
+                        disabled={
+                          tmpDT.getFullYear() !== now.getFullYear() ||
+                          tmpDT.getDate() !== now.getDate() ||
+                          tmpDT.getDay() !== now.getDay() ||
+                          tmpDT.getHours() !== now.getHours() ||
+                          tmpDT.getMinutes() !== now.getMinutes()
+                        }
+                      ></input>
+                    </div>
+                    <div className="mb-3">
+                      <label>STOP:</label>
+                      <input
+                        id="ecStop"
+                        defaultValue={i.valveEcStop}
+                        className="form-input"
+                        type="number"
+                        min="0"
+                        max="10000"
+                        disabled={
+                          tmpDT.getFullYear() !== now.getFullYear() ||
+                          tmpDT.getDate() !== now.getDate() ||
+                          tmpDT.getDay() !== now.getDay() ||
+                          tmpDT.getHours() !== now.getHours() ||
+                          tmpDT.getMinutes() !== now.getMinutes()
+                        }
+                      ></input>
+                    </div>
+                    <div>
+                      <button
+                        id="set"
+                        disabled={
+                          tmpDT.getFullYear() !== now.getFullYear() ||
+                          tmpDT.getDate() !== now.getDate() ||
+                          tmpDT.getDay() !== now.getDay() ||
+                          tmpDT.getHours() !== now.getHours() ||
+                          tmpDT.getMinutes() !== now.getMinutes()
+                        }
+                        onClick={(e) =>
+                          setValveEC(
+                            e.preventDefault(),
+                            i._id,
+                            "valveEcControl"
                           )
                         }
                       >
@@ -780,7 +977,7 @@ const boards = ({ boards }) => {
                   {i.bcl === 0 ? (
                     <button
                       type="button"
-                      className="btn btn-outline-danger"
+                      className="btn btn-outline-danger mb-3"
                       onClick={() =>
                         upDateBclControl(i._id, "BCL", 1, i.bclTimer)
                       }
@@ -798,7 +995,7 @@ const boards = ({ boards }) => {
                   ) : (
                     <button
                       type="button"
-                      className="btn btn-outline-success"
+                      className="btn btn-outline-success mb-3"
                       onClick={() =>
                         upDateBclControl(i._id, "BCL", 0, i.bclTimer)
                       }
@@ -816,7 +1013,7 @@ const boards = ({ boards }) => {
                   )}
                 </div>
 
-                <div className="form-check form-switch mt-5">
+                <div className="form-check form-switch">
                   <input
                     className="form-check-input"
                     type="checkbox"
@@ -915,7 +1112,7 @@ const boards = ({ boards }) => {
                             tmpDT.getMinutes() !== now.getMinutes()
                           }
                         >
-                          ADD
+                          SET
                         </button>
                       </div>
                     </form>

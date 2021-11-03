@@ -16,6 +16,7 @@ body {
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   z-index: +1;
+  overflow: auto;
 }
 
 .sidebar .logo_content .logo {

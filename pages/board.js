@@ -23,7 +23,7 @@ export default function Board() {
 
       // await getBoard();
     };
-    console.log(getAll);
+    // console.log(getAll);
     const gProduct = setInterval(() => {
       // if (select !== "") {
       //   getBoardCompany();
@@ -53,7 +53,7 @@ export default function Board() {
     });
   };
   const getBoardCompany = async () => {
-    console.log("get");
+    // console.log("get");
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
     await setComId(decode.c_id);
