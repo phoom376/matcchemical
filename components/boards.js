@@ -178,9 +178,6 @@ const setValvePH = (e, id, type) => {
 };
 
 const setDayTime = (e, id, ts, type, length) => {
-  const newHM = newHours + ":" + newMin;
-  const newBclHm = newBclHours + ":" + newBclMin;
-  console.log(day, newHM, typeSS);
   if (length < 20) {
     Swal.fire({
       title: "PLEASE WAIT!",
@@ -213,6 +210,8 @@ const setDayTime = (e, id, ts, type, length) => {
       } else {
         newMin = min;
       }
+
+      const newHM = newHours + ":" + newMin;
 
       axios
         .post(`${server}/updateValveControl`, {
@@ -250,6 +249,7 @@ const setDayTime = (e, id, ts, type, length) => {
         newBclMin = bclMin;
       }
 
+      const newBclHm = newBclHours + ":" + newBclMin;
       axios
         .post(`${server}/updateBclControl`, {
           b_id: id,
