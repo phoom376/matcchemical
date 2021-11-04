@@ -15,6 +15,7 @@ import {
 import { BiLogOut } from "react-icons/bi";
 import classnames from "classnames";
 import Link from "next/link";
+import Head from 'next/head'
 const Swal = require("sweetalert2");
 
 const Sidebar = ({ children }) => {
@@ -88,11 +89,12 @@ const Sidebar = ({ children }) => {
     if (Cookies.get("token")) {
       return (
         <>
-          <header>
+          <Head>
             <meta charSet="UTF-8" />
 
-            <title>Home</title>
-          </header>
+            <title>MATCHCHEMICAL</title>
+            <link rel="icon" href="/new2.png" />
+          </Head>
           <div>
             <div className={classnames("sidebar", { active: open })}>
               <div className="logo_content">

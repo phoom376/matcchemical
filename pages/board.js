@@ -52,7 +52,7 @@ export default function Board() {
       setLoading(false);
     });
   };
-  const getBoardCompany = async () => {
+  const getBoardCompany = async() => {
     // console.log("get");
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
