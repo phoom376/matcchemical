@@ -43,13 +43,13 @@ export default function Board() {
     axios.get(`${server}/boards`).then((res) => {
       setBoards(res.data);
       setGetAll(all);
-      setLoading(false);
+      
     });
   };
   const getCompany = () => {
     axios.get(`${usServer}/company`).then((res) => {
       setCompany(res.data);
-      setLoading(false);
+
     });
   };
   const getBoardCompany = async() => {
@@ -58,11 +58,13 @@ export default function Board() {
     const decode = jwt.decode(tmpToken);
     await setComId(decode.c_id);
     if (!decode.c_id) {
+      setLoading(false);
       await axios
         .post(`${server}/getBoardCompany`, { c_id: select })
         .then((res) => {
           if (res.data) {
             setBoards(res.data);
+            
           }
         });
     } else {
@@ -71,6 +73,7 @@ export default function Board() {
         .then((res) => {
           if (res.data) {
             setBoards(res.data);
+            setLoading(false);
           }
         });
     }

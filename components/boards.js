@@ -8,362 +8,340 @@ import { useState } from "react";
 const server = "https://boardapi.herokuapp.com";
 // const server = "http://localhost:4002";
 
-const upDateSccControl = (id, type, scc) => {
-  if (type === "SCC") {
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      alowOutsideClick: false,
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateSccControl`, { b_id: id, type: type, scc: scc })
-      .then((res) => {
-        Swal.close();
+const boards = ({ boards }) => {
+  const [timerType, setTimerType] = useState("Start");
+  const [timerDay, setTimerDay] = useState("Everyday");
+  const [timerTime, setTimerTime] = useState("00:00");
+  const [phStart, setPhStart] = useState(0);
+  const [phStop, setPhStop] = useState(0);
+  const [ecStart, setEcStart] = useState(0);
+  const [ecStop, setEcStop] = useState(0);
+
+  const setValvePH = (e, id, type) => {
+    if (phStart === 0 || phStop === 0) {
+      console.log(phStart, phStop);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please Input Start and Stop",
       });
-  }
-};
-
-const upDateValveControl = (id, type, valve, valvePh, valveEc, valueTimer) => {
-  if (type === "valve") {
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        valve: valve,
-      })
-      .then(() => {
-        Swal.close();
+    } else {
+      console.log(phStart, phStop);
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
-  }
-
-  if (type === "valvePh") {
-    const phOpen = valvePh;
-    console.log("PH");
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        valvePh: !phOpen,
-      })
-      .then((res) => {
-        Swal.close();
-      });
-  }
-
-  if (type === "valveEc") {
-    const ecOpen = valveEc;
-    console.log("EC");
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        valveEc: !ecOpen,
-      })
-      .then((res) => {
-        Swal.close();
-      });
-  }
-
-  if (type === "valveTimer") {
-    const timerOpen = valueTimer;
-    console.log("TIMER");
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        valveTimer: !timerOpen,
-      })
-      .then((res) => {
-        Swal.close();
-      });
-  }
-};
-
-const upDateBclControl = (id, type, bcl, bclTimer) => {
-  if (type === "BCL") {
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateBclControl`, {
-        b_id: id,
-        type: type,
-        bcl: bcl,
-      })
-      .then(() => {
-        Swal.close();
-      });
-  }
-
-  if (type === "bclTimer") {
-    const timerOpen = bclTimer;
-    console.log("TIMER");
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateBclControl`, {
-        b_id: id,
-        type: type,
-        bclTimer: !timerOpen,
-      })
-      .then((res) => {
-        Swal.close();
-      });
-  }
-};
-
-const setValvePH = (e, id, type) => {
-  const start = document.getElementById("phStart").value;
-  const stop = document.getElementById("phStop").value;
-
-  if (
-    Number(start) === 0 ||
-    Number(stop) === 0 ||
-    start === "" ||
-    stop === ""
-  ) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Please Input Start and Stop",
-    });
-  } else {
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        valvePhStart: Number(start),
-        valvePhStop: Number(stop),
-      })
-      .then(() => {
-        Swal.close();
-      });
-  }
-};
-
-const setValveEC = (e, id, type) => {
-  const start = document.getElementById("ecStart").value;
-  const stop = document.getElementById("ecStop").value;
-
-  if (
-    Number(start) === 0 ||
-    Number(stop) === 0 ||
-    start === "" ||
-    stop === ""
-  ) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Please Input Start and Stop",
-    });
-  } else {
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    axios
-      .post(`${server}/updateValveControl`, {
-        b_id: id,
-        type: type,
-        valveEcStart: Number(start),
-        valveEcStop: Number(stop),
-      })
-      .then(() => {
-        Swal.close();
-      });
-  }
-};
-
-const setDayTime = (e, id, ts, type, length) => {
-  if (length < 20) {
-    Swal.fire({
-      title: "PLEASE WAIT!",
-      timerProgressBar: true,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    if (ts === "valve") {
-      const day = document.getElementById("valveDay").value;
-      const typeSS = document.getElementById("valveType").value;
-      const time = document.getElementById("valveTime").value;
-      const sTime = time.split(":");
-
-      const hours = sTime[0];
-      const min = sTime[1];
-
-      let newHours = "";
-      let newMin = "";
-
-      if (hours[0] === "0") {
-        newHours = hours.replace("0", "");
-      } else {
-        newHours = hours;
-      }
-
-      if (min[0] === "0") {
-        newMin = min.replace("0", "");
-      } else {
-        newMin = min;
-      }
-
-      const newHM = newHours + ":" + newMin;
-
       axios
         .post(`${server}/updateValveControl`, {
           b_id: id,
           type: type,
-          day: String(day),
-          time: String(newHM),
-          typeSS: typeSS,
+          valvePhStart: phStart,
+          valvePhStop: phStop,
+        })
+        .then(() => {
+          Swal.close();
+          setPhStart(0);
+          setPhStop(0);
+        });
+    }
+  };
+
+  const setValveEC = (e, id, type) => {
+    if (ecStart === 0 || ecStop === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please Input Start and Stop",
+      });
+    } else {
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          valveEcStart: ecStart,
+          valveEcStop: ecStop,
         })
         .then(() => {
           Swal.close();
         });
     }
-    if (ts === "bcl") {
-      const bclDay = document.getElementById("bclDay").value;
-      const bclType = document.getElementById("bclType").value;
-      const bclTime = document.getElementById("bclTime").value;
-      const bTime = bclTime.split(":");
+  };
 
-      const bclHours = bTime[0];
-      const bclMin = bTime[1];
+  const setDayTime = (e, id, ts, type, length) => {
+    console.log(timerType);
 
-      let newBclHours = "";
-      let newBclMin = "";
+    const sTime = timerTime.split(":");
 
-      if (bclHours[0] === "0") {
-        newBclHours = bclHours.replace("0", "");
-      } else {
-        newBclHours = bclHours;
+    const hours = sTime[0];
+    const min = sTime[1];
+
+    let newHours = "";
+    let newMin = "";
+
+    if (hours[0] === "0") {
+      newHours = hours.replace("0", "");
+    } else {
+      newHours = hours;
+    }
+
+    if (min[0] === "0") {
+      newMin = min.replace("0", "");
+    } else {
+      newMin = min;
+    }
+
+    const newHM = newHours + ":" + newMin;
+
+    if (length < 20) {
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      if (ts === "valve") {
+        axios
+          .post(`${server}/updateValveControl`, {
+            b_id: id,
+            type: type,
+            day: timerDay,
+            time: String(newHM),
+            typeSS: timerType,
+          })
+          .then(() => {
+            Swal.close();
+          });
       }
-
-      if (bclMin[0] === "0") {
-        newBclMin = bclMin.replace("0", "");
-      } else {
-        newBclMin = bclMin;
+      if (ts === "bcl") {
+        axios
+          .post(`${server}/updateBclControl`, {
+            b_id: id,
+            type: type,
+            day: timerDay,
+            time: String(newHM),
+            typeSS: timerType,
+          })
+          .then(() => {
+            Swal.close();
+          });
       }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Max Timer is 20",
+      });
+    }
+  };
 
-      const newBclHm = newBclHours + ":" + newBclMin;
+  const upDateSccControl = (id, type, scc) => {
+    if (type === "SCC") {
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        alowOutsideClick: false,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateSccControl`, { b_id: id, type: type, scc: scc })
+        .then((res) => {
+          Swal.close();
+        });
+    }
+  };
+
+  const upDateValveControl = (
+    id,
+    type,
+    valve,
+    valvePh,
+    valveEc,
+    valueTimer
+  ) => {
+    if (type === "valve") {
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          valve: valve,
+        })
+        .then(() => {
+          Swal.close();
+        });
+    }
+
+    if (type === "valvePh") {
+      const phOpen = valvePh;
+      console.log("PH");
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          valvePh: !phOpen,
+        })
+        .then((res) => {
+          Swal.close();
+        });
+    }
+
+    if (type === "valveEc") {
+      const ecOpen = valveEc;
+      console.log("EC");
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          valveEc: !ecOpen,
+        })
+        .then((res) => {
+          Swal.close();
+        });
+    }
+
+    if (type === "valveTimer") {
+      const timerOpen = valueTimer;
+      console.log("TIMER");
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateValveControl`, {
+          b_id: id,
+          type: type,
+          valveTimer: !timerOpen,
+        })
+        .then((res) => {
+          Swal.close();
+        });
+    }
+  };
+
+  const upDateBclControl = (id, type, bcl, bclTimer) => {
+    if (type === "BCL") {
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       axios
         .post(`${server}/updateBclControl`, {
           b_id: id,
           type: type,
-          day: String(bclDay),
-          time: String(newBclHm),
-          typeSS: bclType,
+          bcl: bcl,
         })
         .then(() => {
           Swal.close();
         });
     }
-  } else {
+
+    if (type === "bclTimer") {
+      const timerOpen = bclTimer;
+      console.log("TIMER");
+      Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      axios
+        .post(`${server}/updateBclControl`, {
+          b_id: id,
+          type: type,
+          bclTimer: !timerOpen,
+        })
+        .then((res) => {
+          Swal.close();
+        });
+    }
+  };
+
+  const handleTimerDelete = (type, b_id, id) => {
+    console.log(b_id, id);
     Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Max Timer is 20",
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
-  }
-};
+    if (type === "valve") {
+      axios
+        .post(`${server}/valveTimerDelete`, {
+          b_id: b_id,
+          id: id,
+        })
+        .then(() => {
+          Swal.close();
+        });
+    }
+    if (type === "bcl") {
+      axios
+        .post(`${server}/bclTimerDelete`, {
+          b_id: b_id,
+          id: id,
+        })
+        .then(() => {
+          Swal.close();
+        });
+    }
+  };
 
-const handleTimerDelete = (type, b_id, id) => {
-  console.log(b_id, id);
-  Swal.fire({
-    title: "PLEASE WAIT!",
-    timerProgressBar: true,
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-  if (type === "valve") {
-    axios
-      .post(`${server}/valveTimerDelete`, {
-        b_id: b_id,
-        id: id,
-      })
-      .then(() => {
-        Swal.close();
-      });
-  }
-  if (type === "bcl") {
-    axios
-      .post(`${server}/bclTimerDelete`, {
-        b_id: b_id,
-        id: id,
-      })
-      .then(() => {
-        Swal.close();
-      });
-  }
-};
-
-const boards = ({ boards }) => {
   return boards.map((i) => {
     if (i.ph !== null) {
       const flow = Number(i.flow);
@@ -753,6 +731,9 @@ const boards = ({ boards }) => {
                           tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
+                        onChange={(e) => {
+                          setPhStart(e.target.value);
+                        }}
                       ></input>
                     </div>
                     <div className="mb-3">
@@ -771,6 +752,9 @@ const boards = ({ boards }) => {
                           tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
+                        onChange={(e) => {
+                          setPhStop(e.target.value);
+                        }}
                       ></input>
                     </div>
                     <div>
@@ -816,6 +800,9 @@ const boards = ({ boards }) => {
                           tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
+                        onChange={(e) => {
+                          setEcStart(e.target.value);
+                        }}
                       ></input>
                     </div>
                     <div className="mb-3">
@@ -834,6 +821,9 @@ const boards = ({ boards }) => {
                           tmpDT.getHours() !== now.getHours() ||
                           tmpDT.getMinutes() !== now.getMinutes()
                         }
+                        onChange={(e) => {
+                          setEcStop(e.target.value);
+                        }}
                       ></input>
                     </div>
                     <div>
@@ -877,8 +867,14 @@ const boards = ({ boards }) => {
                               tmpDT.getHours() !== tmpDT.getHours() ||
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
+                            defaultValue="Start"
+                            onChange={(e) => {
+                              setTimerType(e.target.value);
+                            }}
                           >
-                            <option value="Start">Start</option>
+                            <option value="Start" selected>
+                              Start
+                            </option>
                             <option value="Stop">Stop</option>
                           </select>
                         </div>
@@ -893,6 +889,9 @@ const boards = ({ boards }) => {
                               tmpDT.getHours() !== tmpDT.getHours() ||
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
+                            onChange={(e) => {
+                              setTimerDay(e.target.value);
+                            }}
                           >
                             <option value="Everyday">Everyday</option>
                             <option value="Sunday">Sunday</option>
@@ -916,6 +915,9 @@ const boards = ({ boards }) => {
                             tmpDT.getHours() !== tmpDT.getHours() ||
                             tmpDT.getMinutes() !== now.getMinutes()
                           }
+                          onChange={(e) => {
+                            setTimerTime(e.target.value);
+                          }}
                         ></input>
                       </div>
                       <div>
@@ -952,10 +954,12 @@ const boards = ({ boards }) => {
                                 <p>Timer : {k + 1}</p>
                               </div>
 
-                              <p>
-                                DAY : {i.day} TIME : {i.time} TYPE : {i.typeSS}
-                              </p>
-                              <div className="timer-button">
+                              <span>DAY : {i.day}</span>
+                              <br></br>
+                              <span>TIME : {i.time}</span>
+                              <br></br>
+                              <span> TYPE : {i.typeSS}</span>
+                              <div className="timer-button mt-3">
                                 <button
                                   className="btn btn-outline-danger"
                                   onClick={() =>
@@ -1060,6 +1064,9 @@ const boards = ({ boards }) => {
                               tmpDT.getHours() !== now.getHours() ||
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
+                            onChange={(e) => {
+                              setTimerType(e.target.value);
+                            }}
                           >
                             <option value="Start">Start</option>
                             <option value="Stop">Stop</option>
@@ -1076,6 +1083,9 @@ const boards = ({ boards }) => {
                               tmpDT.getHours() !== now.getHours() ||
                               tmpDT.getMinutes() !== now.getMinutes()
                             }
+                            onChange={(e) => {
+                              setTimerDay(e.target.value);
+                            }}
                           >
                             <option value="Everyday">Everyday</option>
                             <option value="Sunday">Sunday</option>
@@ -1099,6 +1109,9 @@ const boards = ({ boards }) => {
                             tmpDT.getHours() !== now.getHours() ||
                             tmpDT.getMinutes() !== now.getMinutes()
                           }
+                          onChange={(e) => {
+                            setTimerTime(e.target.value);
+                          }}
                         ></input>
                       </div>
                       <div>
@@ -1135,14 +1148,16 @@ const boards = ({ boards }) => {
                                 <p>Timer : {k + 1}</p>
                               </div>
 
-                              <p>
-                                DAY : {i.day} TIME : {i.time} TYPE : {i.typeSS}
-                              </p>
-                              <div className="timer-button">
+                              <span>DAY : {i.day}</span>
+                              <br></br>
+                              <span>TIME : {i.time}</span>
+                              <br></br>
+                              <span> TYPE : {i.typeSS}</span>
+                              <div className="timer-button mt-3">
                                 <button
                                   className="btn btn-outline-danger"
                                   onClick={() =>
-                                    handleTimerDelete("valve", b_id, i._id)
+                                    handleTimerDelete("bcl", b_id, i._id)
                                   }
                                   disabled={
                                     tmpDT.getFullYear() !== now.getFullYear() ||
