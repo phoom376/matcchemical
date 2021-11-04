@@ -409,7 +409,7 @@ const boards = ({ boards }) => {
             </div>
 
             <div className="board-box">
-              {i.ph && (
+              {i.ph > 0 && (
                 <div>
                   <p className="title">PH</p>
                   <br />
@@ -443,7 +443,7 @@ const boards = ({ boards }) => {
                 </div>
               )}
 
-              {i.ec && (
+              {i.ec > 0 && (
                 <div>
                   <p className="title">EC</p>
                   <br />
@@ -596,7 +596,7 @@ const boards = ({ boards }) => {
                           1,
                           i.valvePh,
                           i.valveEc,
-                          i.valveTimer,
+                          i.valveTimer
                         )
                       }
                       disabled={
@@ -615,7 +615,7 @@ const boards = ({ boards }) => {
                   ) : (
                     <button
                       type="button"
-                      className="btn success mb-3"
+                      className="btn btn-outline-success mb-3"
                       onClick={() =>
                         upDateValveControl(
                           i._id,
@@ -640,65 +640,69 @@ const boards = ({ boards }) => {
                   )}
                 </div>
 
-                <div className="form-check form-switch mb-2 ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    onChange={() =>
-                      upDateValveControl(
-                        i._id,
-                        "valvePh",
-                        i.valve,
-                        i.valvePh,
-                        i.valveEc,
-                        i.valveTimer
-                      )
-                    }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== now.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valveTimer ||
-                      i.valveEc
-                    }
-                    checked={i.valvePh}
-                  />
-                  <label className="form-check-label">PH</label>
-                </div>
+                {i.ph > 0 && (
+                  <div className="form-check form-switch mb-2 ">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      onChange={() =>
+                        upDateValveControl(
+                          i._id,
+                          "valvePh",
+                          i.valve,
+                          i.valvePh,
+                          i.valveEc,
+                          i.valveTimer
+                        )
+                      }
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== now.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes() ||
+                        i.valveTimer ||
+                        i.valveEc
+                      }
+                      checked={i.valvePh}
+                    />
+                    <label className="form-check-label">PH</label>
+                  </div>
+                )}
 
-                <div className="form-check form-switch mb-2 ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    onChange={() =>
-                      upDateValveControl(
-                        i._id,
-                        "valveEc",
-                        i.valve,
-                        i.valvePh,
-                        i.valveEc,
-                        i.valveTimer
-                      )
-                    }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== now.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valveTimer ||
-                      i.valvePh
-                    }
-                    checked={i.valveEc}
-                  />
-                  <label className="form-check-label">EC</label>
-                </div>
+                {i.ec > 0 && (
+                  <div className="form-check form-switch mb-2 ">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      onChange={() =>
+                        upDateValveControl(
+                          i._id,
+                          "valveEc",
+                          i.valve,
+                          i.valvePh,
+                          i.valveEc,
+                          i.valveTimer
+                        )
+                      }
+                      disabled={
+                        tmpDT.getFullYear() !== now.getFullYear() ||
+                        tmpDT.getDate() !== now.getDate() ||
+                        tmpDT.getDay() !== now.getDay() ||
+                        tmpDT.getHours() !== now.getHours() ||
+                        tmpDT.getMinutes() !== now.getMinutes() ||
+                        i.valveTimer ||
+                        i.valvePh
+                      }
+                      checked={i.valveEc}
+                    />
+                    <label className="form-check-label">EC</label>
+                  </div>
+                )}
 
                 <div className="form-check form-switch">
                   <input
@@ -943,12 +947,15 @@ const boards = ({ boards }) => {
                       valveTimer.map((i, k) => {
                         return (
                           <>
-                            <div className="mt-3" key={i._id}>
-                              <p>Timer:{k + 1}</p>
-                              <span>
-                                DAY: {i.day} TIME: {i.time} TYPE: {i.typeSS}
-                              </span>
-                              <div style={{ textAlign: "center" }}>
+                            <div className="timer-box mt-3" key={i._id}>
+                              <div className="timer-header">
+                                <p>Timer : {k + 1}</p>
+                              </div>
+
+                              <p>
+                                DAY : {i.day} TIME : {i.time} TYPE : {i.typeSS}
+                              </p>
+                              <div className="timer-button">
                                 <button
                                   className="btn btn-outline-danger"
                                   onClick={() =>
@@ -1123,16 +1130,19 @@ const boards = ({ boards }) => {
                       bclTimer.map((i, k) => {
                         return (
                           <>
-                            <div className="mt-3" key={i._id}>
-                              <p>Timer:{k + 1}</p>
-                              <span>
-                                DAY: {i.day} TIME: {i.time} TYPE: {i.typeSS}
-                              </span>
-                              <div style={{ textAlign: "center" }}>
+                            <div className="timer-box mt-3" key={i._id}>
+                              <div className="timer-header">
+                                <p>Timer : {k + 1}</p>
+                              </div>
+
+                              <p>
+                                DAY : {i.day} TIME : {i.time} TYPE : {i.typeSS}
+                              </p>
+                              <div className="timer-button">
                                 <button
                                   className="btn btn-outline-danger"
                                   onClick={() =>
-                                    handleTimerDelete("bcl", b_id, i._id)
+                                    handleTimerDelete("valve", b_id, i._id)
                                   }
                                   disabled={
                                     tmpDT.getFullYear() !== now.getFullYear() ||

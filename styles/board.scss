@@ -1,7 +1,7 @@
 .box_board {
   display: flex;
   // margin: 10px;
-  justify-content: center;
+  // justify-content: center;
   padding: 10px;
   // border: 1px black solid;
   width: 100%;
@@ -9,10 +9,9 @@
     // color: white;
     display: flex;
     justify-content: center;
-    background-color:  #26c9ff;
+    background-color: #26c9ff;
     width: 100%;
     // border: 1px black solid;
-
 
     // background-image: linear-gradient(
     //   to bottom,
@@ -28,7 +27,7 @@
     border-radius: 10px;
     padding: 20px;
     .board-header {
-      background-color:  #8fe3ff;
+      background-color: #8fe3ff;
       color: white;
       margin: 10px;
       padding: 10px;
@@ -36,39 +35,38 @@
       box-shadow: 0px 0px 8px 5px rgba(5, 172, 227, 0.1);
 
       .board-title {
-        font-size: 30px;
+        font-size: 25px;
         font-weight: bold;
       }
       .board-status {
         font-size: 15px;
         font-weight: bold;
-        .online{
-          color:#04cc04;
+        .online {
+          color: #04cc04;
         }
-        .offline{
+        .offline {
           color: rgb(235, 0, 0);
         }
-        
       }
 
-      .time{
+      .time {
         color: royalblue;
       }
     }
 
     .button-box {
       display: flex;
-      justify-content: center;
+      justify-content: start;
       flex-wrap: wrap;
 
       .box {
         margin: 10px;
-        background-color:  #8fe3ff;
+        background-color: #8fe3ff;
         color: white;
         border-radius: 10px;
         box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
         padding: 20px;
-        // max-width: 200px;
+        max-width: 200px;
         min-width: 160px;
 
         flex: 1;
@@ -111,7 +109,7 @@
           border-radius: 50%;
         }
 
-        .success{
+        .success {
           color: seagreen;
           border-color: seagreen;
         }
@@ -128,6 +126,29 @@
           color: white;
           background-color: #5c459b;
         }
+
+        #set:focus {
+          color: white;
+          background-color: #5c459b;
+        }
+
+        .timer-box {
+          background-color: #a1e8ff;
+          text-align: left;
+          padding: 15px;
+          color: #5c459b;
+        
+          box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+          border-radius: 10px;
+
+          .timer-header{
+            text-align: center;
+
+          }
+          .timer-button{
+            text-align: center;
+          }
+        }
       }
     }
 
@@ -140,7 +161,7 @@
       flex-wrap: wrap;
       box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
       border-radius: 10px;
-      
+
       background-color: #8fe3ff;
       div {
         margin: 10px;
