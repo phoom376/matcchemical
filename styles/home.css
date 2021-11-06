@@ -274,7 +274,7 @@ body {
 }
 
 .home_content {
-  overflow: auto;
+  overflow: none;
   background-image: -webkit-gradient(linear, left top, right bottom, from(#5c459b), to(#0ca3dd));
   background-image: linear-gradient(to bottom right, #5c459b, #0ca3dd);
   color: white;
@@ -288,6 +288,7 @@ body {
 }
 
 .home_content.active {
+  overflow: auto;
   width: calc(100% - 270px);
   left: 270px;
 }
