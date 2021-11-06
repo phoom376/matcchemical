@@ -5,8 +5,8 @@ import axios from "axios";
 import Select from "react-select";
 import { useState } from "react";
 
-const server = "https://boardapi.herokuapp.com";
-// const server = "http://localhost:4002";
+// const server = "https://boardapi.herokuapp.com";
+const server = "https://www.matchchemical.tk:57524";
 
 const boards = ({ boards }) => {
   const [timerType, setTimerType] = useState("Start");

@@ -14,7 +14,7 @@ const Login = () => {
   const [online, setOnline] = useState(false);
 
   // const server = "https://userlogapi.herokuapp.com";
-  const server = "http://home420.trueddns.com:57521";
+  const server = "https://www.matchchemical.tk:57521";
 
   useEffect(() => {
     const Verify = async () => {
