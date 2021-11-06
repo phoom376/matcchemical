@@ -11,10 +11,11 @@ export default function Board() {
   const [select, setSelect] = useState("");
   const [comId, setComId] = useState("");
   const [getAll, setGetAll] = useState(false);
-  const server = "https://boardapi.herokuapp.com";
-  // const server = "http://localhost:4002";
+  // const server = "https://boardapi.herokuapp.com";
+  const server = "https://www.matchchemical.tk:57524";
 
-  const usServer = "https://userlogapi.herokuapp.com";
+  // const usServer = "https://userlogapi.herokuapp.com";
+  const usServer = "https://www.matchchemical.tk:57521";
 
   useEffect(() => {
     const Verify = async () => {
@@ -43,16 +44,14 @@ export default function Board() {
     axios.get(`${server}/boards`).then((res) => {
       setBoards(res.data);
       setGetAll(all);
-      
     });
   };
   const getCompany = () => {
     axios.get(`${usServer}/company`).then((res) => {
       setCompany(res.data);
-
     });
   };
-  const getBoardCompany = async() => {
+  const getBoardCompany = async () => {
     // console.log("get");
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
@@ -64,7 +63,6 @@ export default function Board() {
         .then((res) => {
           if (res.data) {
             setBoards(res.data);
-            
           }
         });
     } else {

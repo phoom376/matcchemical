@@ -6,6 +6,7 @@ import cookie from "js-cookie";
 import Link from "next/link";
 import dayjs from "dayjs";
 const Swal = require("sweetalert2");
+import Head from "next/head";
 
 const Login = () => {
   const [now, setNow] = useState();
@@ -99,6 +100,15 @@ const Login = () => {
     } else {
       return (
         <div className="center">
+          <Head>
+            <meta charSet="UTF-8" />
+            <meta
+              http-equiv="Content-Security-Policy"
+              content="upgrade-insecure-requests"
+            />
+            <title>MATCHCHEMICAL</title>
+            <link rel="icon" href="/new2.png" />
+          </Head>
           <div className="main">
             <div className="login-form">
               <div className="logo-box">
