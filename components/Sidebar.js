@@ -15,7 +15,7 @@ import {
 import { BiLogOut } from "react-icons/bi";
 import classnames from "classnames";
 import Link from "next/link";
-import Head from 'next/head'
+import Head from "next/head";
 const Swal = require("sweetalert2");
 
 const Sidebar = ({ children }) => {
@@ -91,7 +91,10 @@ const Sidebar = ({ children }) => {
         <>
           <Head>
             <meta charSet="UTF-8" />
-
+            <meta
+              http-equiv="Content-Security-Policy"
+              content="upgrade-insecure-requests"
+            />
             <title>MATCHCHEMICAL</title>
             <link rel="icon" href="/new2.png" />
           </Head>
