@@ -142,8 +142,8 @@
   text-align: left;
   padding: 15px;
   color: #5c459b;
-  -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
-          box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
@@ -171,8 +171,8 @@
       align-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
-          box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   background-color: #63c8e7;
 }

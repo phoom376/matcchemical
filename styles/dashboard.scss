@@ -1,0 +1,22 @@
+.dashboard-status {
+  .box {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    width: 250px;
+    // background-color: #63c8e7;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+    .title {
+      font-size: 20px;
+    }
+  }
+
+  .B_online {
+    background-color: #1d9fc5;
+  }
+  .B_offline {
+    background-color: #ff5148;
+  }
+}
