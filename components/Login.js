@@ -42,8 +42,8 @@ const Login = () => {
   const cookieCheck = async () => {
     const token = await cookie.get("token");
     if (token) {
-      Router.push("/board");
-      <Link to="/board" />;
+      Router.push("/dashboard");
+      <Link to="/dashboard" />;
     }
   };
 
@@ -78,8 +78,8 @@ const Login = () => {
             } else {
               wait.close();
               cookie.set("token", res.data.token);
-              Router.push("/board");
-              <Link to="/board" />;
+              Router.push("/dashboard");
+              <Link to="/dashboard" />;
             }
           });
       } catch (err) {
