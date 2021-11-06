@@ -194,7 +194,7 @@ body {
 }
 
 .sidebar .profile #logout {
-  font-size: 45px;
+  font-size: 35px;
   margin-right: 10px;
   left: 0;
   text-align: center;
@@ -211,7 +211,7 @@ body {
 }
 
 .sidebar .profile .ic {
-  font-size: 35px;
+  font-size: 25px;
   color: white;
   margin-right: 5px;
 }
