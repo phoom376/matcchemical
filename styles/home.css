@@ -113,7 +113,7 @@ body {
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   border-radius: 12px;
-  padding: 5px 10px 5px 0px;
+  padding: 5px 0px 5px 0px;
 }
 
 .sidebar .nav_list li a .ic {
