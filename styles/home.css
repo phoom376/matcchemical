@@ -50,7 +50,7 @@ body {
 .sidebar #btn {
   position: absolute;
   left: 50%;
-  top: 20px;
+  top: 21px;
   font-size: 20px;
   color: white;
   height: 20px;
@@ -217,7 +217,7 @@ body {
 }
 
 .sidebar.active {
-  width: 290px;
+  width: 270px;
 }
 
 .sidebar.active .logo_content .logo .icon {
