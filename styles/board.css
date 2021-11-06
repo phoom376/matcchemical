@@ -2,18 +2,14 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 10px;
   width: 100%;
 }
 
 .box_board .board {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background-color: #26c9ff;
   width: 100%;
   background-size: cover;
   background-position: center;
@@ -25,7 +21,7 @@
 }
 
 .box_board .board .board-header {
-  background-color: #8fe3ff;
+  background-color: #63c8e7;
   color: white;
   margin: 10px;
   padding: 10px;
@@ -45,11 +41,11 @@
 }
 
 .box_board .board .board-header .board-status .online {
-  color: #04cc04;
+  color: #00c80a;
 }
 
 .box_board .board .board-header .board-status .offline {
-  color: #eb0000;
+  color: #ff2115;
 }
 
 .box_board .board .board-header .time {
@@ -69,7 +65,7 @@
 
 .box_board .board .button-box .box {
   margin: 10px;
-  background-color: #8fe3ff;
+  background-color: #63c8e7;
   color: white;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
@@ -122,11 +118,6 @@
   border-radius: 50%;
 }
 
-.box_board .board .button-box .box .success {
-  color: seagreen;
-  border-color: seagreen;
-}
-
 .box_board .board .button-box .box #set {
   width: 100%;
   padding: 5px;
@@ -166,6 +157,7 @@
 
 .box_board .board .board-box {
   margin: 10px;
+  color: white;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -182,7 +174,7 @@
   -webkit-box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
           box-shadow: 0px 0px 8px 5px rgba(92, 69, 155, 0.1);
   border-radius: 10px;
-  background-color: #8fe3ff;
+  background-color: #63c8e7;
 }
 
 .box_board .board .board-box div {
@@ -197,6 +189,14 @@
 .box_board .board .board-box div .title {
   font-size: 15px;
   font-weight: bold;
+}
+
+.box_board .B_online {
+  background-color: #1d9fc5;
+}
+
+.box_board .B_offline {
+  background-color: #ff5148;
 }
 
 @media screen and (max-device-width: 375px) {

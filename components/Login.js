@@ -13,6 +13,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [online, setOnline] = useState(false);
 
+  // const server = "https://userlogapi.herokuapp.com";
+  const server = "http://home420.trueddns.com:57521";
+
   useEffect(() => {
     const Verify = async () => {
       await cookieCheck();
@@ -59,7 +62,7 @@ const Login = () => {
 
       try {
         await axios
-          .post("https://userlogapi.herokuapp.com/login", {
+          .post(`${server}/login`, {
             email: email,
             password: password,
           })

@@ -161,7 +161,7 @@ const Sidebar = ({ children }) => {
 
               <div className="profile">
                 <FaUserCircle className="ic" />
-                <span className="profile_name">{username}</span>
+                <p className="profile_name">{username}</p>
                 <BiLogOut id="logout" onClick={logout} />
               </div>
             </div>

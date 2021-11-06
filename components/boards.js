@@ -358,7 +358,18 @@ const boards = ({ boards }) => {
       // console.log(tmpDT.getHours());
 
       return (
-        <div className="board" key={i._id}>
+        <div
+          className={`board ${
+            tmpDT.getFullYear() !== now.getFullYear() ||
+            tmpDT.getDate() !== now.getDate() ||
+            tmpDT.getDay() !== now.getDay() ||
+            tmpDT.getHours() !== now.getHours() ||
+            tmpDT.getMinutes() !== now.getMinutes()
+              ? "B_offline"
+              : "B_online"
+          }`}
+          key={i._id}
+        >
           <div className="mb-3 ">
             <div className="board-header">
               <p className="board-title">

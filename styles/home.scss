@@ -3,7 +3,6 @@ body {
   min-height: 100vh;
   width: 100%;
   overflow: auto;
-  
 }
 
 .sidebar {
@@ -11,13 +10,14 @@ body {
   top: 0;
   left: 0;
   height: 100%;
-  width: 80px;
-  background-color: #2364b9;
+  width: 60px;
+  background-color: #1d9fc5;
   padding: 6px 14px;
   transition: all 0.5s ease;
   z-index: +1;
 
   .logo_content {
+
     .logo {
       color: #fff;
       display: flex;
@@ -57,12 +57,16 @@ body {
     transform: translateX(-50%);
   }
   .nav_list {
-    margin-top: 20px;
+    margin-top: 30px;
+    
+    // border: 1px black solid;
+
     li {
       position: relative;
       height: 50px;
       width: 100%;
-      margin: 0px 5px;
+      margin-left: 5px;
+      // margin: 0px 5px;
       list-style: none;
       .search {
         position: relative;
@@ -72,7 +76,7 @@ body {
           position: absolute;
           top: 7px;
           left: 10px;
-          font-size: 20px;
+          font-size: 10px;
           color: white;
         }
 
@@ -97,12 +101,13 @@ body {
       a {
         color: #fff;
         display: flex;
-        align-items: center;
+        // align-items: center;
         text-decoration: none;
         transition: all 0.4s ease;
         border-radius: 12px;
-        margin-right: 5px;
-        padding: 5px 10px 5px 10px;
+        // margin-right: 5px;
+        // padding: 10px;
+        padding: 5px 10px 5px 0px;
         .ic {
           margin-right: 30px;
           height: 20px;
@@ -119,6 +124,7 @@ body {
       a:hover {
         color: #11101d;
         background: white;
+        // padding: 10px;
       }
 
       .t-tip {
@@ -154,17 +160,19 @@ body {
     position: absolute;
     display: flex;
     align-items: center;
-    justify-content: center ;
+    justify-content: center;
     flex-wrap: wrap;
     bottom: 0px;
     left: 0px;
     padding: 0px 0px 20px 5px;
     .profile_name {
+      // border: 1px black solid;
       text-align: center;
       margin-top: 10px;
       margin-bottom: 10px;
+
       // padding: 5px;
-      font-size: 12px;
+      font-size: 0.5rem;
       color: white;
     }
     .ic {
@@ -174,7 +182,7 @@ body {
     #logout {
       font-size: 45px;
       // position: relative;
-      margin-right: 15px;
+      margin-right: 10px;
       // border: 0.5px white solid;
       left: 0;
       // top: 20px;
@@ -194,15 +202,14 @@ body {
       background: white;
     }
     .ic {
-      font-size: 30px;
+      font-size: 35px;
       color: white;
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
 
   &.active {
     width: 290px;
-
 
     .logo_content {
       .logo {
@@ -251,7 +258,7 @@ body {
 
     .profile {
       display: flex;
-      justify-content: start ;
+      justify-content: start;
       #logout {
         position: absolute;
         right: 0px;
@@ -268,22 +275,23 @@ body {
 }
 
 .home_content {
-  // background-image: linear-gradient(to bottom right, #5c459b ,#0ca3dd
-  // );
+  overflow: auto;
+  background-image: linear-gradient(to bottom right, #5c459b, #0ca3dd);
   // background-color: #48a8e4;
+  color: white;
   position: relative;
   min-height: 100vh;
   height: auto;
-  width: calc(100% - 80px);
-  left: 80px;
+  width: calc(100% - 60px);
+  left: 60px;
   // z-index: -1;
   transition: all 0.5s ease;
   .home_page {
     // padding: 40px;
   }
   &.active {
-    width: calc(100% - 290px);
+    width: calc(100% - 270px);
 
-    left: 290px;
+    left: 270px;
   }
 }

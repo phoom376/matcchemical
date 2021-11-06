@@ -10,8 +10,8 @@ body {
   top: 0;
   left: 0;
   height: 100%;
-  width: 80px;
-  background-color: #2364b9;
+  width: 60px;
+  background-color: #1d9fc5;
   padding: 6px 14px;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
@@ -63,14 +63,14 @@ body {
 }
 
 .sidebar .nav_list {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .sidebar .nav_list li {
   position: relative;
   height: 50px;
   width: 100%;
-  margin: 0px 5px;
+  margin-left: 5px;
   list-style: none;
 }
 
@@ -84,7 +84,7 @@ body {
   position: absolute;
   top: 7px;
   left: 10px;
-  font-size: 20px;
+  font-size: 10px;
   color: white;
 }
 
@@ -110,15 +110,11 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   text-decoration: none;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   border-radius: 12px;
-  margin-right: 5px;
-  padding: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 0px;
 }
 
 .sidebar .nav_list li a .ic {
@@ -189,7 +185,7 @@ body {
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 0.5rem;
   color: white;
 }
 
@@ -199,7 +195,7 @@ body {
 
 .sidebar .profile #logout {
   font-size: 45px;
-  margin-right: 15px;
+  margin-right: 10px;
   left: 0;
   text-align: center;
   cursor: pointer;
@@ -215,9 +211,9 @@ body {
 }
 
 .sidebar .profile .ic {
-  font-size: 30px;
+  font-size: 35px;
   color: white;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .sidebar.active {
@@ -279,17 +275,21 @@ body {
 }
 
 .home_content {
+  overflow: auto;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#5c459b), to(#0ca3dd));
+  background-image: linear-gradient(to bottom right, #5c459b, #0ca3dd);
+  color: white;
   position: relative;
   min-height: 100vh;
   height: auto;
-  width: calc(100% - 80px);
-  left: 80px;
+  width: calc(100% - 60px);
+  left: 60px;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 
 .home_content.active {
-  width: calc(100% - 290px);
-  left: 290px;
+  width: calc(100% - 270px);
+  left: 270px;
 }
 /*# sourceMappingURL=home.css.map */
