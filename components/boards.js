@@ -310,6 +310,33 @@ const boards = ({ boards }) => {
     }
   };
 
+  const alertCheck = (id, name, valve, waterFlow) => {
+    console.log(valve, waterFlow);
+    if (valve === 0 && waterFlow > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "PUMP ALERT",
+        text: `BOARD NAME: ${name}`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.close();
+    }
+
+    if (valve === 1 && waterFlow === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "PUMP ALERT",
+        text: `BOARD NAME: ${name}`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.close();
+    }
+  };
+
   const handleTimerDelete = (type, b_id, id) => {
     console.log(b_id, id);
     Swal.fire({
@@ -352,6 +379,8 @@ const boards = ({ boards }) => {
       const bclTimer = i.bclTimers;
       const b_id = i._id;
       const boardName = i.b_name;
+
+      alertCheck(i._id, i.b_name, i.valve, i.flow);
 
       // console.log(now.getHours());
       // console.log(dateTime);
@@ -398,73 +427,69 @@ const boards = ({ boards }) => {
             </div>
 
             <div className="board-box">
-              {i.ph > 0 && (
-                <div>
-                  <p className="title">PH</p>
-                  <br />
-                  <div className="progress-box">
-                    <CircularProgressbar
-                      value={i.ph}
-                      maxValue={14}
-                      circleRatio={0.7}
-                      styles={{
-                        trail: {
-                          strokeLinecap: "butt",
-                          transform: "rotate(-126deg)",
-                          transformOrigin: "center center",
-                        },
+              <div>
+                <p className="title">PH</p>
+                <br />
+                <div className="progress-box">
+                  <CircularProgressbar
+                    value={i.ph}
+                    maxValue={14}
+                    circleRatio={0.7}
+                    styles={{
+                      trail: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                      },
 
-                        path: {
-                          strokeLinecap: "butt",
-                          transform: "rotate(-126deg)",
-                          transformOrigin: "center center",
-                          stroke: "#5c459b",
-                        },
-                        text: {
-                          fill: "#05ace3",
-                          fontSize: "15px",
-                        },
-                      }}
-                      strokeWidth={10}
-                      text={`${i.ph} PH`}
-                    />
-                  </div>
+                      path: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                        stroke: "#5c459b",
+                      },
+                      text: {
+                        fill: "#05ace3",
+                        fontSize: "15px",
+                      },
+                    }}
+                    strokeWidth={10}
+                    text={`${i.ph} PH`}
+                  />
                 </div>
-              )}
+              </div>
 
-              {i.ec > 0 && (
-                <div>
-                  <p className="title">EC</p>
-                  <br />
-                  <div className="progress-box">
-                    <CircularProgressbar
-                      value={i.ec}
-                      maxValue={10000}
-                      circleRatio={0.7}
-                      styles={{
-                        trail: {
-                          strokeLinecap: "butt",
-                          transform: "rotate(-126deg)",
-                          transformOrigin: "center center",
-                        },
+              <div>
+                <p className="title">EC</p>
+                <br />
+                <div className="progress-box">
+                  <CircularProgressbar
+                    value={i.ec}
+                    maxValue={10000}
+                    circleRatio={0.7}
+                    styles={{
+                      trail: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                      },
 
-                        path: {
-                          strokeLinecap: "butt",
-                          transform: "rotate(-126deg)",
-                          transformOrigin: "center center",
-                          stroke: "#5c459b",
-                        },
-                        text: {
-                          fill: "#05ace3",
-                          fontSize: "12px",
-                        },
-                      }}
-                      strokeWidth={10}
-                      text={`${i.ec} MS/CM`}
-                    />
-                  </div>
+                      path: {
+                        strokeLinecap: "butt",
+                        transform: "rotate(-126deg)",
+                        transformOrigin: "center center",
+                        stroke: "#5c459b",
+                      },
+                      text: {
+                        fill: "#05ace3",
+                        fontSize: "12px",
+                      },
+                    }}
+                    strokeWidth={10}
+                    text={`${i.ec} MS/CM`}
+                  />
                 </div>
-              )}
+              </div>
 
               <div>
                 <p className="title">WATER FLOW</p>
@@ -621,7 +646,8 @@ const boards = ({ boards }) => {
                         tmpDT.getHours() !== now.getHours() ||
                         tmpDT.getMinutes() !== now.getMinutes() ||
                         i.valvePh ||
-                        i.valveTimer
+                        i.valveTimer ||
+                        i.valveEc
                       }
                     >
                       ON
@@ -629,69 +655,65 @@ const boards = ({ boards }) => {
                   )}
                 </div>
 
-                {i.ph > 0 && (
-                  <div className="form-check form-switch mb-2 ">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                      onChange={() =>
-                        upDateValveControl(
-                          i._id,
-                          "valvePh",
-                          i.valve,
-                          i.valvePh,
-                          i.valveEc,
-                          i.valveTimer
-                        )
-                      }
-                      disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes() ||
-                        i.valveTimer ||
-                        i.valveEc
-                      }
-                      checked={i.valvePh}
-                    />
-                    <label className="form-check-label">PH</label>
-                  </div>
-                )}
+                <div className="form-check form-switch mb-2 ">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    onChange={() =>
+                      upDateValveControl(
+                        i._id,
+                        "valvePh",
+                        i.valve,
+                        i.valvePh,
+                        i.valveEc,
+                        i.valveTimer
+                      )
+                    }
+                    disabled={
+                      tmpDT.getFullYear() !== now.getFullYear() ||
+                      tmpDT.getDate() !== now.getDate() ||
+                      tmpDT.getDay() !== now.getDay() ||
+                      tmpDT.getHours() !== now.getHours() ||
+                      tmpDT.getMinutes() !== now.getMinutes() ||
+                      i.valveTimer ||
+                      i.valveEc
+                    }
+                    checked={i.valvePh}
+                  />
+                  <label className="form-check-label">PH</label>
+                </div>
 
-                {i.ec > 0 && (
-                  <div className="form-check form-switch mb-2 ">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                      onChange={() =>
-                        upDateValveControl(
-                          i._id,
-                          "valveEc",
-                          i.valve,
-                          i.valvePh,
-                          i.valveEc,
-                          i.valveTimer
-                        )
-                      }
-                      disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes() ||
-                        i.valveTimer ||
-                        i.valvePh
-                      }
-                      checked={i.valveEc}
-                    />
-                    <label className="form-check-label">EC</label>
-                  </div>
-                )}
+                <div className="form-check form-switch mb-2 ">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    onChange={() =>
+                      upDateValveControl(
+                        i._id,
+                        "valveEc",
+                        i.valve,
+                        i.valvePh,
+                        i.valveEc,
+                        i.valveTimer
+                      )
+                    }
+                    disabled={
+                      tmpDT.getFullYear() !== now.getFullYear() ||
+                      tmpDT.getDate() !== now.getDate() ||
+                      tmpDT.getDay() !== now.getDay() ||
+                      tmpDT.getHours() !== now.getHours() ||
+                      tmpDT.getMinutes() !== now.getMinutes() ||
+                      i.valveTimer ||
+                      i.valvePh
+                    }
+                    checked={i.valveEc}
+                  />
+                  <label className="form-check-label">EC</label>
+                </div>
 
                 <div className="form-check form-switch">
                   <input
