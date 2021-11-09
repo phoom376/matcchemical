@@ -324,7 +324,7 @@ const boards = ({ boards }) => {
       Swal.close();
     }
 
-    if (valve === 1 && waterFlow === 0) {
+    if (valve === 1 && waterFlow <= 0) {
       Swal.fire({
         icon: "error",
         title: "PUMP ALERT",
