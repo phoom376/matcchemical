@@ -22,6 +22,7 @@ const Sidebar = ({ children }) => {
   const [username, setUsername] = useState(Cookies.get("username"));
   const [open, setOpen] = useState(true);
   const [auth, setAuth] = useState(false);
+  const [online, setOnline] = useState(true);
 
   const logout = async () => {
     const wait = Swal.fire({
@@ -53,8 +54,17 @@ const Sidebar = ({ children }) => {
       // }
     };
 
+    const ic = setInterval(() => {
+      internetCheck();
+    }, 1000);
+
     Verify();
   }, []);
+
+  const internetCheck = () => {
+    const iCheck = navigator.onLine;
+    setOnline(iCheck);
+  };
 
   const CookieCheck = () => {
     if (!Cookies.get("token")) {
@@ -168,9 +178,13 @@ const Sidebar = ({ children }) => {
                 <BiLogOut id="logout" onClick={logout} />
               </div>
             </div>
-            <div className={classnames("home_content", { active: open })}>
-              <div className="home_page">{children}</div>
-            </div>
+            {online ? (
+              <div className={classnames("home_content", { active: open })}>
+                <div className="home_page">{children}</div>
+              </div>
+            ) : (
+              <div className={classnames("home_content", { active: open })}>PLEASE CONNECT INTERNET</div>
+            )}
           </div>
           <footer></footer>
         </>
