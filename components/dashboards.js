@@ -36,7 +36,14 @@ const Dashboards = ({ boards }) => {
                   )}
                 </p>
 
-                <p>PH: {i.ph} EC:{i.ec}</p>
+                <p>
+                  PH: {i.ph} EC:{i.ec}
+                </p>
+                {i.valve === 1 && i.flow <= 0 && (
+                  <div className="alert">
+                    <span>PUMP ALERT</span>
+                  </div>
+                )}
               </div>
             </div>
           );

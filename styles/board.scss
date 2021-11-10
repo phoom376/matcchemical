@@ -35,7 +35,6 @@
       border-radius: 10px;
       box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
 
-
       .board-title {
         font-size: 25px;
         font-weight: bold;
@@ -104,6 +103,18 @@
             font-size: 20px;
             font-weight: bold;
           }
+
+          .alert {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            background-color:#ff2115 ;
+            font-weight: bold;
+            height: 50px;
+            box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease-in-out;
+          }
         }
 
         .btn {
@@ -112,7 +123,6 @@
           border-radius: 50%;
         }
 
-       
         #set {
           width: 100%;
           padding: 5px;

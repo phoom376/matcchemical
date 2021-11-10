@@ -313,25 +313,25 @@ const boards = ({ boards }) => {
   const alertCheck = (id, name, valve, waterFlow) => {
     console.log(valve, waterFlow);
     if (valve === 0 && waterFlow > 0) {
-      Swal.fire({
-        icon: "error",
-        title: "PUMP ALERT",
-        text: `BOARD NAME: ${name}`,
-        allowOutsideClick: false,
-        showConfirmButton: false,
-      });
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "PUMP ALERT",
+      //   text: `BOARD NAME: ${name}`,
+      //   allowOutsideClick: false,
+      //   showConfirmButton: false,
+      // });
     } else {
       Swal.close();
     }
 
     if (valve === 1 && waterFlow <= 0) {
-      Swal.fire({
-        icon: "error",
-        title: "PUMP ALERT",
-        text: `BOARD NAME: ${name}`,
-        allowOutsideClick: false,
-        showConfirmButton: false,
-      });
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "PUMP ALERT",
+      //   text: `BOARD NAME: ${name}`,
+      //   allowOutsideClick: false,
+      //   showConfirmButton: false,
+      // });
     } else {
       Swal.close();
     }
@@ -450,7 +450,7 @@ const boards = ({ boards }) => {
                       },
                       text: {
                         fill: "#05ace3",
-                        fontSize: "15px",
+                        fontSize: "12px",
                       },
                     }}
                     strokeWidth={10}
@@ -486,7 +486,7 @@ const boards = ({ boards }) => {
                       },
                     }}
                     strokeWidth={10}
-                    text={`${i.ec} MS/CM`}
+                    text={`${i.ec} MS`}
                   />
                 </div>
               </div>
@@ -518,7 +518,7 @@ const boards = ({ boards }) => {
                       },
                       text: {
                         fill: "#05ace3",
-                        fontSize: "15px",
+                        fontSize: "12px",
                       },
                     }}
                     strokeWidth={10}
@@ -549,7 +549,7 @@ const boards = ({ boards }) => {
                       },
                       text: {
                         fill: "#05ace3",
-                        fontSize: "15px",
+                        fontSize: "12px",
                       },
                     }}
                     strokeWidth={10}
@@ -599,6 +599,11 @@ const boards = ({ boards }) => {
               <div className="box">
                 <div className="box-title">
                   <p className="button-title">VALVE</p>
+                  {i.valve === 1 && i.flow <= 0 && (
+                    <div className="alert">
+                      <span>PUMP ALERT</span>
+                    </div>
+                  )}
                   {i.valve === 0 ? (
                     <button
                       type="button"

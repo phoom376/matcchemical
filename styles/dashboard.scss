@@ -12,6 +12,18 @@
     .title {
       font-size: 20px;
     }
+
+    .alert {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      background-color:#ff2115 ;
+      font-weight: bold;
+      height: 50px;
+      box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.5s ease-in-out;
+    }
   }
 
   .B_online {
