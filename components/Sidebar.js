@@ -22,7 +22,7 @@ const Sidebar = ({ children }) => {
   const [username, setUsername] = useState(Cookies.get("username"));
   const [open, setOpen] = useState(true);
   const [auth, setAuth] = useState(false);
-  const [online, setOnline] = useState(false);
+  const [online, setOnline] = useState(true);
 
   const logout = async () => {
     const wait = Swal.fire({
@@ -183,7 +183,7 @@ const Sidebar = ({ children }) => {
                 <div className="home_page">{children}</div>
               </div>
             ) : (
-              <div className={classnames("home_content center", { active: open })}><h1>PLEASE CONNECT INTERNET</h1></div>
+              <div className={classnames("home_content", { active: open })}><h1>PLEASE CONNECT INTERNET</h1></div>
             )}
           </div>
           <footer></footer>

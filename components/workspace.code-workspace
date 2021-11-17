@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "..\\.."
+		},
+		{
+			"name": "WaterControl",
+			"path": "C:\\Users\\chaiw\\Documents\\PlatformIO\\Projects\\WaterControl"
+		},
+		{
+			"name": "WaterControl",
+			"path": "..\\..\\..\\matchchemical_arduino\\WaterControl\\WaterControl"
+		}
+	],
+	"settings": {}
+}

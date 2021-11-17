@@ -373,12 +373,62 @@ const boards = ({ boards }) => {
     if (i.ph !== null) {
       const flow = Number(i.flow);
       const dateTime = i.uDate;
-      const now = new Date();
-      const tmpDT = new Date(dateTime);
+      const now = Date(Date.now);
+      const tmpDT = dateTime.split(" ");
+      const tmpNow = now.split(" ");
       const valveTimer = i.valveTimers;
       const bclTimer = i.bclTimers;
       const b_id = i._id;
       const boardName = i.b_name;
+      const nTime = tmpNow[4].toString();
+      const nDay = tmpNow[2].toString();
+      const nYear = tmpNow[3].toString();
+      const nTmpTime = nTime.split(":");
+      const nHour = nTmpTime[0];
+      const nMin = nTmpTime[1];
+      const nSec = nTmpTime[2];
+      const time = tmpDT[4].toString();
+      const day = tmpDT[2].toString();
+      const year = tmpDT[3].toString();
+      const tmpTime = time.split(":");
+      const Hour = tmpTime[0];
+      const Min = tmpTime[1];
+      const Sec = tmpTime[2];
+      const Months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      let tmpMonth = 0;
+      let nTmpMonth = 0;
+      for (let i = 0; i < Months.length; i++) {
+        if (tmpDT[1] == Months[i]) {
+          tmpMonth = i + 1;
+        }
+        if (tmpNow[1] == Months[i]) {
+          nTmpMonth = i + 1;
+        }
+      }
+      const month = tmpMonth;
+      const nMonth = nTmpMonth;
+      const Disable =
+        nYear !== year ||
+        nMonth !== month ||
+        nDay !== day ||
+        nHour !== Hour ||
+        nMin !== Min;
+      console.log(Disable);
+      console.log(tmpNow);
+      console.log(day, month, year, Hour, Min, Sec);
 
       alertCheck(i._id, i.b_name, i.valve, i.flow);
 
@@ -388,15 +438,7 @@ const boards = ({ boards }) => {
 
       return (
         <div
-          className={`board ${
-            tmpDT.getFullYear() !== now.getFullYear() ||
-            tmpDT.getDate() !== now.getDate() ||
-            tmpDT.getDay() !== now.getDay() ||
-            tmpDT.getHours() !== now.getHours() ||
-            tmpDT.getMinutes() !== now.getMinutes()
-              ? "B_offline"
-              : "B_online"
-          }`}
+          className={`board ${Disable ? "B_offline" : "B_online"}`}
           key={i._id}
         >
           <div className="mb-3 ">
@@ -406,11 +448,7 @@ const boards = ({ boards }) => {
               </p>
               <p className="board-status">
                 BOARD STATUS:{" "}
-                {tmpDT.getFullYear() !== now.getFullYear() ||
-                tmpDT.getDate() !== now.getDate() ||
-                tmpDT.getDay() !== now.getDay() ||
-                tmpDT.getHours() !== now.getHours() ||
-                tmpDT.getMinutes() !== now.getMinutes() ? (
+                {Disable ? (
                   <span className="offline">OFFLINE</span>
                 ) : (
                   <span className="online">ONLINE</span>
@@ -420,8 +458,7 @@ const boards = ({ boards }) => {
               <p>
                 Last Time Update:{" "}
                 <span className="time">
-                  {tmpDT.getDay()}/{tmpDT.getMonth()}/{tmpDT.getFullYear()}{" "}
-                  {tmpDT.getHours()}:{tmpDT.getMinutes()}:{tmpDT.getSeconds()}
+                  {day}/{month}/{year} {Hour}:{Min}:{Sec}
                 </span>
               </p>
             </div>
@@ -568,13 +605,7 @@ const boards = ({ boards }) => {
                       type="button"
                       className="btn btn-outline-danger"
                       onClick={() => upDateSccControl(i._id, "SCC", 1)}
-                      disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes()
-                      }
+                      disabled={Disable}
                     >
                       OFF
                     </button>
@@ -583,13 +614,7 @@ const boards = ({ boards }) => {
                       type="button"
                       className="btn btn-outline-success"
                       onClick={() => upDateSccControl(i._id, "SCC", 0)}
-                      disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes()
-                      }
+                      disabled={Disable}
                     >
                       ON
                     </button>
@@ -619,14 +644,7 @@ const boards = ({ boards }) => {
                         )
                       }
                       disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes() ||
-                        i.valvePh ||
-                        i.valveTimer ||
-                        i.valveEc
+                        Disable || i.valvePh || i.valveTimer || i.valveEc
                       }
                     >
                       OFF
@@ -645,14 +663,7 @@ const boards = ({ boards }) => {
                         )
                       }
                       disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes() ||
-                        i.valvePh ||
-                        i.valveTimer ||
-                        i.valveEc
+                        Disable || i.valvePh || i.valveTimer || i.valveEc
                       }
                     >
                       ON
@@ -676,15 +687,7 @@ const boards = ({ boards }) => {
                         i.valveTimer
                       )
                     }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== now.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valveTimer ||
-                      i.valveEc
-                    }
+                    disabled={Disable || i.valveTimer || i.valveEc}
                     checked={i.valvePh}
                   />
                   <label className="form-check-label">PH</label>
@@ -706,15 +709,7 @@ const boards = ({ boards }) => {
                         i.valveTimer
                       )
                     }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== now.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valveTimer ||
-                      i.valvePh
-                    }
+                    disabled={Disable || i.valveTimer || i.valvePh}
                     checked={i.valveEc}
                   />
                   <label className="form-check-label">EC</label>
@@ -736,15 +731,7 @@ const boards = ({ boards }) => {
                         i.valveTimer
                       )
                     }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== now.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes() ||
-                      i.valvePh ||
-                      i.valveEc
-                    }
+                    disabled={Disable || i.valvePh || i.valveEc}
                     checked={i.valveTimer}
                   />
                   <label className="form-check-label">TIMER</label>
@@ -762,13 +749,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="14"
-                        disabled={
-                          tmpDT.getFullYear() !== now.getFullYear() ||
-                          tmpDT.getDate() !== now.getDate() ||
-                          tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== now.getHours() ||
-                          tmpDT.getMinutes() !== now.getMinutes()
-                        }
+                        disabled={Disable}
                         onChange={(e) => {
                           setPhStart(e.target.value);
                         }}
@@ -783,13 +764,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="14"
-                        disabled={
-                          tmpDT.getFullYear() !== now.getFullYear() ||
-                          tmpDT.getDate() !== now.getDate() ||
-                          tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== now.getHours() ||
-                          tmpDT.getMinutes() !== now.getMinutes()
-                        }
+                        disabled={Disable}
                         onChange={(e) => {
                           setPhStop(e.target.value);
                         }}
@@ -798,13 +773,7 @@ const boards = ({ boards }) => {
                     <div>
                       <button
                         id="set"
-                        disabled={
-                          tmpDT.getFullYear() !== now.getFullYear() ||
-                          tmpDT.getDate() !== now.getDate() ||
-                          tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== now.getHours() ||
-                          tmpDT.getMinutes() !== now.getMinutes()
-                        }
+                        disabled={Disable}
                         onClick={(e) =>
                           setValvePH(
                             e.preventDefault(),
@@ -831,13 +800,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="10000"
-                        disabled={
-                          tmpDT.getFullYear() !== now.getFullYear() ||
-                          tmpDT.getDate() !== now.getDate() ||
-                          tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== now.getHours() ||
-                          tmpDT.getMinutes() !== now.getMinutes()
-                        }
+                        disabled={Disable}
                         onChange={(e) => {
                           setEcStart(e.target.value);
                         }}
@@ -852,13 +815,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="10000"
-                        disabled={
-                          tmpDT.getFullYear() !== now.getFullYear() ||
-                          tmpDT.getDate() !== now.getDate() ||
-                          tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== now.getHours() ||
-                          tmpDT.getMinutes() !== now.getMinutes()
-                        }
+                        disabled={Disable}
                         onChange={(e) => {
                           setEcStop(e.target.value);
                         }}
@@ -867,13 +824,7 @@ const boards = ({ boards }) => {
                     <div>
                       <button
                         id="set"
-                        disabled={
-                          tmpDT.getFullYear() !== now.getFullYear() ||
-                          tmpDT.getDate() !== now.getDate() ||
-                          tmpDT.getDay() !== now.getDay() ||
-                          tmpDT.getHours() !== now.getHours() ||
-                          tmpDT.getMinutes() !== now.getMinutes()
-                        }
+                        disabled={Disable}
                         onClick={(e) =>
                           setValveEC(
                             e.preventDefault(),
@@ -898,13 +849,7 @@ const boards = ({ boards }) => {
                           <select
                             className="form-control"
                             id="valveType"
-                            disabled={
-                              tmpDT.getFullYear() !== now.getFullYear() ||
-                              tmpDT.getDate() !== now.getDate() ||
-                              tmpDT.getDay() !== now.getDay() ||
-                              tmpDT.getHours() !== tmpDT.getHours() ||
-                              tmpDT.getMinutes() !== now.getMinutes()
-                            }
+                            disabled={Disable}
                             defaultValue="Start"
                             onChange={(e) => {
                               setTimerType(e.target.value);
@@ -920,13 +865,7 @@ const boards = ({ boards }) => {
                           <select
                             className="form-control"
                             id="valveDay"
-                            disabled={
-                              tmpDT.getFullYear() !== now.getFullYear() ||
-                              tmpDT.getDate() !== now.getDate() ||
-                              tmpDT.getDay() !== now.getDay() ||
-                              tmpDT.getHours() !== tmpDT.getHours() ||
-                              tmpDT.getMinutes() !== now.getMinutes()
-                            }
+                            disabled={Disable}
                             onChange={(e) => {
                               setTimerDay(e.target.value);
                             }}
@@ -946,13 +885,7 @@ const boards = ({ boards }) => {
                           className="form-input"
                           defaultValue="00:00"
                           type="time"
-                          disabled={
-                            tmpDT.getFullYear() !== now.getFullYear() ||
-                            tmpDT.getDate() !== now.getDate() ||
-                            tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== tmpDT.getHours() ||
-                            tmpDT.getMinutes() !== now.getMinutes()
-                          }
+                          disabled={Disable}
                           onChange={(e) => {
                             setTimerTime(e.target.value);
                           }}
@@ -970,13 +903,7 @@ const boards = ({ boards }) => {
                               valveTimer.length
                             )
                           }
-                          disabled={
-                            tmpDT.getFullYear() !== now.getFullYear() ||
-                            tmpDT.getDate() !== now.getDate() ||
-                            tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== now.getHours() ||
-                            tmpDT.getMinutes() !== now.getMinutes()
-                          }
+                          disabled={Disable}
                         >
                           SET
                         </button>
@@ -1003,13 +930,7 @@ const boards = ({ boards }) => {
                                   onClick={() =>
                                     handleTimerDelete("valve", b_id, i._id)
                                   }
-                                  disabled={
-                                    tmpDT.getFullYear() !== now.getFullYear() ||
-                                    tmpDT.getDate() !== now.getDate() ||
-                                    tmpDT.getDay() !== now.getDay() ||
-                                    tmpDT.getHours() !== now.getHours() ||
-                                    tmpDT.getMinutes() !== now.getMinutes()
-                                  }
+                                  disabled={Disable}
                                 >
                                   Delete
                                 </button>
@@ -1032,14 +953,7 @@ const boards = ({ boards }) => {
                       onClick={() =>
                         upDateBclControl(i._id, "BCL", 1, i.bclTimer)
                       }
-                      disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes() ||
-                        i.bclTimer
-                      }
+                      disabled={Disable || i.bclTimer}
                     >
                       OFF
                     </button>
@@ -1050,14 +964,7 @@ const boards = ({ boards }) => {
                       onClick={() =>
                         upDateBclControl(i._id, "BCL", 0, i.bclTimer)
                       }
-                      disabled={
-                        tmpDT.getFullYear() !== now.getFullYear() ||
-                        tmpDT.getDate() !== now.getDate() ||
-                        tmpDT.getDay() !== now.getDay() ||
-                        tmpDT.getHours() !== now.getHours() ||
-                        tmpDT.getMinutes() !== now.getMinutes() ||
-                        i.bclTimer
-                      }
+                      disabled={Disable || i.bclTimer}
                     >
                       ON
                     </button>
@@ -1073,13 +980,7 @@ const boards = ({ boards }) => {
                     onChange={() =>
                       upDateBclControl(i._id, "bclTimer", i.bcl, i.bclTimer)
                     }
-                    disabled={
-                      tmpDT.getFullYear() !== now.getFullYear() ||
-                      tmpDT.getDate() !== now.getDate() ||
-                      tmpDT.getDay() !== now.getDay() ||
-                      tmpDT.getHours() !== now.getHours() ||
-                      tmpDT.getMinutes() !== now.getMinutes()
-                    }
+                    disabled={Disable}
                     checked={i.bclTimer}
                   />
                   <label className="form-check-label">TIMER</label>
@@ -1095,13 +996,7 @@ const boards = ({ boards }) => {
                           <select
                             className="form-control"
                             id="bclType"
-                            disabled={
-                              tmpDT.getFullYear() !== now.getFullYear() ||
-                              tmpDT.getDate() !== now.getDate() ||
-                              tmpDT.getDay() !== now.getDay() ||
-                              tmpDT.getHours() !== now.getHours() ||
-                              tmpDT.getMinutes() !== now.getMinutes()
-                            }
+                            disabled={Disable}
                             onChange={(e) => {
                               setTimerType(e.target.value);
                             }}
@@ -1114,13 +1009,7 @@ const boards = ({ boards }) => {
                           <select
                             className="form-control"
                             id="bclDay"
-                            disabled={
-                              tmpDT.getFullYear() !== now.getFullYear() ||
-                              tmpDT.getDate() !== now.getDate() ||
-                              tmpDT.getDay() !== now.getDay() ||
-                              tmpDT.getHours() !== now.getHours() ||
-                              tmpDT.getMinutes() !== now.getMinutes()
-                            }
+                            disabled={Disable}
                             onChange={(e) => {
                               setTimerDay(e.target.value);
                             }}
@@ -1140,13 +1029,7 @@ const boards = ({ boards }) => {
                           className="form-input"
                           defaultValue="00:00"
                           type="time"
-                          disabled={
-                            tmpDT.getFullYear() !== now.getFullYear() ||
-                            tmpDT.getDate() !== now.getDate() ||
-                            tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== now.getHours() ||
-                            tmpDT.getMinutes() !== now.getMinutes()
-                          }
+                          disabled={Disable}
                           onChange={(e) => {
                             setTimerTime(e.target.value);
                           }}
@@ -1164,13 +1047,7 @@ const boards = ({ boards }) => {
                               bclTimer.length
                             )
                           }
-                          disabled={
-                            tmpDT.getFullYear() !== now.getFullYear() ||
-                            tmpDT.getDate() !== now.getDate() ||
-                            tmpDT.getDay() !== now.getDay() ||
-                            tmpDT.getHours() !== now.getHours() ||
-                            tmpDT.getMinutes() !== now.getMinutes()
-                          }
+                          disabled={Disable}
                         >
                           SET
                         </button>
@@ -1197,13 +1074,7 @@ const boards = ({ boards }) => {
                                   onClick={() =>
                                     handleTimerDelete("bcl", b_id, i._id)
                                   }
-                                  disabled={
-                                    tmpDT.getFullYear() !== now.getFullYear() ||
-                                    tmpDT.getDate() !== now.getDate() ||
-                                    tmpDT.getDay() !== now.getDay() ||
-                                    tmpDT.getHours() !== now.getHours() ||
-                                    tmpDT.getMinutes() !== now.getMinutes()
-                                  }
+                                  disabled={Disable}
                                 >
                                   Delete
                                 </button>
