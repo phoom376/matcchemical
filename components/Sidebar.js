@@ -39,6 +39,7 @@ const Sidebar = ({ children }) => {
     });
 
     await Router.push("/");
+    <Link to="/" />;
     await wait.close();
   };
 
@@ -72,6 +73,7 @@ const Sidebar = ({ children }) => {
         Cookies.remove(e);
       });
       Router.push("/");
+      <Link to="/" />;
     }
   };
 
@@ -183,7 +185,7 @@ const Sidebar = ({ children }) => {
                 <div className="home_page">{children}</div>
               </div>
             ) : (
-              <div className={classnames("home_content", { active: open })}><h1>PLEASE CONNECT INTERNET</h1></div>
+              <div className={classnames("home_content centered", { active: open })}><h1>PLEASE CONNECT INTERNET</h1></div>
             )}
           </div>
           <footer></footer>
