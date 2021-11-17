@@ -12,10 +12,20 @@ import Cookies, { set } from "js-cookie";
 import Sidebar from "../components/Sidebar";
 import Login from "../components/Login";
 
-
 function MyApp({ Component, pageProps }) {
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    setInterval(() => {
+      getToken();
+    }, 1000);
+  });
+
+  const getToken = () => {
+    setToken(Cookies.get(token));
+  };
   const Pages = () => {
-    if (Cookies.get("token")) {
+    if (token !== "") {
       return (
         <>
           <Sidebar>
