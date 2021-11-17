@@ -53,22 +53,24 @@ export default function Board() {
   };
   const getBoardCompany = async () => {
     // console.log("get");
-    const tmpToken = Cookies.get("token");
-    const decode = jwt.decode(tmpToken);
+    const tmpToken = await Cookies.get("token");
+    const decode = await jwt.decode(tmpToken);
     await setComId(decode.c_id);
     if (!decode.c_id) {
       setLoading(false);
-      await axios
-        .post(`${server}/getBoardCompany`, { c_id: select })
-        .then((res) => {
-          if (res.data) {
-            setBoards(res.data);
-          }
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        });
+      if (select !== "") {
+        await axios
+          .post(`${server}/getBoardCompany`, { c_id: select })
+          .then((res) => {
+            if (res.data) {
+              setBoards(res.data);
+            }
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          });
+      }
     } else {
       await axios
         .post(`${server}/getBoardCompany`, { c_id: decode.c_id })

@@ -13,9 +13,22 @@ import Sidebar from "../components/Sidebar";
 import Login from "../components/Login";
 
 function MyApp({ Component, pageProps }) {
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  const tokenCheck = async () => {
+   
+    if (Cookies.get("token")) {
+      await setToken(Cookies.get("token"));
+      // window.location.reload(false);
+    }
+  };
 
   const Pages = () => {
-    if (Cookies.get("token")) {
+    if (token !== "") {
       return (
         <>
           <Sidebar>
@@ -24,7 +37,11 @@ function MyApp({ Component, pageProps }) {
         </>
       );
     } else {
-      return <Login />;
+      return (
+        <>
+          <Login />
+        </>
+      );
     }
   };
 

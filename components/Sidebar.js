@@ -24,6 +24,7 @@ const Sidebar = ({ children }) => {
   const [auth, setAuth] = useState(false);
   const [online, setOnline] = useState(true);
   const [token, setToken] = useState("");
+
   const logout = async () => {
     const wait = Swal.fire({
       title: "LOGOUT!",
@@ -39,7 +40,8 @@ const Sidebar = ({ children }) => {
     });
 
     await Router.push("/");
-    <Link to="/" />;
+
+    window.location.reload(true);
     await wait.close();
   };
 
@@ -47,19 +49,11 @@ const Sidebar = ({ children }) => {
     const Verify = async () => {
       await CookieCheck();
       await verifyToken();
-
-      // if (!Cookies.get("auth")) {
-      //   Object.keys(Cookies.get()).forEach((e) => {
-      //     Cookies.remove(e);
-      //   });
-      //   Router.push("/");
-      // }
     };
-
     const ic = setInterval(() => {
       internetCheck();
-    
     }, 1000);
+
     Verify();
   }, []);
 
@@ -74,7 +68,7 @@ const Sidebar = ({ children }) => {
         Cookies.remove(e);
       });
       Router.push("/");
-      <Link to="/" />;
+      // <Link to="/" />;
     }
   };
 
@@ -82,7 +76,7 @@ const Sidebar = ({ children }) => {
     const tmpToken = await Cookies.get("token");
     if (!Cookies.get("token")) {
       Router.push("/");
-      <Link to="/" />;
+      // <Link to="/" />;
     } else {
       const decode = jwt.decode(tmpToken);
 
@@ -192,7 +186,7 @@ const Sidebar = ({ children }) => {
               </div>
             ) : (
               <div
-                className={classnames("home_content centered", {
+                className={classnames("home_content", {
                   active: open,
                 })}
               >
@@ -204,7 +198,11 @@ const Sidebar = ({ children }) => {
         </>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <div className="center">
+          <h1 style={{ color: "white", fontWeight: "bold" }}>Loading...</h1>
+        </div>
+      );
     }
   };
 

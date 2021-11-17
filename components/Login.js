@@ -20,11 +20,6 @@ const Login = () => {
   useEffect(() => {
     const Verify = async () => {
       await cookieCheck();
-      if (navigator.onLine) {
-        setOnline(navigator.onLine);
-      } else {
-        setOnline(false);
-      }
     };
 
     setInterval(() => {
@@ -50,6 +45,8 @@ const Login = () => {
     if (token) {
       Router.push("/dashboard");
       <Link to="/dashboard" />;
+      window.close();
+      // window.location.reload(true);
     }
   };
 
@@ -66,7 +63,7 @@ const Login = () => {
           Swal.showLoading();
         },
       });
-
+      
       try {
         await axios
           .post(`${server}/login`, {
@@ -86,6 +83,9 @@ const Login = () => {
               cookie.set("token", res.data.token);
               Router.push("/dashboard");
               <Link to="/dashboard" />;
+              window.location.reload(true);
+              window.close();
+              // window.location.reload(false);
             }
           });
       } catch (err) {
@@ -101,78 +101,74 @@ const Login = () => {
   };
 
   const login = () => {
-
-      if (cookie.get("token")) {
-        return <div></div>;
-      } else {
-        return (
-          <div className="center">
-            <Head>
-              <meta charSet="UTF-8" />
-              <meta
-                http-equiv="Content-Security-Policy"
-                content="upgrade-insecure-requests"
-              />
-              <title>MATCHCHEMICAL</title>
-              <link rel="icon" href="/new2.png" />
-            </Head>
-            <div className="main">
-              <div className="login-form">
-                <div className="logo-box">
-                  <img
-                    className="logo"
-                    src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png"
-                  ></img>
-                </div>
-                <div className="form-box">
-                  <div className="title">
-                    <p id="logo">MATCHCHEMICAL</p>
-                    <p>Sign in</p>
-                  </div>
-                  <form onSubmit={handleSubmit}>
-                    <p style={{ fontWeight: "bold" }}>DateTime: {now}</p>
-                    <div className="mb-3">
-                      <label className="form-label">Email</label>
-                      <input
-                        className="form-control"
-                        type="email"
-                        name="email"
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                        }}
-                      ></input>
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label">Password</label>
-                      <input
-                        className="form-control"
-                        type="password"
-                        name="email"
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                        }}
-                      ></input>
-                    </div>
-                    <div className="mt-4">
-                      <button className="btn-login" type="submit">
-                        Login
-                      </button>
-                    </div>
-                  </form>
-                </div>
+    return (
+      <div className="center">
+        <Head>
+          <meta charSet="UTF-8" />
+          <meta
+            http-equiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
+          <title>MATCHCHEMICAL</title>
+          <link rel="icon" href="/new2.png" />
+        </Head>
+        <div className="main">
+          <div className="login-form">
+            <div className="logo-box">
+              <img
+                className="logo"
+                src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png"
+              ></img>
+            </div>
+            <div className="form-box">
+              <div className="title">
+                <p id="logo">MATCHCHEMICAL</p>
+                <p>Sign in</p>
               </div>
+              <form onSubmit={handleSubmit}>
+                <p style={{ fontWeight: "bold" }}>DateTime: {now}</p>
+                <div className="mb-3">
+                  <label className="form-label">Email</label>
+                  <input
+                    className="form-control"
+                    type="email"
+                    name="email"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Password</label>
+                  <input
+                    className="form-control"
+                    type="password"
+                    name="email"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className="mt-4">
+                  <button className="btn-login" type="submit">
+                    Login
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        );
-      }
-    
+        </div>
+      </div>
+    );
   };
   if (online) {
     return login();
   } else {
     return (
       <div className="center">
-        <h1 style={{color:"white",fontWeight:"bold"}}>PLEASE CONNECT INTERNET</h1>
+        <h1 style={{ color: "white", fontWeight: "bold" }}>
+          PLEASE CONNECT INTERNET
+        </h1>
       </div>
     );
   }
