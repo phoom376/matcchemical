@@ -13,19 +13,9 @@ import Sidebar from "../components/Sidebar";
 import Login from "../components/Login";
 
 function MyApp({ Component, pageProps }) {
-  const [token, setToken] = useState("");
 
-  useEffect(() => {
-    setInterval(() => {
-      getToken();
-    }, 1000);
-  });
-
-  const getToken = () => {
-    setToken(Cookies.get(token));
-  };
   const Pages = () => {
-    if (token !== "") {
+    if (Cookies.get("token")) {
       return (
         <>
           <Sidebar>

@@ -23,7 +23,7 @@ const Sidebar = ({ children }) => {
   const [open, setOpen] = useState(true);
   const [auth, setAuth] = useState(false);
   const [online, setOnline] = useState(true);
-
+  const [token, setToken] = useState("");
   const logout = async () => {
     const wait = Swal.fire({
       title: "LOGOUT!",
@@ -47,6 +47,7 @@ const Sidebar = ({ children }) => {
     const Verify = async () => {
       await CookieCheck();
       await verifyToken();
+
       // if (!Cookies.get("auth")) {
       //   Object.keys(Cookies.get()).forEach((e) => {
       //     Cookies.remove(e);
@@ -57,8 +58,8 @@ const Sidebar = ({ children }) => {
 
     const ic = setInterval(() => {
       internetCheck();
+    
     }, 1000);
-
     Verify();
   }, []);
 
@@ -79,6 +80,15 @@ const Sidebar = ({ children }) => {
 
   const verifyToken = async () => {
     const tmpToken = await Cookies.get("token");
+    if (!Cookies.get("token")) {
+      Router.push("/");
+      <Link to="/" />;
+    } else {
+      const decode = jwt.decode(tmpToken);
+
+      Cookies.set("username", decode.username);
+      setUsername(Cookies.get("username"));
+    }
 
     // await axios
     //   .post("https://userlogapi.herokuapp.com/auth", { token: tmpToken })
@@ -91,10 +101,6 @@ const Sidebar = ({ children }) => {
     //       setUsername(Cookies.get("username"));
     //     }
     //   });
-
-    const decode = jwt.decode(tmpToken);
-    Cookies.set("username", decode.username);
-    setUsername(Cookies.get("username"));
   };
 
   const Home = () => {
@@ -185,7 +191,13 @@ const Sidebar = ({ children }) => {
                 <div className="home_page">{children}</div>
               </div>
             ) : (
-              <div className={classnames("home_content centered", { active: open })}><h1>PLEASE CONNECT INTERNET</h1></div>
+              <div
+                className={classnames("home_content centered", {
+                  active: open,
+                })}
+              >
+                <h1>PLEASE CONNECT INTERNET</h1>
+              </div>
             )}
           </div>
           <footer></footer>
