@@ -46,6 +46,10 @@ const boards = ({ boards }) => {
           Swal.close();
           setPhStart(0);
           setPhStop(0);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
@@ -75,6 +79,10 @@ const boards = ({ boards }) => {
         })
         .then(() => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
@@ -124,6 +132,10 @@ const boards = ({ boards }) => {
           })
           .then(() => {
             Swal.close();
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
           });
       }
       if (ts === "bcl") {
@@ -137,6 +149,10 @@ const boards = ({ boards }) => {
           })
           .then(() => {
             Swal.close();
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
           });
       }
     } else {
@@ -163,6 +179,10 @@ const boards = ({ boards }) => {
         .post(`${server}/updateSccControl`, { b_id: id, type: type, scc: scc })
         .then((res) => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
@@ -193,6 +213,10 @@ const boards = ({ boards }) => {
         })
         .then(() => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
 
@@ -215,6 +239,10 @@ const boards = ({ boards }) => {
         })
         .then((res) => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
 
@@ -237,6 +265,10 @@ const boards = ({ boards }) => {
         })
         .then((res) => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
 
@@ -260,6 +292,10 @@ const boards = ({ boards }) => {
         })
         .then((res) => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
@@ -283,6 +319,10 @@ const boards = ({ boards }) => {
         })
         .then(() => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
 
@@ -306,6 +346,10 @@ const boards = ({ boards }) => {
         })
         .then((res) => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
@@ -355,6 +399,10 @@ const boards = ({ boards }) => {
         })
         .then(() => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
     if (type === "bcl") {
@@ -365,6 +413,10 @@ const boards = ({ boards }) => {
         })
         .then(() => {
           Swal.close();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
@@ -870,7 +922,7 @@ const boards = ({ boards }) => {
                               setTimerDay(e.target.value);
                             }}
                           >
-                            <option value="Everyday">Everyday</option>
+                            <option value="Everyday" selected>Everyday</option>
                             <option value="Sunday">Sunday</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
@@ -1014,7 +1066,7 @@ const boards = ({ boards }) => {
                               setTimerDay(e.target.value);
                             }}
                           >
-                            <option value="Everyday">Everyday</option>
+                            <option value="Everyday" selected>Everyday</option>
                             <option value="Sunday">Sunday</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>

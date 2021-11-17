@@ -64,6 +64,10 @@ export default function Board() {
           if (res.data) {
             setBoards(res.data);
           }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     } else {
       await axios
@@ -73,6 +77,10 @@ export default function Board() {
             setBoards(res.data);
             setLoading(false);
           }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     }
   };
