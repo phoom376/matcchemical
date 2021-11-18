@@ -12,6 +12,7 @@
 .box_board .select {
   border-color: #5c459b;
   text-align: center;
+  min-width: 200px;
   width: 100%;
   color: white;
   border-radius: 10px;
