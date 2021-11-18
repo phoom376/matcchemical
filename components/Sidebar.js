@@ -39,9 +39,9 @@ const Sidebar = ({ children }) => {
       Cookies.remove(e);
     });
 
-    await Router.push("/");
-
-    window.location.reload(true);
+    await Router.push("/login");
+    await (<Link to="/login" />);
+    // window.location.reload(true);
     await wait.close();
   };
 
@@ -62,21 +62,21 @@ const Sidebar = ({ children }) => {
     setOnline(iCheck);
   };
 
-  const CookieCheck = () => {
+  const CookieCheck = async () => {
     if (!Cookies.get("token")) {
       Object.keys(Cookies.get()).forEach((e) => {
         Cookies.remove(e);
       });
-      Router.push("/");
-      // <Link to="/" />;
+      await Router.push("/login");
+      await (<Link to="/login" />);
     }
   };
 
   const verifyToken = async () => {
     const tmpToken = await Cookies.get("token");
     if (!Cookies.get("token")) {
-      Router.push("/");
-      // <Link to="/" />;
+      await Router.push("/login");
+      await (<Link to="/login" />);
     } else {
       const decode = jwt.decode(tmpToken);
 
@@ -194,7 +194,6 @@ const Sidebar = ({ children }) => {
               </div>
             )}
           </div>
-          <footer></footer>
         </>
       );
     } else {

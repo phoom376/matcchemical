@@ -1,4 +1,7 @@
 .dashboard-status {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   margin: 10px;
 }
 
@@ -10,6 +13,7 @@
       -ms-flex-pack: center;
           justify-content: center;
   padding: 10px;
+  margin: 5px;
   border-radius: 10px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;

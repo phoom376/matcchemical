@@ -17,7 +17,6 @@ body {
   z-index: +1;
 
   .logo_content {
-
     .logo {
       color: #fff;
       display: flex;
@@ -58,7 +57,7 @@ body {
   }
   .nav_list {
     margin-top: 30px;
-    
+
     // border: 1px black solid;
 
     li {
@@ -275,7 +274,7 @@ body {
 }
 
 .home_content {
-  // overflow: none;
+  overflow: none;
   background-image: linear-gradient(to bottom right, #5c459b, #0ca3dd);
   // background-color: #48a8e4;
   color: white;
@@ -290,10 +289,9 @@ body {
     // padding: 40px;
   }
   &.active {
-    // overflow: auto;
+    overflow: auto;
     width: calc(100% - 270px);
 
     left: 270px;
   }
 }
-

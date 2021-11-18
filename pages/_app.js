@@ -10,25 +10,44 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies, { set } from "js-cookie";
 import Sidebar from "../components/Sidebar";
-import Login from "../components/Login";
-
+import Login from "./login";
+import Router from "next/router";
+import Link from "next/link";
 function MyApp({ Component, pageProps }) {
   const [token, setToken] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
-    tokenCheck();
+    const Verify = async () => {
+      await CookieCheck();
+      await tokenCheck();
+
+      // await getBoard();
+    };
+    Verify();
   }, []);
 
+  const CookieCheck = async () => {
+    if (!Cookies.get("token")) {
+      Object.keys(Cookies.get()).forEach((e) => {
+        Cookies.remove(e);
+      });
+      await Router.push("/login");
+      await (<Link to="/login" />);
+    }
+  };
   const tokenCheck = async () => {
-   
     if (Cookies.get("token")) {
       await setToken(Cookies.get("token"));
+      setIsLogin(true);
       // window.location.reload(false);
+    } else {
+      setIsLogin(false);
     }
   };
 
   const Pages = () => {
-    if (token !== "") {
+    if (Cookies.get("token")) {
       return (
         <>
           <Sidebar>
@@ -37,11 +56,7 @@ function MyApp({ Component, pageProps }) {
         </>
       );
     } else {
-      return (
-        <>
-          <Login />
-        </>
-      );
+      return <Component {...pageProps} />;
     }
   };
 

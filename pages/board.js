@@ -6,9 +6,12 @@ import Cookies, { set } from "js-cookie";
 import jwt from "jsonwebtoken";
 export default function Board() {
   const [boards, setBoards] = useState([]);
+  const [board, setBoard] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bLoading, setBLoading] = useState(true);
   const [company, setCompany] = useState([]);
   const [select, setSelect] = useState("");
+  const [b_Select, setB_Select] = useState("");
   const [comId, setComId] = useState("");
   const [getAll, setGetAll] = useState(false);
   // const server = "https://boardapi.herokuapp.com";
@@ -31,7 +34,7 @@ export default function Board() {
       // }
 
       // getBoard();
-
+      filterBoard();
       Verify();
     }, 1000);
 
@@ -39,6 +42,16 @@ export default function Board() {
       clearInterval(gProduct);
     };
   }, [boards]);
+
+  console.log(board);
+
+  const filterBoard = () => {
+    setBoard(
+      boards.filter((val) => {
+        return val.b_name === b_Select;
+      })
+    );
+  };
 
   const getBoard = (all) => {
     axios.get(`${server}/boards`).then((res) => {
@@ -79,6 +92,13 @@ export default function Board() {
             setBoards(res.data);
             setLoading(false);
           }
+          if (res.data && b_Select === "") {
+            setB_Select(res.data[0].b_name);
+            setBLoading(false);
+          }
+          if (b_Select !== "") {
+            setBLoading(false);
+          }
         })
         .catch(function (error) {
           // handle error
@@ -117,7 +137,27 @@ export default function Board() {
 
             {boards !== 0 && (
               <div style={{ textAlign: "center" }}>
-                <Boards boards={boards} />
+                <select
+                  class="select mb-2"
+                  onChange={(e) => setB_Select(e.target.value)}
+                >
+                  {boards.map((i) => {
+                    return (
+                      <>
+                        <option className="option" value={i.b_name}>
+                          {i.b_name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </select>
+                {bLoading || board.length === 0 ? (
+                  <div>
+                    <p>Loading...</p>
+                  </div>
+                ) : (
+                  <Boards boards={board} />
+                )}
               </div>
             )}
           </div>

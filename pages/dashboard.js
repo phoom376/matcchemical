@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Dashboards from "../components/dashboards";
 import Cookies, { set } from "js-cookie";
 import jwt from "jsonwebtoken";
-
-
+import Router from "next/router";
+import Link from "next/link";
 const Dashboard = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,8 @@ const Dashboard = () => {
   const server = "https://www.matchchemical.tk:57524";
 
   useEffect(() => {
-    const Verify = async() => {
+    const Verify = async () => {
+      await CookieCheck();
       await getBoardCompany();
 
       // await getBoard();
@@ -32,6 +33,16 @@ const Dashboard = () => {
       clearInterval(gProduct);
     };
   }, [boards]);
+
+  const CookieCheck = async () => {
+    if (!Cookies.get("token")) {
+      Object.keys(Cookies.get()).forEach((e) => {
+        Cookies.remove(e);
+      });
+      await Router.push("/login");
+      await (<Link to="/login" />);
+    }
+  };
 
   const getBoardCompany = async () => {
     // console.log("get");
@@ -59,22 +70,22 @@ const Dashboard = () => {
     }
   };
 
-  if(loading){
+  if (loading) {
     return (
       <div>
         <h1>Loading...</h1>
       </div>
     );
-  }else{
-
+  } else {
     return (
       <div>
-        <h1>Dashboard Page</h1>
+        <p style={{ marginLeft: "10px", fontSize: "30px" }}>
+          TOTAL BOARD : {boards.length}
+        </p>
         <Dashboards boards={boards} />
       </div>
     );
   }
-  
 };
 
 export default Dashboard;

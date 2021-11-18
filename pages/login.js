@@ -43,9 +43,9 @@ const Login = () => {
   const cookieCheck = async () => {
     const token = await cookie.get("token");
     if (token) {
-      Router.push("/dashboard");
-      <Link to="/dashboard" />;
-      window.close();
+      await Router.push("/dashboard");
+      await (<Link to="/dashboard" />);
+      // window.close();
       // window.location.reload(true);
     }
   };
@@ -63,7 +63,7 @@ const Login = () => {
           Swal.showLoading();
         },
       });
-      
+
       try {
         await axios
           .post(`${server}/login`, {
@@ -82,9 +82,9 @@ const Login = () => {
               wait.close();
               cookie.set("token", res.data.token);
               Router.push("/dashboard");
-              <Link to="/dashboard" />;
-              window.location.reload(true);
-              window.close();
+              // <Link to="/dashboard" />;
+              // window.location.reload(true);
+              // window.close();
               // window.location.reload(false);
             }
           });

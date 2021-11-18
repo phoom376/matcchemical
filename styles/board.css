@@ -9,6 +9,25 @@
   width: 100%;
 }
 
+.box_board .select {
+  padding: 8px 10px 8px 10px;
+  border-color: #5c459b;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%;
+  color: white;
+  background-color: #1d9fc5;
+  border-radius: 10px;
+  outline: #5c459b;
+}
+
+.box_board .select .option {
+  font-size: 18px;
+  border-color: #5c459b;
+  font-weight: bold;
+}
+
 .box_board .board {
   width: 100%;
   background-size: cover;

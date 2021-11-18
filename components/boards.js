@@ -430,7 +430,7 @@ const boards = ({ boards }) => {
       const tmpNow = now.split(" ");
       const valveTimer = i.valveTimers;
       const bclTimer = i.bclTimers;
-      const b_id = i._id;
+      const b_id = i.b_id;
       const boardName = i.b_name;
       const nTime = tmpNow[4].toString();
       const nDay = tmpNow[2].toString();
@@ -482,7 +482,7 @@ const boards = ({ boards }) => {
       console.log(tmpNow);
       console.log(day, month, year, Hour, Min, Sec);
 
-      alertCheck(i._id, i.b_name, i.valve, i.flow);
+      alertCheck(b_id, i.b_name, i.valve, i.flow);
 
       // console.log(now.getHours());
       // console.log(dateTime);
@@ -491,7 +491,7 @@ const boards = ({ boards }) => {
       return (
         <div
           className={`board ${Disable ? "B_offline" : "B_online"}`}
-          key={i._id}
+          key={b_id}
         >
           <div className="mb-3 ">
             <div className="board-header">
@@ -656,7 +656,7 @@ const boards = ({ boards }) => {
                     <button
                       type="button"
                       className="btn btn-outline-danger"
-                      onClick={() => upDateSccControl(i._id, "SCC", 1)}
+                      onClick={() => upDateSccControl(b_id, "SCC", 1)}
                       disabled={Disable}
                     >
                       OFF
@@ -665,7 +665,7 @@ const boards = ({ boards }) => {
                     <button
                       type="button"
                       className="btn btn-outline-success"
-                      onClick={() => upDateSccControl(i._id, "SCC", 0)}
+                      onClick={() => upDateSccControl(b_id, "SCC", 0)}
                       disabled={Disable}
                     >
                       ON
@@ -687,7 +687,7 @@ const boards = ({ boards }) => {
                       className="btn btn-outline-danger mb-3"
                       onClick={() =>
                         upDateValveControl(
-                          i._id,
+                          b_id,
                           "valve",
                           1,
                           i.valvePh,
@@ -707,7 +707,7 @@ const boards = ({ boards }) => {
                       className="btn btn-outline-success mb-3"
                       onClick={() =>
                         upDateValveControl(
-                          i._id,
+                          b_id,
                           "valve",
                           0,
                           i.valvePh,
@@ -731,7 +731,7 @@ const boards = ({ boards }) => {
                     id="flexSwitchCheckDefault"
                     onChange={() =>
                       upDateValveControl(
-                        i._id,
+                        b_id,
                         "valvePh",
                         i.valve,
                         i.valvePh,
@@ -753,7 +753,7 @@ const boards = ({ boards }) => {
                     id="flexSwitchCheckDefault"
                     onChange={() =>
                       upDateValveControl(
-                        i._id,
+                        b_id,
                         "valveEc",
                         i.valve,
                         i.valvePh,
@@ -775,7 +775,7 @@ const boards = ({ boards }) => {
                     id="flexSwitchCheckDefault"
                     onChange={() =>
                       upDateValveControl(
-                        i._id,
+                        b_id,
                         "valveTimer",
                         i.valve,
                         i.valvePh,
@@ -829,7 +829,7 @@ const boards = ({ boards }) => {
                         onClick={(e) =>
                           setValvePH(
                             e.preventDefault(),
-                            i._id,
+                            b_id,
                             "valvePhControl"
                           )
                         }
@@ -880,7 +880,7 @@ const boards = ({ boards }) => {
                         onClick={(e) =>
                           setValveEC(
                             e.preventDefault(),
-                            i._id,
+                            b_id,
                             "valveEcControl"
                           )
                         }
@@ -949,7 +949,7 @@ const boards = ({ boards }) => {
                           onClick={(e) =>
                             setDayTime(
                               e.preventDefault(),
-                              i._id,
+                              b_id,
                               "valve",
                               "addTimer",
                               valveTimer.length
@@ -1003,7 +1003,7 @@ const boards = ({ boards }) => {
                       type="button"
                       className="btn btn-outline-danger mb-3"
                       onClick={() =>
-                        upDateBclControl(i._id, "BCL", 1, i.bclTimer)
+                        upDateBclControl(b_id, "BCL", 1, i.bclTimer)
                       }
                       disabled={Disable || i.bclTimer}
                     >
@@ -1014,7 +1014,7 @@ const boards = ({ boards }) => {
                       type="button"
                       className="btn btn-outline-success mb-3"
                       onClick={() =>
-                        upDateBclControl(i._id, "BCL", 0, i.bclTimer)
+                        upDateBclControl(b_id, "BCL", 0, i.bclTimer)
                       }
                       disabled={Disable || i.bclTimer}
                     >
@@ -1030,7 +1030,7 @@ const boards = ({ boards }) => {
                     role="switch"
                     id="flexSwitchCheckDefault"
                     onChange={() =>
-                      upDateBclControl(i._id, "bclTimer", i.bcl, i.bclTimer)
+                      upDateBclControl(b_id, "bclTimer", i.bcl, i.bclTimer)
                     }
                     disabled={Disable}
                     checked={i.bclTimer}
@@ -1093,7 +1093,7 @@ const boards = ({ boards }) => {
                           onClick={(e) =>
                             setDayTime(
                               e.preventDefault(),
-                              i._id,
+                              b_id,
                               "bcl",
                               "addTimer",
                               bclTimer.length
