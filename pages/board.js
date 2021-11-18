@@ -1,9 +1,15 @@
 import axios from "axios";
+import * as React from "react";
 import { useEffect, useState } from "react";
 import Boards from "../components/boards";
 import Company from "../components/company";
 import Cookies, { set } from "js-cookie";
 import jwt from "jsonwebtoken";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 export default function Board() {
   const [boards, setBoards] = useState([]);
   const [board, setBoard] = useState([]);
@@ -14,6 +20,11 @@ export default function Board() {
   const [b_Select, setB_Select] = useState("");
   const [comId, setComId] = useState("");
   const [getAll, setGetAll] = useState(false);
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   // const server = "https://boardapi.herokuapp.com";
   const server = "https://www.matchchemical.tk:57524";
 
@@ -137,20 +148,40 @@ export default function Board() {
 
             {boards !== 0 && (
               <div style={{ textAlign: "center" }}>
-                <select
-                  class="select mb-2"
-                  onChange={(e) => setB_Select(e.target.value)}
+                <Box
+                  style={{
+                    borderColor: "white",
+                    outlineColor: "white",
+                    color: "white",
+                  }}
                 >
-                  {boards.map((i) => {
-                    return (
-                      <>
-                        <option className="option" value={i.b_name}>
-                          {i.b_name}
-                        </option>
-                      </>
-                    );
-                  })}
-                </select>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      style={{
+                        borderColor: "white",
+                        outlineColor: "white",
+                        color: "white",
+                      }}
+                    >
+                      BOARDS
+                    </InputLabel>
+                    <Select
+                      className="select mb-2"
+                      value={b_Select}
+                      label="Age"
+                      onChange={(e) => setB_Select(e.target.value)}
+                    >
+                      {boards.map((i) => {
+                        return (
+                          <MenuItem className="option" value={i.b_name}>
+                            {i.b_name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </Box>
+
                 {bLoading || board.length === 0 ? (
                   <div>
                     <p>Loading...</p>
