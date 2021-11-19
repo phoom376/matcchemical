@@ -72,7 +72,7 @@ const Login = () => {
     const token = await cookie.get("token");
     if (token) {
       await Router.push("/dashboard");
-      await (<Link to="/dashboard" />);
+      // await (<Link to="/dashboard" />);
       // window.close();
       // window.location.reload(true);
     }

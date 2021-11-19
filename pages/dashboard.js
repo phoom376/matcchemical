@@ -14,25 +14,20 @@ const Dashboard = () => {
   useEffect(() => {
     const Verify = async () => {
       await CookieCheck();
-      await getBoardCompany();
 
       // await getBoard();
     };
     // console.log(getAll);
-    const gProduct = setInterval(() => {
+    setInterval(() => {
       // if (select !== "") {
       //   getBoardCompany();
       // }
 
       // getBoard();
-
-      Verify();
+      getBoardCompany();
     }, 1000);
-
-    return () => {
-      clearInterval(gProduct);
-    };
-  }, [boards]);
+    Verify();
+  }, []);
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {

@@ -12,6 +12,7 @@
   justify-content: center;
   align-items: center;
   margin: 10px;
+  overflow: none;
 
   .box {
     display: flex;
@@ -48,6 +49,18 @@
     padding: 20px;
     background-color: #1d9fc5;
     border-radius: 10px;
+
+    .table{
+
+      .thead {
+        padding: 20px;
+      }
+      .tbody {
+        padding: 20px;
+        background-color: #212227;
+      }
+    }
+    
   }
   .offline {
     color: #ff5148;

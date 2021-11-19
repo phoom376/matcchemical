@@ -40,7 +40,7 @@ const Sidebar = ({ children }) => {
     });
 
     await Router.push("/login");
-    await (<Link to="/login" />);
+    // await (<Link to="/login" />);
     // window.location.reload(true);
     await wait.close();
   };
@@ -68,7 +68,7 @@ const Sidebar = ({ children }) => {
         Cookies.remove(e);
       });
       await Router.push("/login");
-      await (<Link to="/login" />);
+      // await (<Link to="/login" />);
     }
   };
 
