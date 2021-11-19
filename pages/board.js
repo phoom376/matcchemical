@@ -120,8 +120,8 @@ export default function Board() {
 
   if (loading) {
     return (
-      <div className="center">
-        <h1>Loading...</h1>
+      <div>
+        <h1 className="center">Loading...</h1>
       </div>
     );
   } else {

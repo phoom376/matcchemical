@@ -198,8 +198,8 @@ const Sidebar = ({ children }) => {
       );
     } else {
       return (
-        <div className="center">
-          <h1 style={{ color: "white", fontWeight: "bold" }}>Loading...</h1>
+        <div >
+          <h1 className="center" style={{ color: "white", fontWeight: "bold" }}>Loading...</h1>
         </div>
       );
     }
