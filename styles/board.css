@@ -19,7 +19,7 @@
   color: white;
   border-radius: 10px;
   outline-color: #5c459b;
-  background-color: #5c459b;
+  background-color: #212227;
 }
 
 .box_board .select .option {
@@ -189,10 +189,10 @@
 }
 
 .box_board .board .button-box .box .timer-box {
-  background-color: #a1e8ff;
+  background-color: #48a8e4;
   text-align: left;
   padding: 15px;
-  color: #5c459b;
+  color: white;
   -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;

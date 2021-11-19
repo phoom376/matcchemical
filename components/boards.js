@@ -19,14 +19,12 @@ const boards = ({ boards }) => {
 
   const setValvePH = (e, id, type) => {
     if (phStart === 0 || phStop === 0) {
-      console.log(phStart, phStop);
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Please Input Start and Stop",
       });
     } else {
-      console.log(phStart, phStop);
       Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
@@ -88,8 +86,6 @@ const boards = ({ boards }) => {
   };
 
   const setDayTime = (e, id, ts, type, length) => {
-    console.log(timerType);
-
     const sTime = timerTime.split(":");
 
     const hours = sTime[0];
@@ -222,7 +218,7 @@ const boards = ({ boards }) => {
 
     if (type === "valvePh") {
       const phOpen = valvePh;
-      console.log("PH");
+
       Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
@@ -248,7 +244,7 @@ const boards = ({ boards }) => {
 
     if (type === "valveEc") {
       const ecOpen = valveEc;
-      console.log("EC");
+
       Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
@@ -274,7 +270,7 @@ const boards = ({ boards }) => {
 
     if (type === "valveTimer") {
       const timerOpen = valueTimer;
-      console.log("TIMER");
+
       Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
@@ -328,7 +324,7 @@ const boards = ({ boards }) => {
 
     if (type === "bclTimer") {
       const timerOpen = bclTimer;
-      console.log("TIMER");
+
       Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
@@ -351,33 +347,6 @@ const boards = ({ boards }) => {
           // handle error
           console.log(error);
         });
-    }
-  };
-
-  const alertCheck = (id, name, valve, waterFlow) => {
-    console.log(valve, waterFlow);
-    if (valve === 0 && waterFlow > 0) {
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "PUMP ALERT",
-      //   text: `BOARD NAME: ${name}`,
-      //   allowOutsideClick: false,
-      //   showConfirmButton: false,
-      // });
-    } else {
-      Swal.close();
-    }
-
-    if (valve === 1 && waterFlow <= 0) {
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "PUMP ALERT",
-      //   text: `BOARD NAME: ${name}`,
-      //   allowOutsideClick: false,
-      //   showConfirmButton: false,
-      // });
-    } else {
-      Swal.close();
     }
   };
 
@@ -477,8 +446,6 @@ const boards = ({ boards }) => {
         nDay !== day ||
         nHour !== Hour ||
         nMin !== Min;
-
-      alertCheck(b_id, i.b_name, i.valve, i.flow);
 
       // console.log(now.getHours());
       // console.log(dateTime);
@@ -798,6 +765,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="14"
+                        style={{ color: "white" }}
                         disabled={Disable}
                         onChange={(e) => {
                           setPhStart(e.target.value);
@@ -813,6 +781,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="14"
+                        style={{ color: "white" }}
                         disabled={Disable}
                         onChange={(e) => {
                           setPhStop(e.target.value);
@@ -845,6 +814,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="10000"
+                        style={{ color: "white" }}
                         disabled={Disable}
                         onChange={(e) => {
                           setEcStart(e.target.value);
@@ -860,6 +830,7 @@ const boards = ({ boards }) => {
                         type="number"
                         min="0"
                         max="10000"
+                        style={{ color: "white" }}
                         disabled={Disable}
                         onChange={(e) => {
                           setEcStop(e.target.value);
@@ -928,6 +899,7 @@ const boards = ({ boards }) => {
                           className="form-input"
                           defaultValue="00:00"
                           type="time"
+                          style={{ color: "white" }}
                           disabled={Disable}
                           onChange={(e) => {
                             setTimerTime(e.target.value);
@@ -1074,6 +1046,7 @@ const boards = ({ boards }) => {
                           className="form-input"
                           defaultValue="00:00"
                           type="time"
+                          style={{ color: "white" }}
                           disabled={Disable}
                           onChange={(e) => {
                             setTimerTime(e.target.value);

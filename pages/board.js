@@ -52,8 +52,6 @@ export default function Board() {
     };
   }, [boards]);
 
-  console.log(board);
-
   const filterBoard = () => {
     setBoard(
       boards.filter((val) => {
