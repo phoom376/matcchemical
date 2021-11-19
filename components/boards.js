@@ -109,7 +109,7 @@ const boards = ({ boards }) => {
     const newHM = newHours + ":" + newMin;
 
     if (length < 20) {
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -127,7 +127,7 @@ const boards = ({ boards }) => {
             typeSS: timerType,
           })
           .then(() => {
-            Swal.close();
+            alert.close();
           })
           .catch(function (error) {
             // handle error
@@ -144,7 +144,7 @@ const boards = ({ boards }) => {
             typeSS: timerType,
           })
           .then(() => {
-            Swal.close();
+            alert.close();
           })
           .catch(function (error) {
             // handle error
@@ -162,7 +162,7 @@ const boards = ({ boards }) => {
 
   const upDateSccControl = (id, type, scc) => {
     if (type === "SCC") {
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         alowOutsideClick: false,
@@ -174,11 +174,12 @@ const boards = ({ boards }) => {
       axios
         .post(`${server}/updateSccControl`, { b_id: id, type: type, scc: scc })
         .then((res) => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
   };
@@ -192,7 +193,7 @@ const boards = ({ boards }) => {
     valueTimer
   ) => {
     if (type === "valve") {
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -208,18 +209,19 @@ const boards = ({ boards }) => {
           valve: valve,
         })
         .then(() => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
 
     if (type === "valvePh") {
       const phOpen = valvePh;
 
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -234,18 +236,19 @@ const boards = ({ boards }) => {
           valvePh: !phOpen,
         })
         .then((res) => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
 
     if (type === "valveEc") {
       const ecOpen = valveEc;
 
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -260,18 +263,19 @@ const boards = ({ boards }) => {
           valveEc: !ecOpen,
         })
         .then((res) => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
 
     if (type === "valveTimer") {
       const timerOpen = valueTimer;
 
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -287,18 +291,19 @@ const boards = ({ boards }) => {
           valveTimer: !timerOpen,
         })
         .then((res) => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
   };
 
   const upDateBclControl = (id, type, bcl, bclTimer) => {
     if (type === "BCL") {
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -314,18 +319,19 @@ const boards = ({ boards }) => {
           bcl: bcl,
         })
         .then(() => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
 
     if (type === "bclTimer") {
       const timerOpen = bclTimer;
 
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -341,17 +347,18 @@ const boards = ({ boards }) => {
           bclTimer: !timerOpen,
         })
         .then((res) => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
   };
 
   const handleTimerDelete = (type, b_id, id) => {
-    Swal.fire({
+    const alert = Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
       allowOutsideClick: false,
@@ -366,11 +373,12 @@ const boards = ({ boards }) => {
           id: id,
         })
         .then(() => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
     if (type === "bcl") {
@@ -380,11 +388,12 @@ const boards = ({ boards }) => {
           id: id,
         })
         .then(() => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          alert.close();
         });
     }
   };

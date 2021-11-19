@@ -75,6 +75,12 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   overflow: auto;
@@ -83,6 +89,10 @@
   padding: 20px;
   background-color: #1d9fc5;
   border-radius: 10px;
+}
+
+.dashboard-status .table-box .table {
+  margin-top: 15px;
 }
 
 .dashboard-status .table-box .table .thead {

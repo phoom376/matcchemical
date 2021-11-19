@@ -16,6 +16,7 @@ const Dashboards = ({ boards }) => {
                 <th className="thead">SCL</th>
                 <th className="thead">VALVE</th>
                 <th className="thead">BCL</th>
+                <th className="thead">PUMP ALERT</th>
               </tr>
             </thead>
             <tbody>
@@ -105,61 +106,20 @@ const Dashboards = ({ boards }) => {
                         <span className="online">ON</span>
                       )}
                     </td>
+                    <td className="tbody">
+                      {(i.valve === 1 && i.flow === 0) ||
+                      (i.valve === 0 && i.flow > 0) ? (
+                        <span className="offline">DANGER</span>
+                      ) : (
+                        <span className="online">SAVE</span>
+                      )}
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
-
-        {/* {boards.map((i) => {
-          const boardName = i.b_name;
-          const dateTime = i.uDate;
-          const now = new Date();
-          const tmpDT = new Date(dateTime);
-          return (
-            <div key={i._id}>
-              <div
-                className={`box ${
-                  tmpDT.getFullYear() !== now.getFullYear() ||
-                  tmpDT.getDate() !== now.getDate() ||
-                  tmpDT.getDay() !== now.getDay() ||
-                  tmpDT.getHours() !== now.getHours() ||
-                  tmpDT.getMinutes() !== now.getMinutes()
-                    ? "B_offline"
-                    : "B_online"
-                }`}
-              >
-                <div className="title">
-                  <p>BOARD NAME: {boardName.toUpperCase()}</p>
-                </div>
-                <div>
-                  <p>
-                    STATUS:
-                    {tmpDT.getFullYear() !== now.getFullYear() ||
-                    tmpDT.getDate() !== now.getDate() ||
-                    tmpDT.getDay() !== now.getDay() ||
-                    tmpDT.getHours() !== now.getHours() ||
-                    tmpDT.getMinutes() !== now.getMinutes() ? (
-                      <span className="offline">OFFLINE</span>
-                    ) : (
-                      <span className="online">ONLINE</span>
-                    )}
-                  </p>
-
-                  <p>
-                    PH: {i.ph} EC:{i.ec}
-                  </p>
-                  {i.valve === 1 && i.flow <= 0 && (
-                    <div className="alert">
-                      <span>PUMP ALERT</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })} */}
       </div>
     </>
   );
