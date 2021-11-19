@@ -78,7 +78,7 @@ const Dashboards = ({ boards }) => {
               <span className="online">ON</span>
             ),
           col7:
-            i.blc === 0 ? (
+            i.bcl === 0 ? (
               <span className="offline">OFF</span>
             ) : (
               <span className="online">ON</span>
