@@ -107,8 +107,8 @@ const Dashboards = ({ boards }) => {
                       )}
                     </td>
                     <td className="tbody">
-                      {(i.valve === 1 && i.flow === 0) ||
-                      (i.valve === 0 && i.flow > 0) ? (
+                      {(i.valve === 1 && Number(i.flow) === 0) ||
+                      (i.valve === 0 && Number(i.flow) > 0) ? (
                         <span className="offline">DANGER</span>
                       ) : (
                         <span className="online">SAVE</span>

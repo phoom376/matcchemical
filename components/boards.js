@@ -409,6 +409,7 @@ const boards = ({ boards }) => {
       const bclTimer = i.bclTimers;
       const b_id = i.b_id;
       const boardName = i.b_name;
+      const WFlow = Number(i.flow);
       const nTime = tmpNow[4].toString();
       const nDay = tmpNow[2].toString();
       const nYear = tmpNow[3].toString();
@@ -649,10 +650,13 @@ const boards = ({ boards }) => {
               <div className="box">
                 <div className="box-title">
                   <p className="button-title">VALVE</p>
-                  {i.valve === 1 && i.flow <= 0 && (
+                  {(i.valve === 1 && WFlow == 0) ||
+                  (i.valve === 0 && WFlow > 0) ? (
                     <div className="alert">
                       <span>PUMP ALERT</span>
                     </div>
+                  ) : (
+                    <></>
                   )}
                   {i.valve === 0 ? (
                     <button
