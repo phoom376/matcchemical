@@ -186,7 +186,7 @@ const Sidebar = ({ children }) => {
               </div>
             ) : (
               <div
-                className={classnames("home_content", {
+                className={classnames("home_content center", {
                   active: open,
                 })}
               >

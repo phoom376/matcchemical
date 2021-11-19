@@ -72,17 +72,19 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div>
+      <div className="center">
         <h1>Loading...</h1>
       </div>
     );
   } else {
     return (
       <div>
-        <p style={{ marginLeft: "10px", fontSize: "30px" }}>
-          TOTAL BOARD : {boards.length}
-        </p>
-        <Dashboards boards={boards} />
+        <div className="dashboard-header">
+          <p className="mt-2">TOTAL BOARD : {boards.length}</p>
+        </div>
+        <div>
+          <Dashboards boards={boards} />
+        </div>
       </div>
     );
   }

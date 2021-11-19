@@ -9,7 +9,7 @@ const Swal = require("sweetalert2");
 import Head from "next/head";
 
 const Login = () => {
-  const [now, setNow] = useState();
+  const [now, setNow] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [online, setOnline] = useState(true);
@@ -36,8 +36,36 @@ const Login = () => {
   };
 
   const timer = () => {
-    const time = dayjs();
-    setNow(time.format("YYYY/MM/DD hh:mm:ss"));
+    const time = Date(Date.now);
+    const tmpTime = time.split(" ");
+    const Months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    let tmpMonth = 0;
+    const day = tmpTime[2];
+    const year = tmpTime[3];
+    const Time = tmpTime[4];
+
+    for (let i = 0; i < Months.length; i++) {
+      if (tmpTime[1] === Months[i]) {
+        tmpMonth = i + 1;
+      }
+    }
+
+    const month = tmpMonth;
+    setNow(day + "/" + month + "/" + year + " " + Time);
   };
 
   const cookieCheck = async () => {

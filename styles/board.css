@@ -11,12 +11,15 @@
 
 .box_board .select {
   border-color: #5c459b;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   min-width: 200px;
   width: 100%;
   color: white;
   border-radius: 10px;
   outline-color: #5c459b;
+  background-color: #5c459b;
 }
 
 .box_board .select .option {
@@ -37,7 +40,7 @@
 }
 
 .box_board .board .board-header {
-  background-color: #63c8e7;
+  background-color: #212227;
   color: white;
   margin: 10px;
   padding: 10px;
@@ -51,21 +54,33 @@
   font-weight: bold;
 }
 
+.box_board .board .board-header .board-title .board-name {
+  font-weight: normal;
+  color: #05ace3;
+}
+
 .box_board .board .board-header .board-status {
   font-size: 15px;
   font-weight: bold;
 }
 
 .box_board .board .board-header .board-status .online {
-  color: #00c80a;
+  font-weight: normal;
+  color: #21c48d;
 }
 
 .box_board .board .board-header .board-status .offline {
+  font-weight: normal;
   color: #ff5148;
 }
 
-.box_board .board .board-header .time {
-  color: royalblue;
+.box_board .board .board-header .time-box {
+  font-weight: bold;
+}
+
+.box_board .board .board-header .time-box .time {
+  font-weight: normal;
+  color: #05ace3;
 }
 
 .box_board .board .button-box {
@@ -81,7 +96,7 @@
 
 .box_board .board .button-box .box {
   margin: 10px;
-  background-color: #63c8e7;
+  background-color: #212227;
   color: white;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
@@ -210,7 +225,7 @@
   -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  background-color: #63c8e7;
+  background-color: #212227;
 }
 
 .box_board .board .board-box div {
@@ -232,7 +247,7 @@
 }
 
 .box_board .B_offline {
-  background-color: #ff5148;
+  background-color: #54545c;
 }
 
 @media screen and (max-device-width: 375px) {

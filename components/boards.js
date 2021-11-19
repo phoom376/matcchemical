@@ -382,7 +382,6 @@ const boards = ({ boards }) => {
   };
 
   const handleTimerDelete = (type, b_id, id) => {
-    console.log(b_id, id);
     Swal.fire({
       title: "PLEASE WAIT!",
       timerProgressBar: true,
@@ -422,7 +421,7 @@ const boards = ({ boards }) => {
   };
 
   return boards.map((i) => {
-    if (i.ph !== null) {
+    if (i.ph !== null || i.ec !== null) {
       const flow = Number(i.flow);
       const dateTime = i.uDate;
       const now = Date(Date.now);
@@ -478,9 +477,6 @@ const boards = ({ boards }) => {
         nDay !== day ||
         nHour !== Hour ||
         nMin !== Min;
-      console.log(Disable);
-      console.log(tmpNow);
-      console.log(day, month, year, Hour, Min, Sec);
 
       alertCheck(b_id, i.b_name, i.valve, i.flow);
 
@@ -496,7 +492,8 @@ const boards = ({ boards }) => {
           <div className="mb-3 ">
             <div className="board-header">
               <p className="board-title">
-                BOARD NAME: {boardName.toUpperCase()}
+                BOARD NAME:{" "}
+                <span className="board-name">{boardName.toUpperCase()}</span>
               </p>
               <p className="board-status">
                 BOARD STATUS:{" "}
@@ -507,7 +504,7 @@ const boards = ({ boards }) => {
                 )}
               </p>
 
-              <p>
+              <p className="time-box">
                 Last Time Update:{" "}
                 <span className="time">
                   {day}/{month}/{year} {Hour}:{Min}:{Sec}
@@ -827,11 +824,7 @@ const boards = ({ boards }) => {
                         id="set"
                         disabled={Disable}
                         onClick={(e) =>
-                          setValvePH(
-                            e.preventDefault(),
-                            b_id,
-                            "valvePhControl"
-                          )
+                          setValvePH(e.preventDefault(), b_id, "valvePhControl")
                         }
                       >
                         SET
@@ -878,11 +871,7 @@ const boards = ({ boards }) => {
                         id="set"
                         disabled={Disable}
                         onClick={(e) =>
-                          setValveEC(
-                            e.preventDefault(),
-                            b_id,
-                            "valveEcControl"
-                          )
+                          setValveEC(e.preventDefault(), b_id, "valveEcControl")
                         }
                       >
                         SET
@@ -922,7 +911,9 @@ const boards = ({ boards }) => {
                               setTimerDay(e.target.value);
                             }}
                           >
-                            <option value="Everyday" selected>Everyday</option>
+                            <option value="Everyday" selected>
+                              Everyday
+                            </option>
                             <option value="Sunday">Sunday</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
@@ -1066,7 +1057,9 @@ const boards = ({ boards }) => {
                               setTimerDay(e.target.value);
                             }}
                           >
-                            <option value="Everyday" selected>Everyday</option>
+                            <option value="Everyday" selected>
+                              Everyday
+                            </option>
                             <option value="Sunday">Sunday</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>

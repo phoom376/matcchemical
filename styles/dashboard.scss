@@ -1,6 +1,16 @@
+.dashboard-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+  background-color: #212227;
+}
 .dashboard-status {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   margin: 10px;
 
   .box {
@@ -28,6 +38,23 @@
       box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
       transition: all 0.5s ease-in-out;
     }
+  }
+
+  .table-box {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #1d9fc5;
+    border-radius: 10px;
+  }
+  .offline {
+    color: #ff5148;
+  }
+
+  .online {
+    color: #21c48d;
   }
 
   .B_online {

@@ -10,6 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+const Swal = require("sweetalert2");
 export default function Board() {
   const [boards, setBoards] = useState([]);
   const [board, setBoard] = useState([]);
@@ -22,9 +23,6 @@ export default function Board() {
   const [getAll, setGetAll] = useState(false);
   const [age, setAge] = React.useState("");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
   // const server = "https://boardapi.herokuapp.com";
   const server = "https://www.matchchemical.tk:57524";
 
@@ -118,10 +116,14 @@ export default function Board() {
     }
   };
 
+  const handleSelectChange = (event) => {
+    setB_Select(event.target.value);
+  };
+
   if (loading) {
     return (
-      <div>
-        <p>Loading...</p>
+      <div className="center">
+        <h1>Loading...</h1>
       </div>
     );
   } else {
@@ -168,8 +170,7 @@ export default function Board() {
                     <Select
                       className="select mb-2"
                       value={b_Select}
-                      label="Age"
-                      onChange={(e) => setB_Select(e.target.value)}
+                      onChange={handleSelectChange}
                     >
                       {boards.map((i) => {
                         return (
@@ -182,12 +183,20 @@ export default function Board() {
                   </FormControl>
                 </Box>
 
-                {bLoading || board.length === 0 ? (
-                  <div>
-                    <p>Loading...</p>
+                {bLoading || board.length == 0 ? (
+                  <div className="mt-5">
+                    <h4>Loading...</h4>
                   </div>
                 ) : (
-                  <Boards boards={board} />
+                  <>
+                    {boards.length != 0 ? (
+                      <Boards boards={board} />
+                    ) : (
+                      <div>
+                        <h1>No Board Active</h1>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}

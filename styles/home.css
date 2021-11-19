@@ -280,7 +280,6 @@ body {
   color: white;
   position: relative;
   min-height: 100vh;
-  height: auto;
   width: calc(100% - 60px);
   left: 60px;
   -webkit-transition: all 0.5s ease;
