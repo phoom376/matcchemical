@@ -2,27 +2,105 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 const Swal = require("sweetalert2");
 import axios from "axios";
-import Select from "react-select";
+// import Select from "react-select";
 import { useState } from "react";
+import * as React from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormGroup from "@mui/material/FormGroup";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import FormHelperText from "@mui/material/FormHelperText";
+import Switch from "@mui/material/Switch";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { styled, useTheme } from "@mui/material/styles";
+import { color } from "@mui/system";
 
 // const server = "https://boardapi.herokuapp.com";
-const server = "https://www.matchchemical.tk:57524";
+// const server = "https://www.matchchemical.tk:57524";
+const server = "http://localhost:4003";
 
 const boards = ({ boards }) => {
   const [timerType, setTimerType] = useState("Start");
   const [timerDay, setTimerDay] = useState("Everyday");
   const [timerTime, setTimerTime] = useState("00:00");
+  const [type, setType] = useState("");
   const [phStart, setPhStart] = useState(0);
   const [phStop, setPhStop] = useState(0);
   const [ecStart, setEcStart] = useState(0);
   const [ecStop, setEcStop] = useState(0);
+  const [days, setDays] = React.useState([]);
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  console.log(days);
+
+  const AllDays = [
+    "Everyday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  function getStyles(name, day, theme) {
+    return {
+      fontWeight:
+        day.indexOf(name) === -1
+          ? theme.typography.fontWeightRegular
+          : theme.typography.fontWeightMedium,
+    };
+  }
+
+  const theme = useTheme();
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setDays(
+      // On autofill we get a the stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
 
   const setValvePH = (e, id, type) => {
-    if (phStart === 0 || phStop === 0) {
+    const id_phStart = document.getElementById("phStart").value;
+    const id_phStop = document.getElementById("phStop").value;
+    console.log(id_phStart, id_phStop);
+    if (id_phStart === 0 || id_phStop === 0) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Please Input Start and Stop",
+      });
+    } else if (id_phStart > 14 || id_phStop > 14) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "MAX PH IS 14",
+      });
+    } else if (id_phStart < 0 || id_phStop < 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "PLEASE INPUT MORE THAN 0",
       });
     } else {
       Swal.fire({
@@ -37,13 +115,11 @@ const boards = ({ boards }) => {
         .post(`${server}/updateValveControl`, {
           b_id: id,
           type: type,
-          valvePhStart: phStart,
-          valvePhStop: phStop,
+          valvePhStart: id_phStart,
+          valvePhStop: id_phStop,
         })
         .then(() => {
           Swal.close();
-          setPhStart(0);
-          setPhStop(0);
         })
         .catch(function (error) {
           // handle error
@@ -53,11 +129,25 @@ const boards = ({ boards }) => {
   };
 
   const setValveEC = (e, id, type) => {
-    if (ecStart === 0 || ecStop === 0) {
+    const id_ecStart = document.getElementById("ecStart").value;
+    const id_ecStop = document.getElementById("ecStop").value;
+    if (id_ecStart === 0 || id_ecStop === 0) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Please Input Start and Stop",
+      });
+    } else if (id_ecStart > 10000 || id_ecStop > 10000) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "MAX EC IS 10,000",
+      });
+    } else if (id_ecStart < 0 || id_ecStop < 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "PLEASE INPUT MORE THAN 0",
       });
     } else {
       Swal.fire({
@@ -72,8 +162,8 @@ const boards = ({ boards }) => {
         .post(`${server}/updateValveControl`, {
           b_id: id,
           type: type,
-          valveEcStart: ecStart,
-          valveEcStop: ecStop,
+          valveEcStart: id_ecStart,
+          valveEcStop: id_ecStop,
         })
         .then(() => {
           Swal.close();
@@ -125,6 +215,7 @@ const boards = ({ boards }) => {
             day: timerDay,
             time: String(newHM),
             typeSS: timerType,
+            aDay: days,
           })
           .then(() => {
             alert.close();
@@ -398,6 +489,67 @@ const boards = ({ boards }) => {
     }
   };
 
+  const IOSSwitch = styled((props) => (
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
+  ))(({ theme }) => ({
+    width: 42,
+    height: 26,
+    padding: 0,
+    "& .MuiSwitch-switchBase": {
+      padding: 0,
+      margin: 2,
+      transitionDuration: "300ms",
+      "&.Mui-checked": {
+        transform: "translateX(16px)",
+        color: "#fff",
+        "& + .MuiSwitch-track": {
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#2ECA45" : "#0ca3dd",
+          opacity: 1,
+          border: 0,
+        },
+        "&.Mui-disabled + .MuiSwitch-track": {
+          opacity: 0.5,
+        },
+      },
+      "&.Mui-focusVisible .MuiSwitch-thumb": {
+        color: "#33cf4d",
+        border: "6px solid #fff",
+      },
+      "&.Mui-disabled .MuiSwitch-thumb": {
+        color:
+          theme.palette.mode === "light"
+            ? theme.palette.grey[100]
+            : theme.palette.grey[600],
+      },
+      "&.Mui-disabled + .MuiSwitch-track": {
+        opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+      },
+    },
+    "& .MuiSwitch-thumb": {
+      boxSizing: "border-box",
+      width: 22,
+      height: 22,
+    },
+    "& .MuiSwitch-track": {
+      borderRadius: 26 / 2,
+      backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+      opacity: 1,
+      transition: theme.transitions.create(["background-color"], {
+        duration: 500,
+      }),
+    },
+  }));
+
+  const styles = (theme) => ({
+    multilineColor: {
+      color: "red",
+    },
+  });
   return boards.map((i) => {
     if (i.ph !== null || i.ec !== null) {
       const flow = Number(i.flow);
@@ -699,71 +851,69 @@ const boards = ({ boards }) => {
                     </button>
                   )}
                 </div>
-
-                <div className="form-check form-switch mb-2 ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    onChange={() =>
-                      upDateValveControl(
-                        b_id,
-                        "valvePh",
-                        i.valve,
-                        i.valvePh,
-                        i.valveEc,
-                        i.valveTimer
-                      )
+                <div className="Switch">
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={i.valvePh}
+                        onChange={() =>
+                          upDateValveControl(
+                            b_id,
+                            "valvePh",
+                            i.valve,
+                            i.valvePh,
+                            i.valveEc,
+                            i.valveTimer
+                          )
+                        }
+                      />
                     }
                     disabled={Disable || i.valveTimer || i.valveEc}
-                    checked={i.valvePh}
+                    label="PH"
                   />
-                  <label className="form-check-label">PH</label>
-                </div>
 
-                <div className="form-check form-switch mb-2 ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    onChange={() =>
-                      upDateValveControl(
-                        b_id,
-                        "valveEc",
-                        i.valve,
-                        i.valvePh,
-                        i.valveEc,
-                        i.valveTimer
-                      )
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={i.valveEc}
+                        onChange={() =>
+                          upDateValveControl(
+                            b_id,
+                            "valveEc",
+                            i.valve,
+                            i.valvePh,
+                            i.valveEc,
+                            i.valveTimer
+                          )
+                        }
+                      />
                     }
                     disabled={Disable || i.valveTimer || i.valvePh}
-                    checked={i.valveEc}
+                    label="EC"
                   />
-                  <label className="form-check-label">EC</label>
-                </div>
 
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    onChange={() =>
-                      upDateValveControl(
-                        b_id,
-                        "valveTimer",
-                        i.valve,
-                        i.valvePh,
-                        i.valveEc,
-                        i.valveTimer
-                      )
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={i.valveTimer}
+                        onChange={() =>
+                          upDateValveControl(
+                            b_id,
+                            "valveTimer",
+                            i.valve,
+                            i.valvePh,
+                            i.valveEc,
+                            i.valveTimer
+                          )
+                        }
+                      />
                     }
                     disabled={Disable || i.valvePh || i.valveEc}
-                    checked={i.valveTimer}
+                    label="TIMER"
                   />
-                  <label className="form-check-label">TIMER</label>
                 </div>
 
                 {i.valvePh && (
@@ -871,6 +1021,30 @@ const boards = ({ boards }) => {
 
                       <div className="mb-3">
                         <div className="form-group mb-3">
+                          <div>
+                            <FormControl
+                              sx={{ mb: 2, width: "100%", maxWidth: 250 }}
+                            >
+                              <InputLabel
+                                id="demo-simple-select-helper-label"
+                                style={{ color: "white" }}
+                              >
+                                TYPE
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-helper-label"
+                                id="demo-simple-select-helper"
+                                style={{ color: "white" }}
+                                defaultValue="Start"
+                                value={type}
+                                label="TYPE"
+                                onChange={(e) => setType(e.target.value)}
+                              >
+                                <MenuItem value="Start">Start</MenuItem>
+                                <MenuItem value="Stop">Stop</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </div>
                           <select
                             className="form-control"
                             id="valveType"
@@ -887,6 +1061,41 @@ const boards = ({ boards }) => {
                           </select>
                         </div>
                         <div className="form-group mb-3">
+                          <FormControl
+                            sx={{
+                              mb: 2,
+                              width: "100%",
+                              maxWidth: "250px",
+                              outlineColor: "#FFFF",
+                            }}
+                          >
+                            <InputLabel
+                              id="demo-multiple-name-label"
+                              style={{ color: "white" }}
+                            >
+                              DAYS
+                            </InputLabel>
+                            <Select
+                              labelId="demo-multiple-name-label"
+                              id="demo-multiple-name"
+                              multiple
+                              style={{ color: "white" }}
+                              value={days}
+                              onChange={handleChange}
+                              input={<OutlinedInput label="Name" />}
+                              MenuProps={MenuProps}
+                            >
+                              {AllDays.map((name) => (
+                                <MenuItem
+                                  key={name}
+                                  value={name}
+                                  style={getStyles(name, days, theme)}
+                                >
+                                  {name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
                           <select
                             className="form-control"
                             id="valveDay"
@@ -940,6 +1149,7 @@ const boards = ({ boards }) => {
 
                     {valveTimer.length > 0 &&
                       valveTimer.map((i, k) => {
+                        const v_day = i.aDay;
                         return (
                           <>
                             <div className="timer-box mt-3" key={i._id}>
@@ -952,6 +1162,16 @@ const boards = ({ boards }) => {
                               <span>TIME : {i.time}</span>
                               <br></br>
                               <span> TYPE : {i.typeSS}</span>
+                              <br></br>
+                              {v_day.map((i) => {
+                                return (
+                                  <p>
+                                    {i[0]}
+                                    {i[1]}
+                                    {i[2]}
+                                  </p>
+                                );
+                              })}
                               <div className="timer-button mt-3">
                                 <button
                                   className="btn btn-outline-danger"
@@ -999,19 +1219,20 @@ const boards = ({ boards }) => {
                   )}
                 </div>
 
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    onChange={() =>
-                      upDateBclControl(b_id, "bclTimer", i.bcl, i.bclTimer)
+                <div className="Switch">
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={i.bclTimer}
+                        onChange={() =>
+                          upDateBclControl(b_id, "bclTimer", i.bcl, i.bclTimer)
+                        }
+                      />
                     }
                     disabled={Disable}
-                    checked={i.bclTimer}
+                    label="TIMER"
                   />
-                  <label className="form-check-label">TIMER</label>
                 </div>
 
                 {i.bclTimer && (

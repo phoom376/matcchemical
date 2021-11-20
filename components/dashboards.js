@@ -1,11 +1,12 @@
 import { useTable } from "react-table";
 import * as React from "react";
+import classnames from "classnames";
 const Dashboards = ({ boards }) => {
   return (
     <>
       <div className="dashboard-status">
         <div className="table-box">
-          <table className="table table-hover table-dark">
+          <table className="Table">
             <thead>
               <tr>
                 <th className="thead">NO.</th>
@@ -73,40 +74,46 @@ const Dashboards = ({ boards }) => {
                   nMin !== Min;
 
                 return (
-                  <tr>
-                    <td className="tbody">{k + 1}</td>
-                    <td className="tbody">{i.b_name}</td>
-                    <td className="tbody">
+                  <tr
+                    className={classnames("", {
+                      P_Alert:
+                        (i.valve === 1 && Number(i.flow) === 0) ||
+                        (i.valve === 0 && Number(i.flow) > 0),
+                    })}
+                  >
+                    <td>{k + 1}</td>
+                    <td>{i.b_name}</td>
+                    <td>
                       {Disable ? (
                         <span className="offline">OFFLINE</span>
                       ) : (
                         <span className="online">ONLINE</span>
                       )}
                     </td>
-                    <td className="tbody">{i.ph}</td>
-                    <td className="tbody">{i.ec}</td>
-                    <td className="tbody">
+                    <td>{i.ph}</td>
+                    <td>{i.ec}</td>
+                    <td>
                       {i.scc === 0 ? (
                         <span className="offline">OFF</span>
                       ) : (
                         <span className="online">ON</span>
                       )}
                     </td>
-                    <td className="tbody">
+                    <td>
                       {i.valve === 0 ? (
                         <span className="offline">OFF</span>
                       ) : (
                         <span className="online">ON</span>
                       )}
                     </td>
-                    <td className="tbody">
+                    <td>
                       {i.bcl === 0 ? (
                         <span className="offline">OFF</span>
                       ) : (
                         <span className="online">ON</span>
                       )}
                     </td>
-                    <td className="tbody">
+                    <td>
                       {(i.valve === 1 && Number(i.flow) === 0) ||
                       (i.valve === 0 && Number(i.flow) > 0) ? (
                         <span className="offline">DANGER</span>
