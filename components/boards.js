@@ -22,8 +22,8 @@ import { styled, useTheme } from "@mui/material/styles";
 import { color } from "@mui/system";
 
 // const server = "https://boardapi.herokuapp.com";
-// const server = "https://www.matchchemical.tk:57524";
-const server = "http://localhost:4003";
+const server = "https://www.matchchemical.tk:57524";
+// const server = "http://localhost:4003";
 
 const boards = ({ boards }) => {
   const [timerType, setTimerType] = useState("Start");
@@ -215,7 +215,7 @@ const boards = ({ boards }) => {
             day: timerDay,
             time: String(newHM),
             typeSS: timerType,
-            aDay: days,
+            // aDay: days,
           })
           .then(() => {
             alert.close();
