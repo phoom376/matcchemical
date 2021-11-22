@@ -38,11 +38,12 @@ const Sidebar = ({ children }) => {
     Object.keys(Cookies.get()).forEach((e) => {
       Cookies.remove(e);
     });
-
-    await Router.push("/login");
-    // await (<Link to="/login" />);
     // window.location.reload(true);
+
+    // await (<Link to="/login" />);
+
     await wait.close();
+    await Router.push("/");
   };
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const Sidebar = ({ children }) => {
       Object.keys(Cookies.get()).forEach((e) => {
         Cookies.remove(e);
       });
-      await Router.push("/login");
+      Router.push("/");
       // await (<Link to="/login" />);
     }
   };
@@ -75,8 +76,8 @@ const Sidebar = ({ children }) => {
   const verifyToken = async () => {
     const tmpToken = await Cookies.get("token");
     if (!Cookies.get("token")) {
-      await Router.push("/login");
-      await (<Link to="/login" />);
+      await Router.push("/");
+      // await (<Link to="/login" />);
     } else {
       const decode = jwt.decode(tmpToken);
 
@@ -114,10 +115,7 @@ const Sidebar = ({ children }) => {
             <div className={classnames("sidebar", { active: open })}>
               <div className="logo_content">
                 <div className="logo">
-                  <img
-                    src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png"
-                    className="icon"
-                  />
+                  <img src="./new2.png" className="icon" />
                   {/* <IoCube className="icon" /> */}
 
                   <div className="logo_name">MATCHCHEMICAL</div>
@@ -198,8 +196,9 @@ const Sidebar = ({ children }) => {
       );
     } else {
       return (
-        <div >
-          <h1 className="center" style={{ color: "white", fontWeight: "bold" }}>Loading...</h1>
+        <div>
+          <img className="center" src="./loading.gif" />
+          {/* <h1 className="center" style={{ color: "white", fontWeight: "bold" }}>Loading...</h1> */}
         </div>
       );
     }

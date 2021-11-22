@@ -143,10 +143,7 @@ const Login = () => {
         <div className="main">
           <div className="login-form">
             <div className="logo-box">
-              <img
-                className="logo"
-                src="https://sv1.picz.in.th/images/2021/10/21/uiSpTu.png"
-              ></img>
+              <img className="logo" src="./new2.png"></img>
             </div>
             <div className="form-box">
               <div className="title">

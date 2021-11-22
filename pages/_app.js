@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }) {
         Cookies.remove(e);
       });
       await Router.push("/login");
-      await (<Link to="/login" />);
+      // await (<Link to="/login" />);
     }
   };
   const tokenCheck = async () => {

@@ -69,7 +69,8 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div >
-        <h1 className="center">Loading...</h1>
+       {/* <img   src="./loading.gif" /> */}
+        <h1 className="center"><img   src="./loading.gif" /></h1>
       </div>
     );
   } else {

@@ -121,7 +121,9 @@ export default function Board() {
   if (loading) {
     return (
       <div>
-        <h1 className="center">Loading...</h1>
+        <h1 className="center">
+          <img src="./loading.gif" />
+        </h1>
       </div>
     );
   } else {
@@ -183,7 +185,7 @@ export default function Board() {
 
                 {bLoading || board.length == 0 ? (
                   <div className="mt-5">
-                    <h4>Loading...</h4>
+                    <img src="./loading.gif" />
                   </div>
                 ) : (
                   <>
