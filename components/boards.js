@@ -22,8 +22,8 @@ import { styled, useTheme } from "@mui/material/styles";
 import { color } from "@mui/system";
 
 // const server = "https://boardapi.herokuapp.com";
-const server = "https://www.matchchemical.tk:57524";
-// const server = "http://localhost:4003";
+// const server = "https://www.matchchemical.tk:57524";
+const server = "http://localhost:4003";
 
 const boards = ({ boards }) => {
   const [timerType, setTimerType] = useState("Start");
@@ -103,7 +103,7 @@ const boards = ({ boards }) => {
         text: "PLEASE INPUT MORE THAN 0",
       });
     } else {
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -119,10 +119,11 @@ const boards = ({ boards }) => {
           valvePhStop: id_phStop,
         })
         .then(() => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
+          alert.close();
           console.log(error);
         });
     }
@@ -150,7 +151,7 @@ const boards = ({ boards }) => {
         text: "PLEASE INPUT MORE THAN 0",
       });
     } else {
-      Swal.fire({
+      const alert = Swal.fire({
         title: "PLEASE WAIT!",
         timerProgressBar: true,
         allowOutsideClick: false,
@@ -166,10 +167,11 @@ const boards = ({ boards }) => {
           valveEcStop: id_ecStop,
         })
         .then(() => {
-          Swal.close();
+          alert.close();
         })
         .catch(function (error) {
           // handle error
+          alert.close();
           console.log(error);
         });
     }
@@ -222,6 +224,7 @@ const boards = ({ boards }) => {
           })
           .catch(function (error) {
             // handle error
+            alert.close();
             console.log(error);
           });
       }
@@ -240,6 +243,7 @@ const boards = ({ boards }) => {
           .catch(function (error) {
             // handle error
             console.log(error);
+            alert.close();
           });
       }
     } else {
