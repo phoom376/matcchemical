@@ -171,7 +171,7 @@
           padding: 5px;
           border-radius: 30px;
           background-color: rgba(92, 69, 155, 0);
-          color: #5c459b;
+          color: white;
           border-color: #5c459b;
         }
 
@@ -185,21 +185,28 @@
           background-color: #5c459b;
         }
 
-        .timer-box {
-          background-color: #48a8e4;
-          text-align: left;
-          padding: 15px;
-          color: white;
-
+        .box-form {
           box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          background-color: #54545c;
+          padding: 10px;
           border-radius: 10px;
+          
+          }
+          .timer-box {
+            background-color: #48a8e4;
+            text-align: left;
+            padding: 15px;
+            color: white;
 
-          .timer-header {
-            text-align: center;
-          }
-          .timer-button {
-            text-align: center;
-          }
+            box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+
+            .timer-header {
+              text-align: center;
+            }
+            .timer-button {
+              text-align: center;
+            }
         }
       }
     }

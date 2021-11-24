@@ -11,6 +11,8 @@ import FormGroup from "@mui/material/FormGroup";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import Checkbox from "@mui/material/Checkbox";
+
 import Select from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
 import Switch from "@mui/material/Switch";
@@ -22,19 +24,25 @@ import { styled, useTheme } from "@mui/material/styles";
 import { color } from "@mui/system";
 
 // const server = "https://boardapi.herokuapp.com";
-const server = "https://www.matchchemical.tk:57524";
-// const server = "http://localhost:4003";
+// const server = "https://www.matchchemical.tk:57524";
+const server = "http://localhost:4003";
 
 const boards = ({ boards }) => {
   const [timerType, setTimerType] = useState("Start");
   const [timerDay, setTimerDay] = useState("Everyday");
   const [timerTime, setTimerTime] = useState("00:00");
+  const [valveTimeStart, setValveTimeStart] = useState(true);
+  const [valveTimeStop, setValveTimeStop] = useState(true);
+  const [bclTimeStart, setBclTimeStart] = useState(true);
+  const [bclTimeStop, setBclTimeStop] = useState(true);
   const [type, setType] = useState("");
   const [phStart, setPhStart] = useState(0);
   const [phStop, setPhStop] = useState(0);
   const [ecStart, setEcStart] = useState(0);
   const [ecStop, setEcStop] = useState(0);
-  const [days, setDays] = React.useState([]);
+  const [valveDays, setValveDays] = React.useState([]);
+  const [bclDays, setBclDays] = React.useState([]);
+
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -46,7 +54,7 @@ const boards = ({ boards }) => {
     },
   };
 
-  console.log(days);
+  // console.log(start, stop);
 
   const AllDays = [
     "Everyday",
@@ -70,11 +78,21 @@ const boards = ({ boards }) => {
 
   const theme = useTheme();
 
-  const handleChange = (event) => {
+  const handleValveChange = (event) => {
     const {
       target: { value },
     } = event;
-    setDays(
+    setValveDays(
+      // On autofill we get a the stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
+  const handleBclChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setBclDays(
       // On autofill we get a the stringified value.
       typeof value === "string" ? value.split(",") : value
     );
@@ -200,6 +218,8 @@ const boards = ({ boards }) => {
 
     const newHM = newHours + ":" + newMin;
 
+    console.log(id, type, timerDay, String(newHM), timerType);
+
     if (length < 20) {
       const alert = Swal.fire({
         title: "PLEASE WAIT!",
@@ -209,42 +229,154 @@ const boards = ({ boards }) => {
           Swal.showLoading();
         },
       });
+
       if (ts === "valve") {
-        axios
-          .post(`${server}/updateValveControl`, {
-            b_id: id,
-            type: type,
-            day: timerDay,
-            time: String(newHM),
-            typeSS: timerType,
-            // aDay: days,
-          })
-          .then(() => {
-            alert.close();
-          })
-          .catch(function (error) {
-            // handle error
-            alert.close();
-            console.log(error);
+        if (valveDays.length === 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "PLEASE SELECT DAY",
           });
+        } else {
+          const valveStartTime =
+            document.getElementById("valveStartTime").value;
+          const valveStopTime = document.getElementById("valveStopTime").value;
+          const valveStartTimeTmp = valveStartTime.split(":");
+          const valveStopTimeTmp = valveStopTime.split(":");
+          const valveStartTimeHours = valveStartTimeTmp[0];
+          const valveStartTimeMin = valveStartTimeTmp[1];
+          const valveStopTimeHours = valveStopTimeTmp[0];
+          const valveStopTimeMin = valveStopTimeTmp[1];
+
+          let valveStartTimeNewHours = "";
+          let valveStartTimeNewMin = "";
+          let valveStopTimeNewHours = "";
+          let valveStopTimeNewMin = "";
+
+          if (valveStartTimeHours[0] === "0") {
+            valveStartTimeNewHours = valveStartTimeHours.replace("0", "");
+          } else {
+            valveStartTimeNewHours = valveStartTimeHours;
+          }
+
+          if (valveStartTimeMin[0] === "0") {
+            valveStartTimeNewMin = valveStartTimeMin.replace("0", "");
+          } else {
+            valveStartTimeNewMin = valveStartTimeMin;
+          }
+
+          if (valveStopTimeHours[0] === "0") {
+            valveStopTimeNewHours = valveStopTimeHours.replace("0", "");
+          } else {
+            valveStopTimeNewHours = valveStopTimeHours;
+          }
+
+          if (valveStopTimeMin[0] === "0") {
+            valveStopTimeNewMin = valveStopTimeMin.replace("0", "");
+          } else {
+            valveStopTimeNewMin = valveStopTimeMin;
+          }
+
+          const valveStartTimeNewHM =
+            valveStartTimeNewHours + ":" + valveStartTimeNewMin;
+          const valveStopTimeNewHM =
+            valveStopTimeNewHours + ":" + valveStopTimeNewMin;
+
+          axios
+            .post(`${server}/updateValveControl`, {
+              b_id: id,
+              type: type,
+              day: timerDay,
+              time: String(newHM),
+              typeSS: timerType,
+              Start: valveTimeStart,
+              Stop: valveTimeStop,
+              startTime: String(valveStartTimeNewHM),
+              stopTime: String(valveStopTimeNewHM),
+              aDay: valveDays,
+            })
+            .then(() => {
+              alert.close();
+            })
+            .catch(function (error) {
+              // handle error
+              alert.close();
+              console.log(error);
+            });
+        }
       }
       if (ts === "bcl") {
-        axios
-          .post(`${server}/updateBclControl`, {
-            b_id: id,
-            type: type,
-            day: timerDay,
-            time: String(newHM),
-            typeSS: timerType,
-          })
-          .then(() => {
-            alert.close();
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-            alert.close();
+        if (bclDays.length === 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "PLEASE SELECT DAY",
           });
+        } else {
+          const bclStartTime = document.getElementById("bclStartTime").value;
+          const bclStopTime = document.getElementById("bclStopTime").value;
+          const bclStartTimeTmp = bclStartTime.split(":");
+          const bclStopTimeTmp = bclStopTime.split(":");
+          const bclStartTimeHours = bclStartTimeTmp[0];
+          const bclStartTimeMin = bclStartTimeTmp[1];
+          const bclStopTimeHours = bclStopTimeTmp[0];
+          const bclStopTimeMin = bclStopTimeTmp[1];
+
+          let bclStartTimeNewHours = "";
+          let bclStartTimeNewMin = "";
+          let bclStopTimeNewHours = "";
+          let bclStopTimeNewMin = "";
+
+          if (bclStartTimeHours[0] === "0") {
+            bclStartTimeNewHours = bclStartTimeHours.replace("0", "");
+          } else {
+            bclStartTimeNewHours = bclStartTimeHours;
+          }
+
+          if (bclStartTimeMin[0] === "0") {
+            bclStartTimeNewMin = bclStartTimeMin.replace("0", "");
+          } else {
+            bclStartTimeNewMin = bclStartTimeMin;
+          }
+
+          if (bclStopTimeHours[0] === "0") {
+            bclStopTimeNewHours = bclStopTimeHours.replace("0", "");
+          } else {
+            bclStopTimeNewHours = bclStopTimeHours;
+          }
+
+          if (bclStopTimeMin[0] === "0") {
+            bclStopTimeNewMin = bclStopTimeMin.replace("0", "");
+          } else {
+            bclStopTimeNewMin = bclStopTimeMin;
+          }
+
+          const bclStartTimeNewHM =
+            bclStartTimeNewHours + ":" + bclStartTimeNewMin;
+          const bclStopTimeNewHM =
+            bclStopTimeNewHours + ":" + bclStopTimeNewMin;
+          axios
+            .post(`${server}/updateBclControl`, {
+              b_id: id,
+              type: type,
+              day: timerDay,
+              time: String(newHM),
+              typeSS: timerType,
+              Start: bclTimeStart,
+              Stop: bclTimeStop,
+              startTime: String(bclStartTimeNewHM),
+              stopTime: String(bclStopTimeNewHM),
+              aDay: bclDays,
+            })
+            .then(() => {
+              alert.close();
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+              alert.close();
+            });
+        }
       }
     } else {
       Swal.fire({
@@ -921,7 +1053,7 @@ const boards = ({ boards }) => {
                 </div>
 
                 {i.valvePh && (
-                  <form className="mt-3">
+                  <form className="mt-3 box-form">
                     <p>PH</p>
                     <div className="mb-3">
                       <label>START:</label>
@@ -970,7 +1102,7 @@ const boards = ({ boards }) => {
                 )}
 
                 {i.valveEc && (
-                  <form className="mt-3">
+                  <form className="mt-3 box-form">
                     <p>EC</p>
                     <div className="mb-3">
                       <label>START:</label>
@@ -1020,34 +1152,28 @@ const boards = ({ boards }) => {
 
                 {i.valveTimer && (
                   <>
-                    <form className="mt-3">
+                    <form className="mt-3 box-form">
                       <p>Timer</p>
 
                       <div className="mb-3">
                         <div className="form-group mb-3">
                           <div>
-                            <FormControl
-                              sx={{ mb: 2, width: "100%", maxWidth: 250 }}
-                            >
-                              <InputLabel
-                                id="demo-simple-select-helper-label"
-                                style={{ color: "white" }}
-                              >
-                                TYPE
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                style={{ color: "white" }}
-                                defaultValue="Start"
-                                value={type}
-                                label="TYPE"
-                                onChange={(e) => setType(e.target.value)}
-                              >
-                                <MenuItem value="Start">Start</MenuItem>
-                                <MenuItem value="Stop">Stop</MenuItem>
-                              </Select>
-                            </FormControl>
+                            <FormGroup>
+                              <FormControlLabel
+                                control={<Checkbox defaultChecked />}
+                                label="START"
+                                onChange={() =>
+                                  setValveTimeStart(!valveTimeStart)
+                                }
+                              />
+                              <FormControlLabel
+                                control={<Checkbox defaultChecked />}
+                                label="STOP"
+                                onChange={() =>
+                                  setValveTimeStop(!valveTimeStop)
+                                }
+                              />
+                            </FormGroup>
                           </div>
                           <select
                             className="form-control"
@@ -1084,8 +1210,8 @@ const boards = ({ boards }) => {
                               id="demo-multiple-name"
                               multiple
                               style={{ color: "white" }}
-                              value={days}
-                              onChange={handleChange}
+                              value={valveDays}
+                              onChange={handleValveChange}
                               input={<OutlinedInput label="Name" />}
                               MenuProps={MenuProps}
                             >
@@ -1093,7 +1219,7 @@ const boards = ({ boards }) => {
                                 <MenuItem
                                   key={name}
                                   value={name}
-                                  style={getStyles(name, days, theme)}
+                                  style={getStyles(name, valveDays, theme)}
                                 >
                                   {name}
                                 </MenuItem>
@@ -1123,7 +1249,7 @@ const boards = ({ boards }) => {
                         <input
                           id="valveTime"
                           className="form-input"
-                          defaultValue="00:00"
+                          defaultValue={nHour + ":" + nMin}
                           type="time"
                           style={{ color: "white" }}
                           disabled={Disable}
@@ -1131,6 +1257,32 @@ const boards = ({ boards }) => {
                             setTimerTime(e.target.value);
                           }}
                         ></input>
+                        {valveTimeStart && (
+                          <div>
+                            <p>START TIME</p>
+                            <input
+                              id="valveStartTime"
+                              className="form-input"
+                              defaultValue={nHour + ":" + nMin}
+                              type="time"
+                              style={{ color: "white" }}
+                              disabled={Disable}
+                            ></input>
+                          </div>
+                        )}
+                        {valveTimeStop && (
+                          <div>
+                            <p>STOP TIME</p>
+                            <input
+                              id="valveStopTime"
+                              className="form-input"
+                              defaultValue={nHour + ":" + nMin}
+                              type="time"
+                              style={{ color: "white" }}
+                              disabled={Disable}
+                            ></input>
+                          </div>
+                        )}
                       </div>
                       <div>
                         <button
@@ -1154,26 +1306,37 @@ const boards = ({ boards }) => {
                     {valveTimer.length > 0 &&
                       valveTimer.map((i, k) => {
                         const v_day = i.aDay;
+                        {
+                          /* console.log(valveTimer); */
+                        }
                         return (
                           <>
                             <div className="timer-box mt-3" key={i._id}>
                               <div className="timer-header">
                                 <p>Timer : {k + 1}</p>
                               </div>
-
                               <span>DAY : {i.day}</span>
                               <br></br>
                               <span>TIME : {i.time}</span>
                               <br></br>
                               <span> TYPE : {i.typeSS}</span>
                               <br></br>
-                              {v_day.map((i) => {
+                              TYPE:
+                              {i.Start && <span> START </span>}
+                              {i.Stop && <span> STOP </span>}
+                              <br></br>
+                              <span>Start Time :{i.startTime}</span>
+                              <br></br>
+                              <span>Stop Time :{i.stopTime}</span>
+                              <br></br>
+                              {v_day.map((i, d) => {
                                 return (
-                                  <p>
-                                    {i[0]}
-                                    {i[1]}
-                                    {i[2]}
-                                  </p>
+                                  <>
+                                    <span>
+                                      DAY[{d + 1}]:{i.days}
+                                    </span>
+                                    <br></br>
+                                  </>
                                 );
                               })}
                               <div className="timer-button mt-3">
@@ -1241,11 +1404,25 @@ const boards = ({ boards }) => {
 
                 {i.bclTimer && (
                   <>
-                    <form className="mt-3">
+                    <form className="mt-3 box-form">
                       <p>Timer</p>
 
                       <div className="mb-3">
                         <div className="form-group mb-3">
+                          <div>
+                            <FormGroup>
+                              <FormControlLabel
+                                control={<Checkbox defaultChecked />}
+                                label="START"
+                                onChange={() => setBclTimeStart(!bclTimeStart)}
+                              />
+                              <FormControlLabel
+                                control={<Checkbox defaultChecked />}
+                                label="STOP"
+                                onChange={() => setBclTimeStop(!bclTimeStop)}
+                              />
+                            </FormGroup>
+                          </div>
                           <select
                             className="form-control"
                             id="bclType"
@@ -1259,6 +1436,41 @@ const boards = ({ boards }) => {
                           </select>
                         </div>
                         <div className="form-group mb-3">
+                          <FormControl
+                            sx={{
+                              mb: 2,
+                              width: "100%",
+                              maxWidth: "250px",
+                              outlineColor: "#FFFF",
+                            }}
+                          >
+                            <InputLabel
+                              id="demo-multiple-name-label"
+                              style={{ color: "white" }}
+                            >
+                              DAYS
+                            </InputLabel>
+                            <Select
+                              labelId="demo-multiple-name-label"
+                              id="demo-multiple-name"
+                              multiple
+                              style={{ color: "white" }}
+                              value={bclDays}
+                              onChange={handleBclChange}
+                              input={<OutlinedInput label="Name" />}
+                              MenuProps={MenuProps}
+                            >
+                              {AllDays.map((name) => (
+                                <MenuItem
+                                  key={name}
+                                  value={name}
+                                  style={getStyles(name, bclDays, theme)}
+                                >
+                                  {name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
                           <select
                             className="form-control"
                             id="bclDay"
@@ -1290,6 +1502,33 @@ const boards = ({ boards }) => {
                             setTimerTime(e.target.value);
                           }}
                         ></input>
+
+                        {bclTimeStart && (
+                          <div>
+                            <p>START TIME</p>
+                            <input
+                              id="bclStartTime"
+                              className="form-input"
+                              defaultValue={nHour + ":" + nMin}
+                              type="time"
+                              style={{ color: "white" }}
+                              disabled={Disable}
+                            ></input>
+                          </div>
+                        )}
+                        {bclTimeStop && (
+                          <div>
+                            <p>STOP TIME</p>
+                            <input
+                              id="bclStopTime"
+                              className="form-input"
+                              defaultValue={nHour + ":" + nMin}
+                              type="time"
+                              style={{ color: "white" }}
+                              disabled={Disable}
+                            ></input>
+                          </div>
+                        )}
                       </div>
                       <div>
                         <button
@@ -1312,18 +1551,39 @@ const boards = ({ boards }) => {
 
                     {bclTimer.length > 0 &&
                       bclTimer.map((i, k) => {
+                        const b_timer = i.aDay;
                         return (
                           <>
                             <div className="timer-box mt-3" key={i._id}>
                               <div className="timer-header">
                                 <p>Timer : {k + 1}</p>
                               </div>
-
                               <span>DAY : {i.day}</span>
                               <br></br>
                               <span>TIME : {i.time}</span>
                               <br></br>
                               <span> TYPE : {i.typeSS}</span>
+                              <br></br>
+                              TYPE:
+                              {i.Start && <span> START </span>}
+                              {i.Stop && <span> STOP </span>}
+                              <br></br>
+                              <span>Start Time :{i.startTime}</span>
+                              <br></br>
+                              <span>Stop Time :{i.stopTime}</span>
+                              <br></br>
+                              {b_timer.map((index, d) => {
+                                return (
+                                  <>
+                                    {" "}
+                                    <span>
+                                      {" "}
+                                      DAY[{d + 1}]: {index.days}
+                                    </span>
+                                    <br></br>
+                                  </>
+                                );
+                              })}
                               <div className="timer-button mt-3">
                                 <button
                                   className="btn btn-outline-danger"
