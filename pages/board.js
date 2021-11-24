@@ -24,8 +24,8 @@ export default function Board() {
   const [age, setAge] = React.useState("");
 
   // const server = "https://boardapi.herokuapp.com";
-  // const server = "https://www.matchchemical.tk:57524";
-  const server = "http://localhost:4003";
+  const server = "https://www.matchchemical.tk:57524";
+  // const server = "http://localhost:4003";
 
   // const usServer = "https://userlogapi.herokuapp.com";
   const usServer = "https://www.matchchemical.tk:57521";
