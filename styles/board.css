@@ -115,6 +115,7 @@
   background-color: rgba(0, 0, 0, 0);
   border-color: #05ace3;
   outline: #05ace3;
+  min-width: 210px;
   width: 100%;
 }
 
@@ -124,6 +125,7 @@
   background-color: black;
   color: white;
   border-color: #5c459b;
+  min-width: 210px;
   width: 100%;
 }
 
@@ -133,6 +135,7 @@
   background-color: black;
   color: white;
   border-color: #5c459b;
+  min-width: 210px;
   width: 100%;
   outline: #5c459b;
 }

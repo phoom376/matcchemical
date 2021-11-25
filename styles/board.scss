@@ -113,6 +113,8 @@
           background-color: rgba(0, 0, 0, 0);
           border-color: #05ace3;
           outline: #05ace3;
+          min-width: 210px;
+
           width: 100%;
         }
         .form-input:hover {
@@ -121,6 +123,7 @@
           background-color: black;
           color: white;
           border-color: #5c459b;
+          min-width: 210px;
           width: 100%;
         }
         .form-input:focus {
@@ -129,6 +132,8 @@
           background-color: black;
           color: white;
           border-color: #5c459b;
+          min-width: 210px;
+
           width: 100%;
           outline: #5c459b;
         }
@@ -190,23 +195,22 @@
           background-color: #54545c;
           padding: 10px;
           border-radius: 10px;
-          
+        }
+        .timer-box {
+          background-color: #48a8e4;
+          text-align: left;
+          padding: 15px;
+          color: white;
+
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+
+          .timer-header {
+            text-align: center;
           }
-          .timer-box {
-            background-color: #48a8e4;
-            text-align: left;
-            padding: 15px;
-            color: white;
-
-            box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-
-            .timer-header {
-              text-align: center;
-            }
-            .timer-button {
-              text-align: center;
-            }
+          .timer-button {
+            text-align: center;
+          }
         }
       }
     }
