@@ -1257,32 +1257,30 @@ const boards = ({ boards }) => {
                             setTimerTime(e.target.value);
                           }}
                         ></input>
-                        {valveTimeStart && (
-                          <div>
-                            <p>START TIME</p>
-                            <input
-                              id="valveStartTime"
-                              className="form-input"
-                              defaultValue={nHour + ":" + nMin}
-                              type="time"
-                              style={{ color: "white" }}
-                              disabled={Disable}
-                            ></input>
-                          </div>
-                        )}
-                        {valveTimeStop && (
-                          <div>
-                            <p>STOP TIME</p>
-                            <input
-                              id="valveStopTime"
-                              className="form-input"
-                              defaultValue={nHour + ":" + nMin}
-                              type="time"
-                              style={{ color: "white" }}
-                              disabled={Disable}
-                            ></input>
-                          </div>
-                        )}
+
+                        <div className="mb-3 mt-3">
+                          <p>START TIME</p>
+                          <input
+                            id="valveStartTime"
+                            className="form-input"
+                            defaultValue={nHour + ":" + nMin}
+                            type="time"
+                            style={{ color: "white" }}
+                            disabled={Disable}
+                          ></input>
+                        </div>
+
+                        <div className="mb-3">
+                          <p>STOP TIME</p>
+                          <input
+                            id="valveStopTime"
+                            className="form-input"
+                            defaultValue={nHour + ":" + nMin}
+                            type="time"
+                            style={{ color: "white" }}
+                            disabled={Disable}
+                          ></input>
+                        </div>
                       </div>
                       <div>
                         <button
@@ -1404,7 +1402,7 @@ const boards = ({ boards }) => {
 
                 {i.bclTimer && (
                   <>
-                    <form className="mt-3 box-form">
+                    <form className=" box-form" style={{ marginTop: "55px" }}>
                       <p>Timer</p>
 
                       <div className="mb-3">
@@ -1503,32 +1501,29 @@ const boards = ({ boards }) => {
                           }}
                         ></input>
 
-                        {bclTimeStart && (
-                          <div>
-                            <p>START TIME</p>
-                            <input
-                              id="bclStartTime"
-                              className="form-input"
-                              defaultValue={nHour + ":" + nMin}
-                              type="time"
-                              style={{ color: "white" }}
-                              disabled={Disable}
-                            ></input>
-                          </div>
-                        )}
-                        {bclTimeStop && (
-                          <div>
-                            <p>STOP TIME</p>
-                            <input
-                              id="bclStopTime"
-                              className="form-input"
-                              defaultValue={nHour + ":" + nMin}
-                              type="time"
-                              style={{ color: "white" }}
-                              disabled={Disable}
-                            ></input>
-                          </div>
-                        )}
+                        <div className="mb-3 mt-3">
+                          <p>START TIME</p>
+                          <input
+                            id="bclStartTime"
+                            className="form-input"
+                            defaultValue={nHour + ":" + nMin}
+                            type="time"
+                            style={{ color: "white" }}
+                            disabled={Disable}
+                          ></input>
+                        </div>
+
+                        <div className="mb-3">
+                          <p>STOP TIME</p>
+                          <input
+                            id="bclStopTime"
+                            className="form-input"
+                            defaultValue={nHour + ":" + nMin}
+                            type="time"
+                            style={{ color: "white" }}
+                            disabled={Disable}
+                          ></input>
+                        </div>
                       </div>
                       <div>
                         <button
