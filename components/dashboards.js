@@ -1,10 +1,15 @@
 import { useTable } from "react-table";
 import * as React from "react";
 import classnames from "classnames";
-const Dashboards = ({ boards }) => {
+import { ResponsiveLine } from "@nivo/line";
+import { ResponsiveBar } from "@nivo/bar";
+const Dashboards = ({ boards, setBoardId, boardData }) => {
+  // console.log(boardData);
+
   return (
     <>
       <div className="dashboard-status">
+        {/* <MyResponsiveLine /> */}
         <div className="table-box">
           <table className="Table">
             <thead>
@@ -80,6 +85,7 @@ const Dashboards = ({ boards }) => {
                         (i.valve === 1 && Number(i.flow) === 0) ||
                         (i.valve === 0 && Number(i.flow) > 0),
                     })}
+                    onClick={() => setBoardId(i.b_id)}
                   >
                     <td>{k + 1}</td>
                     <td>{i.b_name}</td>
@@ -131,5 +137,7 @@ const Dashboards = ({ boards }) => {
     </>
   );
 };
+
+
 
 export default Dashboards;
