@@ -107,15 +107,21 @@ const Dashboard = () => {
           <p className="mt-2">TOTAL BOARD : {boards.length}</p>
         </div>
         <div>
-          <div
-            style={{
-              height: 400,
-              boxShadow: "box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-              // width: "70%",
-            }}
-          >
-            <MyResponsiveLine boardData={boardData} />
-          </div>
+          {boardData.length !== 0 && (
+            <div
+              style={{
+                height: 400,
+                boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+                border: "1px solid white",
+                borderRadius: "10px",
+
+                // width: "70%",
+              }}
+            >
+              <MyResponsiveLine boardData={boardData} boardId={boardId} />
+            </div>
+          )}
+
           <Dashboards
             boards={boards}
             setBoardId={setBoardId}
@@ -127,7 +133,7 @@ const Dashboard = () => {
   }
 };
 
-const MyResponsiveLine = ({ boardData }) => {
+const MyResponsiveLine = ({ boardData, boardId }) => {
   const tmpData = boardData.slice(boardData.length - 20, -1);
   const data = [
     {
@@ -136,7 +142,9 @@ const MyResponsiveLine = ({ boardData }) => {
       data: tmpData.map((i, k) => {
         const tmpTime = i.time;
         const Time = tmpTime.split(" ");
+        // if (i.b_id === boardId) {
         return { x: Time[4], y: i.ec };
+        // }
       }),
     },
   ];
@@ -153,6 +161,7 @@ const MyResponsiveLine = ({ boardData }) => {
         reverse: false,
       }}
       yFormat=" >-.2f"
+      curve="natural"
       axisTop={null}
       axisRight={null}
       axisBottom={{
@@ -174,6 +183,7 @@ const MyResponsiveLine = ({ boardData }) => {
         legendPosition: "middle",
       }}
       enableGridX={false}
+      colors={{ scheme: "set1" }}
       pointSize={10}
       pointColor={{ from: "color", modifiers: [] }}
       pointBorderWidth={2}
@@ -196,15 +206,15 @@ const MyResponsiveLine = ({ boardData }) => {
           symbolSize: 12,
           symbolShape: "circle",
           symbolBorderColor: "rgba(0, 0, 0, .5)",
-          // effects: [
-          //     {
-          //         on: 'hover',
-          //         style: {
-          //             itemBackground: 'rgba(0, 0, 0, .03)',
-          //             itemOpacity: 1
-          //         }
-          //     }
-          // ]
+          effects: [
+            {
+              on: "hover",
+              style: {
+                itemBackground: "rgba(0, 0, 0, .03)",
+                itemOpacity: 1,
+              },
+            },
+          ],
         },
       ]}
     />
