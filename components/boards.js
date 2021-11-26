@@ -681,11 +681,6 @@ const boards = ({ boards }) => {
     },
   }));
 
-  const styles = (theme) => ({
-    multilineColor: {
-      color: "red",
-    },
-  });
   return boards.map((i) => {
     if (i.ph !== null || i.ec !== null) {
       const flow = Number(i.flow);
@@ -1157,8 +1152,66 @@ const boards = ({ boards }) => {
 
                       <div className="mb-3">
                         <div className="form-group mb-3">
-                          <div>
-                            <FormGroup>
+                          <div className="mb-3">
+                            {" "}
+                            <select
+                              className="form-control"
+                              id="valveType"
+                              disabled={Disable}
+                              defaultValue="Start"
+                              onChange={(e) => {
+                                setTimerType(e.target.value);
+                              }}
+                            >
+                              <option value="Start" selected>
+                                Start
+                              </option>
+                              <option value="Stop">Stop</option>
+                            </select>
+                          </div>
+                          <div className="mb-3">
+                            <select
+                              className="form-control"
+                              id="valveDay"
+                              disabled={Disable}
+                              onChange={(e) => {
+                                setTimerDay(e.target.value);
+                              }}
+                            >
+                              <option value="Everyday" selected>
+                                Everyday
+                              </option>
+                              <option value="Sunday">Sunday</option>
+                              <option value="Monday">Monday</option>
+                              <option value="Tuesday">Tuesday</option>
+                              <option value="Wednesday">Wednesday</option>
+                              <option value="Thursday">Thursday</option>
+                              <option value="Friday">Friday</option>
+                              <option value="Saturday">Saturday</option>
+                            </select>
+                          </div>
+
+                          <div className="mb-3">
+                            <input
+                              id="valveTime"
+                              className="form-input"
+                              defaultValue={nHour + ":" + nMin}
+                              type="time"
+                              style={{ color: "white" }}
+                              disabled={Disable}
+                              onChange={(e) => {
+                                setTimerTime(e.target.value);
+                              }}
+                            ></input>
+                          </div>
+
+                          <div className="timer-set mb-3">
+                            <span>TYPE</span>
+                            <div
+                              style={{
+                                display: "flex",
+                              }}
+                            >
                               <FormControlLabel
                                 control={<Checkbox defaultChecked />}
                                 label="START"
@@ -1173,24 +1226,11 @@ const boards = ({ boards }) => {
                                   setValveTimeStop(!valveTimeStop)
                                 }
                               />
-                            </FormGroup>
+                            </div>
                           </div>
-                          <select
-                            className="form-control"
-                            id="valveType"
-                            disabled={Disable}
-                            defaultValue="Start"
-                            onChange={(e) => {
-                              setTimerType(e.target.value);
-                            }}
-                          >
-                            <option value="Start" selected>
-                              Start
-                            </option>
-                            <option value="Stop">Stop</option>
-                          </select>
                         </div>
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 timer-set">
+                          <p>DAYS</p>
                           <FormControl
                             sx={{
                               mb: 2,
@@ -1226,60 +1266,91 @@ const boards = ({ boards }) => {
                               ))}
                             </Select>
                           </FormControl>
-                          <select
-                            className="form-control"
-                            id="valveDay"
-                            disabled={Disable}
-                            onChange={(e) => {
-                              setTimerDay(e.target.value);
-                            }}
-                          >
-                            <option value="Everyday" selected>
-                              Everyday
-                            </option>
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                          </select>
                         </div>
-                        <input
-                          id="valveTime"
-                          className="form-input"
-                          defaultValue={nHour + ":" + nMin}
-                          type="time"
-                          style={{ color: "white" }}
-                          disabled={Disable}
-                          onChange={(e) => {
-                            setTimerTime(e.target.value);
-                          }}
-                        ></input>
 
-                        <div className="mb-3 mt-3">
+                        <div className="mb-3 mt-3 timer-set">
                           <p>START TIME</p>
-                          <input
+                          <div>
+                            <Box
+                              component="form"
+                              sx={{
+                                "& .MuiTextField-root": {
+                                  color: "white",
+                                },
+                              }}
+                              noValidate
+                              autoComplete="off"
+                            >
+                              <div>
+                                <TextField
+                                  fullWidth
+                                  style={{ color: " #ffffff" }}
+                                  id="valveStartTime"
+                                  label="START TIME"
+                                  variant="outlined"
+                                  defaultValue={nHour + ":" + nMin}
+                                  type="time"
+                                  disabled={Disable}
+                                  inputProps={{
+                                    style: {
+                                      color: "white",
+                                    },
+                                  }}
+                                />
+                              </div>
+                            </Box>
+                          </div>
+
+                          {/* <input
                             id="valveStartTime"
                             className="form-input"
                             defaultValue={nHour + ":" + nMin}
                             type="time"
                             style={{ color: "white" }}
                             disabled={Disable}
-                          ></input>
+                          ></input> */}
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-3 timer-set">
                           <p>STOP TIME</p>
-                          <input
+                          <div>
+                            <Box
+                              component="form"
+                              sx={{
+                                "& .MuiTextField-root": {
+                                  color: "white",
+                                },
+                              }}
+                              noValidate
+                              autoComplete="off"
+                            >
+                              <div>
+                                <TextField
+                                  fullWidth
+                                  style={{ color: " #ffffff" }}
+                                  id="valveStopTime"
+                                  label="STOP TIME"
+                                  variant="outlined"
+                                  defaultValue={nHour + ":" + nMin}
+                                  type="time"
+                                  disabled={Disable}
+                                  inputProps={{
+                                    style: {
+                                      color: "white",
+                                    },
+                                  }}
+                                />
+                              </div>
+                            </Box>
+                          </div>
+                          {/* <input
                             id="valveStopTime"
                             className="form-input"
                             defaultValue={nHour + ":" + nMin}
                             type="time"
                             style={{ color: "white" }}
                             disabled={Disable}
-                          ></input>
+                          ></input> */}
                         </div>
                       </div>
                       <div>
@@ -1407,8 +1478,63 @@ const boards = ({ boards }) => {
 
                       <div className="mb-3">
                         <div className="form-group mb-3">
-                          <div>
-                            <FormGroup>
+                          <div className="mb-3">
+                            {" "}
+                            <select
+                              className="form-control"
+                              id="bclType"
+                              disabled={Disable}
+                              onChange={(e) => {
+                                setTimerType(e.target.value);
+                              }}
+                            >
+                              <option value="Start">Start</option>
+                              <option value="Stop">Stop</option>
+                            </select>
+                          </div>
+                          <div className="mb-3">
+                            <select
+                              className="form-control"
+                              id="bclDay"
+                              disabled={Disable}
+                              onChange={(e) => {
+                                setTimerDay(e.target.value);
+                              }}
+                            >
+                              <option value="Everyday" selected>
+                                Everyday
+                              </option>
+                              <option value="Sunday">Sunday</option>
+                              <option value="Monday">Monday</option>
+                              <option value="Tuesday">Tuesday</option>
+                              <option value="Wednesday">Wednesday</option>
+                              <option value="Thursday">Thursday</option>
+                              <option value="Friday">Friday</option>
+                              <option value="Saturday">Saturday</option>
+                            </select>
+                          </div>
+                          <div className="mb-3">
+                            {" "}
+                            <input
+                              id="bclTime"
+                              className="form-input"
+                              defaultValue="00:00"
+                              type="time"
+                              style={{ color: "white" }}
+                              disabled={Disable}
+                              onChange={(e) => {
+                                setTimerTime(e.target.value);
+                              }}
+                            ></input>
+                          </div>
+
+                          <div className="timer-set mb-3">
+                            <span>TYPE</span>
+                            <div
+                              style={{
+                                display: "flex",
+                              }}
+                            >
                               <FormControlLabel
                                 control={<Checkbox defaultChecked />}
                                 label="START"
@@ -1419,21 +1545,11 @@ const boards = ({ boards }) => {
                                 label="STOP"
                                 onChange={() => setBclTimeStop(!bclTimeStop)}
                               />
-                            </FormGroup>
+                            </div>
                           </div>
-                          <select
-                            className="form-control"
-                            id="bclType"
-                            disabled={Disable}
-                            onChange={(e) => {
-                              setTimerType(e.target.value);
-                            }}
-                          >
-                            <option value="Start">Start</option>
-                            <option value="Stop">Stop</option>
-                          </select>
                         </div>
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 timer-set">
+                          <p>DAYS</p>
                           <FormControl
                             sx={{
                               mb: 2,
@@ -1469,60 +1585,91 @@ const boards = ({ boards }) => {
                               ))}
                             </Select>
                           </FormControl>
-                          <select
-                            className="form-control"
-                            id="bclDay"
-                            disabled={Disable}
-                            onChange={(e) => {
-                              setTimerDay(e.target.value);
-                            }}
-                          >
-                            <option value="Everyday" selected>
-                              Everyday
-                            </option>
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                          </select>
                         </div>
-                        <input
-                          id="bclTime"
-                          className="form-input"
-                          defaultValue="00:00"
-                          type="time"
-                          style={{ color: "white" }}
-                          disabled={Disable}
-                          onChange={(e) => {
-                            setTimerTime(e.target.value);
-                          }}
-                        ></input>
 
-                        <div className="mb-3 mt-3">
+                        <div className="mb-3 mt-3 timer-set">
                           <p>START TIME</p>
-                          <input
+
+                          <div>
+                            <Box
+                              component="form"
+                              sx={{
+                                "& .MuiTextField-root": {
+                                  color: "white",
+                                },
+                              }}
+                              noValidate
+                              autoComplete="off"
+                            >
+                              <div>
+                                <TextField
+                                  fullWidth
+                                  style={{ color: " #ffffff" }}
+                                  id="bclStartTime"
+                                  label="START TIME"
+                                  variant="outlined"
+                                  defaultValue={nHour + ":" + nMin}
+                                  type="time"
+                                  disabled={Disable}
+                                  inputProps={{
+                                    style: {
+                                      color: "white",
+                                    },
+                                  }}
+                                />
+                              </div>
+                            </Box>
+                          </div>
+                          {/* <input
                             id="bclStartTime"
                             className="form-input"
                             defaultValue={nHour + ":" + nMin}
                             type="time"
                             style={{ color: "white" }}
                             disabled={Disable}
-                          ></input>
+                          ></input> */}
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-3 timer-set">
                           <p>STOP TIME</p>
-                          <input
+                          <div>
+                            <Box
+                              component="form"
+                              sx={{
+                                "& .MuiTextField-root": {
+                                  color: "white",
+                                },
+                              }}
+                              noValidate
+                              autoComplete="off"
+                            >
+                              <div>
+                                <TextField
+                                  fullWidth
+                                  style={{ color: " #ffffff" }}
+                                  id="bclStopTime"
+                                  label="STOP TIME"
+                                  variant="outlined"
+                                  defaultValue={nHour + ":" + nMin}
+                                  type="time"
+                                  disabled={Disable}
+                                  inputProps={{
+                                    style: {
+                                      color: "white",
+                                    },
+                                  }}
+                                />
+                              </div>
+                            </Box>
+                          </div>
+                          {/* <input
                             id="bclStopTime"
                             className="form-input"
                             defaultValue={nHour + ":" + nMin}
                             type="time"
                             style={{ color: "white" }}
                             disabled={Disable}
-                          ></input>
+                          ></input> */}
                         </div>
                       </div>
                       <div>

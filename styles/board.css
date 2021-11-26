@@ -115,28 +115,23 @@
   background-color: rgba(0, 0, 0, 0);
   border-color: #05ace3;
   outline: #05ace3;
-  min-width: 210px;
+  color: white;
   width: 100%;
 }
 
 .box_board .board .button-box .box .form-input:hover {
   border-radius: 20px;
-  padding: 10px 20px 10px 20px;
-  background-color: black;
+  padding: 6px 20px 6px 20px;
   color: white;
   border-color: #5c459b;
-  min-width: 210px;
-  padding: 10px;
   width: 100%;
 }
 
 .box_board .board .button-box .box .form-input:focus {
   border-radius: 20px;
-  padding: 10px 20px 10px 20px;
-  background-color: black;
+  padding: 6px 20px 6px 20px;
   color: white;
   border-color: #5c459b;
-  min-width: 210px;
   width: 100%;
   outline: #5c459b;
 }
@@ -193,23 +188,29 @@
   border-radius: 30px;
   background-color: rgba(92, 69, 155, 0);
   color: white;
-  border-color: #5c459b;
+  border-color: white;
 }
 
 .box_board .board .button-box .box #set:hover {
   color: white;
-  background-color: #5c459b;
+  background-color: #212227;
 }
 
 .box_board .board .button-box .box #set:focus {
   color: white;
-  background-color: #5c459b;
+  background-color: #212227;
 }
 
 .box_board .board .button-box .box .box-form {
   -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   background-color: #54545c;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.box_board .board .button-box .box .box-form .timer-set {
+  border: 1px solid white;
   padding: 10px;
   border-radius: 10px;
 }
