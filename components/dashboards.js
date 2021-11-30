@@ -9,7 +9,7 @@ const Dashboards = ({ boards, setBoardId, boardData }) => {
   return (
     <>
       <div className="dashboard-status">
-        {/* <MyResponsiveLine /> */}
+        {/* <MyResponsiveLine boardData={boardData} /> */}
         <div className="table-box">
           <table className="Table">
             <thead>
@@ -138,6 +138,93 @@ const Dashboards = ({ boards, setBoardId, boardData }) => {
   );
 };
 
-
+const MyResponsiveLine = ({ boardData }) => {
+  const tmpData = boardData;
+  let b_name = "";
+  let dataTmp = [];
+  boardData.map((i) => {
+    const tmpTime = i.time;
+    const Time = tmpTime.split(" ");
+    dataTmp.push({ x: Time[4], y: Number(i.ec) });
+  });
+  const data = [
+    {
+      id: "EC",
+      color: "hsl(353, 70%, 50%)",
+      data: dataTmp,
+    },
+  ];
+  return (
+    <ResponsiveLine
+      data={data}
+      margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+      xScale={{ type: "point" }}
+      yScale={{
+        type: "linear",
+        min: 0,
+        max: 1000,
+        stacked: true,
+        reverse: false,
+      }}
+      yFormat=" >-.2f"
+      curve="natural"
+      axisTop={null}
+      axisRight={null}
+      axisBottom={{
+        orient: "bottom",
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legend: "transportation",
+        legendOffset: 36,
+        legendPosition: "middle",
+      }}
+      axisLeft={{
+        orient: "left",
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legend: "count",
+        legendOffset: -40,
+        legendPosition: "middle",
+      }}
+      enableGridX={false}
+      colors={{ scheme: "set1" }}
+      pointSize={10}
+      pointColor={{ from: "color", modifiers: [] }}
+      pointBorderWidth={2}
+      pointBorderColor={{ theme: "background" }}
+      enablePointLabel={true}
+      pointLabelYOffset={-12}
+      useMesh={true}
+      legends={[
+        {
+          anchor: "bottom-right",
+          direction: "column",
+          justify: false,
+          translateX: 100,
+          translateY: 0,
+          itemsSpacing: 0,
+          itemDirection: "left-to-right",
+          itemWidth: 80,
+          itemHeight: 20,
+          itemOpacity: 0.75,
+          symbolSize: 12,
+          symbolShape: "circle",
+          symbolBorderColor: "rgba(0, 0, 0, .5)",
+          effects: [
+            {
+              on: "hover",
+              style: {
+                itemBackground: "rgba(0, 0, 0, .03)",
+                itemOpacity: 1,
+              },
+            },
+          ],
+        },
+      ]}
+    />
+  );
+};
 
 export default Dashboards;

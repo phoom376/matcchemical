@@ -110,7 +110,7 @@ const Dashboard = () => {
           {boardData.length !== 0 && (
             <div
               style={{
-                height: 400,
+                height: 500,
                 boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
                 border: "1px solid white",
                 borderRadius: "10px",
@@ -134,18 +134,28 @@ const Dashboard = () => {
 };
 
 const MyResponsiveLine = ({ boardData, boardId }) => {
-  const tmpData = boardData.slice(boardData.length - 20, -1);
+  const tmpData = boardData.slice((boardData.length -70), -1);
+  let b_name = "";
+  let dataTmp = [];
+  let max = 0;
+  tmpData.map((i) => {
+    if (b_name === "") {
+      b_name = i.b_name;
+    }
+    if (max === 0) {
+      max = Number(i.ec) + 550;
+    }
+    const tmpTime = i.time;
+    const Time = tmpTime.split(" ");
+    if (i.b_id === boardId) {
+      dataTmp.push({ x: Time[4], y: Number(i.ec) });
+    }
+  });
   const data = [
     {
-      id: "EC",
+      id: b_name,
       color: "hsl(353, 70%, 50%)",
-      data: tmpData.map((i, k) => {
-        const tmpTime = i.time;
-        const Time = tmpTime.split(" ");
-        // if (i.b_id === boardId) {
-        return { x: Time[4], y: i.ec };
-        // }
-      }),
+      data: dataTmp,
     },
   ];
   return (
@@ -155,8 +165,8 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: "auto",
-        max: "auto",
+        min: 0,
+        max: max,
         stacked: true,
         reverse: false,
       }}
