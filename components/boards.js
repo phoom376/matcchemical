@@ -196,30 +196,6 @@ const boards = ({ boards }) => {
   };
 
   const setDayTime = (e, id, ts, type, length) => {
-    const sTime = timerTime.split(":");
-
-    const hours = sTime[0];
-    const min = sTime[1];
-
-    let newHours = "";
-    let newMin = "";
-
-    if (hours[0] === "0") {
-      newHours = hours.replace("0", "");
-    } else {
-      newHours = hours;
-    }
-
-    if (min[0] === "0") {
-      newMin = min.replace("0", "");
-    } else {
-      newMin = min;
-    }
-
-    const newHM = newHours + ":" + newMin;
-
-    console.log(id, type, timerDay, String(newHM), timerType);
-
     if (length < 20) {
       const alert = Swal.fire({
         title: "PLEASE WAIT!",
@@ -286,9 +262,6 @@ const boards = ({ boards }) => {
             .post(`${server}/updateValveControl`, {
               b_id: id,
               type: type,
-              day: timerDay,
-              time: String(newHM),
-              typeSS: timerType,
               Start: valveTimeStart,
               Stop: valveTimeStop,
               startTime: String(valveStartTimeNewHM),
@@ -359,9 +332,6 @@ const boards = ({ boards }) => {
             .post(`${server}/updateBclControl`, {
               b_id: id,
               type: type,
-              day: timerDay,
-              time: String(newHM),
-              typeSS: timerType,
               Start: bclTimeStart,
               Stop: bclTimeStop,
               startTime: String(bclStartTimeNewHM),
@@ -1151,84 +1121,6 @@ const boards = ({ boards }) => {
                       <p>Timer</p>
 
                       <div className="mb-3">
-                        <div className="form-group mb-3">
-                          <div className="mb-3">
-                            {" "}
-                            <select
-                              className="form-control"
-                              id="valveType"
-                              disabled={Disable}
-                              defaultValue="Start"
-                              onChange={(e) => {
-                                setTimerType(e.target.value);
-                              }}
-                            >
-                              <option value="Start" selected>
-                                Start
-                              </option>
-                              <option value="Stop">Stop</option>
-                            </select>
-                          </div>
-                          <div className="mb-3">
-                            <select
-                              className="form-control"
-                              id="valveDay"
-                              disabled={Disable}
-                              onChange={(e) => {
-                                setTimerDay(e.target.value);
-                              }}
-                            >
-                              <option value="Everyday" selected>
-                                Everyday
-                              </option>
-                              <option value="Sunday">Sunday</option>
-                              <option value="Monday">Monday</option>
-                              <option value="Tuesday">Tuesday</option>
-                              <option value="Wednesday">Wednesday</option>
-                              <option value="Thursday">Thursday</option>
-                              <option value="Friday">Friday</option>
-                              <option value="Saturday">Saturday</option>
-                            </select>
-                          </div>
-
-                          <div className="mb-3">
-                            <input
-                              id="valveTime"
-                              className="form-input"
-                              defaultValue={nHour + ":" + nMin}
-                              type="time"
-                              style={{ color: "white" }}
-                              disabled={Disable}
-                              onChange={(e) => {
-                                setTimerTime(e.target.value);
-                              }}
-                            ></input>
-                          </div>
-
-                          <div className="timer-set mb-3">
-                            <span>TYPE</span>
-                            <div
-                              style={{
-                                display: "flex",
-                              }}
-                            >
-                              <FormControlLabel
-                                control={<Checkbox defaultChecked />}
-                                label="START"
-                                onChange={() =>
-                                  setValveTimeStart(!valveTimeStart)
-                                }
-                              />
-                              <FormControlLabel
-                                control={<Checkbox defaultChecked />}
-                                label="STOP"
-                                onChange={() =>
-                                  setValveTimeStop(!valveTimeStop)
-                                }
-                              />
-                            </div>
-                          </div>
-                        </div>
                         <div className="form-group mb-3 timer-set">
                           <p>DAYS</p>
                           <FormControl
@@ -1384,12 +1276,6 @@ const boards = ({ boards }) => {
                               <div className="timer-header">
                                 <p>Timer : {k + 1}</p>
                               </div>
-                              <span>DAY : {i.day}</span>
-                              <br></br>
-                              <span>TIME : {i.time}</span>
-                              <br></br>
-                              <span> TYPE : {i.typeSS}</span>
-                              <br></br>
                               TYPE:
                               {i.Start && <span> START </span>}
                               {i.Stop && <span> STOP </span>}
@@ -1477,77 +1363,6 @@ const boards = ({ boards }) => {
                       <p>Timer</p>
 
                       <div className="mb-3">
-                        <div className="form-group mb-3">
-                          <div className="mb-3">
-                            {" "}
-                            <select
-                              className="form-control"
-                              id="bclType"
-                              disabled={Disable}
-                              onChange={(e) => {
-                                setTimerType(e.target.value);
-                              }}
-                            >
-                              <option value="Start">Start</option>
-                              <option value="Stop">Stop</option>
-                            </select>
-                          </div>
-                          <div className="mb-3">
-                            <select
-                              className="form-control"
-                              id="bclDay"
-                              disabled={Disable}
-                              onChange={(e) => {
-                                setTimerDay(e.target.value);
-                              }}
-                            >
-                              <option value="Everyday" selected>
-                                Everyday
-                              </option>
-                              <option value="Sunday">Sunday</option>
-                              <option value="Monday">Monday</option>
-                              <option value="Tuesday">Tuesday</option>
-                              <option value="Wednesday">Wednesday</option>
-                              <option value="Thursday">Thursday</option>
-                              <option value="Friday">Friday</option>
-                              <option value="Saturday">Saturday</option>
-                            </select>
-                          </div>
-                          <div className="mb-3">
-                            {" "}
-                            <input
-                              id="bclTime"
-                              className="form-input"
-                              defaultValue="00:00"
-                              type="time"
-                              style={{ color: "white" }}
-                              disabled={Disable}
-                              onChange={(e) => {
-                                setTimerTime(e.target.value);
-                              }}
-                            ></input>
-                          </div>
-
-                          <div className="timer-set mb-3">
-                            <span>TYPE</span>
-                            <div
-                              style={{
-                                display: "flex",
-                              }}
-                            >
-                              <FormControlLabel
-                                control={<Checkbox defaultChecked />}
-                                label="START"
-                                onChange={() => setBclTimeStart(!bclTimeStart)}
-                              />
-                              <FormControlLabel
-                                control={<Checkbox defaultChecked />}
-                                label="STOP"
-                                onChange={() => setBclTimeStop(!bclTimeStop)}
-                              />
-                            </div>
-                          </div>
-                        </div>
                         <div className="form-group mb-3 timer-set">
                           <p>DAYS</p>
                           <FormControl
@@ -1700,12 +1515,6 @@ const boards = ({ boards }) => {
                               <div className="timer-header">
                                 <p>Timer : {k + 1}</p>
                               </div>
-                              <span>DAY : {i.day}</span>
-                              <br></br>
-                              <span>TIME : {i.time}</span>
-                              <br></br>
-                              <span> TYPE : {i.typeSS}</span>
-                              <br></br>
                               TYPE:
                               {i.Start && <span> START </span>}
                               {i.Stop && <span> STOP </span>}

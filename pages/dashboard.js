@@ -19,11 +19,16 @@ const Dashboard = () => {
     const Verify = async () => {
       await CookieCheck();
       await getBoardCompany();
-      await getBoardData();
+      if (boardData.length === 0) {
+        await getBoardData();
+      }
       // await getBoard();
     };
     // console.log(getAll);
     setInterval(() => {
+      if (boardId === "" && boards.length !== 0) {
+        setBoardId(boards[0].b_id);
+      }
       // if (select !== "") {
       //   getBoardCompany();
       // }
@@ -34,7 +39,7 @@ const Dashboard = () => {
     }, 1000);
   }, []);
 
-  console.log(boardId, boardData.slice(boardData.length - 11, -1));
+  console.log();
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {
@@ -42,7 +47,7 @@ const Dashboard = () => {
         Cookies.remove(e);
       });
       await Router.push("/login");
-      await (<Link to="/login" />);
+      // await (<Link to="/login" />);
     }
   };
 
@@ -107,7 +112,13 @@ const Dashboard = () => {
           <p className="mt-2">TOTAL BOARD : {boards.length}</p>
         </div>
         <div>
-          {boardData.length !== 0 && (
+          <Dashboards
+            boards={boards}
+            setBoardId={setBoardId}
+            boardData={boardData}
+          />
+
+          {boardData.length !== 0 ? (
             <div
               style={{
                 height: 500,
@@ -120,13 +131,11 @@ const Dashboard = () => {
             >
               <MyResponsiveLine boardData={boardData} boardId={boardId} />
             </div>
+          ) : (
+            <h1 className="center">
+              <img src="./loading.gif" />
+            </h1>
           )}
-
-          <Dashboards
-            boards={boards}
-            setBoardId={setBoardId}
-            boardData={boardData}
-          />
         </div>
       </div>
     );
@@ -134,12 +143,12 @@ const Dashboard = () => {
 };
 
 const MyResponsiveLine = ({ boardData, boardId }) => {
-  const tmpData = boardData.slice((boardData.length -70), -1);
+  const tmpData = boardData;
   let b_name = "";
   let dataTmp = [];
   let max = 0;
   tmpData.map((i) => {
-    if (b_name === "") {
+    if (b_name === "" && i.b_id === boardId) {
       b_name = i.b_name;
     }
     if (max === 0) {
@@ -179,7 +188,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "transportation",
+        legend: "TIME",
         legendOffset: 36,
         legendPosition: "middle",
       }}
@@ -188,7 +197,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "count",
+        legend: "EC",
         legendOffset: -40,
         legendPosition: "middle",
       }}
