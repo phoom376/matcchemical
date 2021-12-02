@@ -3,7 +3,7 @@ import * as React from "react";
 import classnames from "classnames";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveBar } from "@nivo/bar";
-const Dashboards = ({ boards, setBoardId, boardData }) => {
+const Dashboards = ({ boards, setBoardId, boardData, getBoardData }) => {
   // console.log(boardData);
 
   return (

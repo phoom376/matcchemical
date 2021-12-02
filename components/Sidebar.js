@@ -56,6 +56,8 @@ const Sidebar = ({ children }) => {
     }, 1000);
 
     Verify();
+
+    
   }, []);
 
   const internetCheck = () => {

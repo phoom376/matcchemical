@@ -14,21 +14,19 @@ const Dashboard = () => {
   const [boardId, setBoardId] = useState("");
   const [loading, setLoading] = useState(true);
   const server = "https://www.matchchemical.tk:57524";
-
+  // const server = "http://localhost:4003";
   useEffect(() => {
     const Verify = async () => {
       await CookieCheck();
       await getBoardCompany();
-      if (boardData.length === 0) {
-        await getBoardData();
-      }
+
       // await getBoard();
     };
     // console.log(getAll);
-    setInterval(() => {
-      if (boardId === "" && boards.length !== 0) {
-        setBoardId(boards[0].b_id);
-      }
+    const getData = setTimeout(() => {
+      // if (boardId === "" && boards.length !== 0) {
+      //   setBoardId(boards[0].b_id);
+      // }
       // if (select !== "") {
       //   getBoardCompany();
       // }
@@ -37,9 +35,16 @@ const Dashboard = () => {
 
       Verify();
     }, 1000);
+
+    const getBoardDataT = setTimeout(async () => {}, 10000);
+    getBoardData();
+    return () => {
+      clearTimeout(getData);
+      clearInterval(getBoardDataT);
+    };
   }, []);
 
-  console.log();
+  console.log(boardId, boardData);
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {
@@ -73,9 +78,8 @@ const Dashboard = () => {
             if (res.data) {
               setBoards(res.data);
               setLoading(false);
-              if (boardId !== "") {
-              } else {
-                // setBoardId(res.data[0].b_id);
+              if (boardId === "") {
+                setBoardId(res.data[0].b_id);
               }
             }
           });
@@ -86,13 +90,18 @@ const Dashboard = () => {
   const getBoardData = async () => {
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
+
     await axios
       .post(`${server}/getBoardDataByCompany`, {
         c_id: decode.c_id,
         b_id: boardId,
       })
       .then((res) => {
-        setBoardData(res.data);
+        const tmpData = res.data;
+        console.log(boardId);
+        const tmpReverse = tmpData.reverse();
+        setBoardData(tmpReverse);
+        console.log("GET");
       });
   };
 
@@ -129,7 +138,11 @@ const Dashboard = () => {
                 // width: "70%",
               }}
             >
-              <MyResponsiveLine boardData={boardData} boardId={boardId} />
+              <MyResponsiveLine
+                boardData={boardData}
+                boardId={boardId}
+                getBoardData={getBoardData()}
+              />
             </div>
           ) : (
             <h1 className="center">
@@ -147,7 +160,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
   let b_name = "";
   let dataTmp = [];
   let max = 0;
-  tmpData.map((i) => {
+  tmpData.reverse().map((i) => {
     if (b_name === "" && i.b_id === boardId) {
       b_name = i.b_name;
     }
