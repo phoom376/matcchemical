@@ -169,9 +169,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
     }
     const tmpTime = i.time;
     const Time = tmpTime.split(" ");
-    if (i.b_id === boardId) {
-      dataTmp.push({ x: Time[4], y: Number(i.ec) });
-    }
+    dataTmp.push({ x: Time[4], y: Number(i.ec) });
   });
   const data = [
     {
