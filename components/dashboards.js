@@ -3,13 +3,19 @@ import * as React from "react";
 import classnames from "classnames";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveBar } from "@nivo/bar";
-const Dashboards = ({ boards, setBoardId, boardData, getBoardData }) => {
+const Dashboards = ({
+  boards,
+  setBoardId,
+  boardId,
+  boardData,
+  getBoardData,
+}) => {
   // console.log(boardData);
 
   return (
     <>
       <div className="dashboard-status">
-        {/* <MyResponsiveLine boardData={boardData} /> */}
+        <MyResponsiveLine boardData={boardData} />
         <div className="table-box">
           <table className="Table">
             <thead>
@@ -134,22 +140,56 @@ const Dashboards = ({ boards, setBoardId, boardData, getBoardData }) => {
           </table>
         </div>
       </div>
+      {boardData.length !== 0 ? (
+        <div
+          className="dashboard-ec-chart"
+          // style={{
+          //   height: 500,
+          //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+          //   border: "1px solid white",
+          //   borderRadius: "10px",
+          //   width: "100%",
+          //   display: "flex",
+          //   overflow: "auto",
+          //   justifyContent: "center",
+
+          //   // width: "70%",
+          // }}
+        >
+          <MyResponsiveLine
+            boardData={boardData}
+            boardId={boardId}
+            getBoardData={getBoardData()}
+          />
+        </div>
+      ) : (
+        <h1 className="center">
+          <img src="./loading.gif" />
+        </h1>
+      )}
     </>
   );
 };
 
-const MyResponsiveLine = ({ boardData }) => {
+const MyResponsiveLine = ({ boardData, boardId }) => {
   const tmpData = boardData;
   let b_name = "";
   let dataTmp = [];
-  boardData.map((i) => {
+  let max = 0;
+  tmpData.map((i) => {
+    if (b_name === "" && i.b_id === boardId) {
+      b_name = i.b_name;
+    }
+    if (max === 0) {
+      max = Number(i.ec) + 550;
+    }
     const tmpTime = i.time;
     const Time = tmpTime.split(" ");
     dataTmp.push({ x: Time[4], y: Number(i.ec) });
   });
   const data = [
     {
-      id: "EC",
+      id: b_name,
       color: "hsl(353, 70%, 50%)",
       data: dataTmp,
     },
@@ -161,22 +201,21 @@ const MyResponsiveLine = ({ boardData }) => {
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: 0,
-        max: 1000,
+        min: "auto",
+        max: "auto",
         stacked: true,
         reverse: false,
       }}
       yFormat=" >-.2f"
-      curve="natural"
       axisTop={null}
       axisRight={null}
       axisBottom={{
         orient: "bottom",
         tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "transportation",
-        legendOffset: 36,
+        tickPadding: 4,
+        tickRotation: -45,
+        legend: "TIME",
+        legendOffset: 34,
         legendPosition: "middle",
       }}
       axisLeft={{
@@ -189,40 +228,17 @@ const MyResponsiveLine = ({ boardData }) => {
         legendPosition: "middle",
       }}
       enableGridX={false}
-      colors={{ scheme: "set1" }}
+      colors={{ scheme: "purpleRed_green" }}
+      enablePoints={false}
       pointSize={10}
-      pointColor={{ from: "color", modifiers: [] }}
+      pointColor={{ theme: "background" }}
       pointBorderWidth={2}
-      pointBorderColor={{ theme: "background" }}
-      enablePointLabel={true}
+      pointBorderColor={{ from: "serieColor" }}
       pointLabelYOffset={-12}
+      enableArea={true}
+      enableCrosshair={false}
       useMesh={true}
-      legends={[
-        {
-          anchor: "bottom-right",
-          direction: "column",
-          justify: false,
-          translateX: 100,
-          translateY: 0,
-          itemsSpacing: 0,
-          itemDirection: "left-to-right",
-          itemWidth: 80,
-          itemHeight: 20,
-          itemOpacity: 0.75,
-          symbolSize: 12,
-          symbolShape: "circle",
-          symbolBorderColor: "rgba(0, 0, 0, .5)",
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemBackground: "rgba(0, 0, 0, .03)",
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]}
+      legends={[]}
     />
   );
 };

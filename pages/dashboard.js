@@ -125,18 +125,24 @@ const Dashboard = () => {
             boards={boards}
             setBoardId={setBoardId}
             boardData={boardData}
+            boardId={boardId}
           />
 
-          {boardData.length !== 0 ? (
+          {/* {boardData.length !== 0 ? (
             <div
-              style={{
-                height: 500,
-                boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-                border: "1px solid white",
-                borderRadius: "10px",
+              className="dashboard-ec-chart"
+              // style={{
+              //   height: 500,
+              //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+              //   border: "1px solid white",
+              //   borderRadius: "10px",
+              //   width: "100%",
+              //   display: "flex",
+              //   overflow: "auto",
+              //   justifyContent: "center",
 
-                // width: "70%",
-              }}
+              //   // width: "70%",
+              // }}
             >
               <MyResponsiveLine
                 boardData={boardData}
@@ -148,7 +154,7 @@ const Dashboard = () => {
             <h1 className="center">
               <img src="./loading.gif" />
             </h1>
-          )}
+          )} */}
         </div>
       </div>
     );
@@ -160,7 +166,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
   let b_name = "";
   let dataTmp = [];
   let max = 0;
-  tmpData.reverse().map((i) => {
+  tmpData.map((i) => {
     if (b_name === "" && i.b_id === boardId) {
       b_name = i.b_name;
     }
@@ -185,8 +191,8 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: 0,
-        max: max,
+        min: "auto",
+        max: "auto",
         stacked: true,
         reverse: false,
       }}
@@ -196,10 +202,10 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
       axisBottom={{
         orient: "bottom",
         tickSize: 5,
-        tickPadding: 5,
-        tickRotation: -90,
+        tickPadding: 4,
+        tickRotation: -45,
         legend: "TIME",
-        legendOffset: 36,
+        legendOffset: 34,
         legendPosition: "middle",
       }}
       axisLeft={{
@@ -207,10 +213,11 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "EC",
+        legend: "count",
         legendOffset: -40,
         legendPosition: "middle",
       }}
+      enableGridX={false}
       colors={{ scheme: "purpleRed_green" }}
       enablePoints={false}
       pointSize={10}
@@ -219,6 +226,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
       pointBorderColor={{ from: "serieColor" }}
       pointLabelYOffset={-12}
       enableArea={true}
+      enableCrosshair={false}
       useMesh={true}
       legends={[]}
     />
