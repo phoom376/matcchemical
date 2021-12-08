@@ -14,8 +14,11 @@ const Dashboard = () => {
   const [boardId, setBoardId] = useState("");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  // const server = "https://www.matchchemical.tk:57524";
-  const server = "http://localhost:4003";
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [day, setDay] = useState("");
+  const server = "https://www.matchchemical.tk:57524";
+  // const server = "http://localhost:4003";
   useEffect(() => {
     const Verify = async () => {
       await CookieCheck();
@@ -48,7 +51,7 @@ const Dashboard = () => {
     };
   }, []);
 
-  // console.log();
+  console.log(year, month, day);
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {
@@ -62,7 +65,13 @@ const Dashboard = () => {
 
   const getDataByType = async (type) => {
     await axios
-      .post(`${server}/getDataByType`, { type: type, b_id: boardId })
+      .post(`${server}/getDataByType`, {
+        type: type,
+        b_id: boardId,
+        day: day,
+        month: month,
+        year: year,
+      })
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -161,6 +170,9 @@ const Dashboard = () => {
             boardId={boardId}
             data={data}
             setData={setData}
+            setMonth={setMonth}
+            setYear={setYear}
+            setDay={setDay}
           />
         </div>
       </div>

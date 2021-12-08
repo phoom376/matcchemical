@@ -16,10 +16,10 @@ const Dashboards = ({
   getDataByType,
   data,
   setData,
+  setMonth,
+  setYear,
+  setDay,
 }) => {
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
-  const [day, setDat] = useState("");
   console.log(boardData);
 
   const handleMonthYear = (e) => {
@@ -41,12 +41,22 @@ const Dashboards = ({
     ];
 
     setMonth(Months[tmpSplit[1] - 1]);
+    setYear(tmpSplit[0]);
     console.log(tmpSplit);
   };
   const handleDay = (e) => {
-    console.log(e.target.value);
+    // console.log();
+    const tmpDay = e.target.value;
+    let tDay = "";
+    if (tmpDay.length === 1) {
+      tDay = "0" + tmpDay;
+    } else {
+      tDay = tmpDay;
+    }
+    setDay(tDay);
+    console.log(tDay);
   };
-  console.log(month);
+
   return (
     <>
       <div className="dashboard-status">
