@@ -3,19 +3,53 @@ import * as React from "react";
 import classnames from "classnames";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveBar } from "@nivo/bar";
+import DataExport from "./DataExport";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
 const Dashboards = ({
   boards,
   setBoardId,
   boardId,
   boardData,
   getBoardData,
+  getDataByType,
+  data,
+  setData,
 }) => {
-  // console.log(boardData);
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [day, setDat] = useState("");
+  console.log(boardData);
 
+  const handleMonthYear = (e) => {
+    const tmpMY = e.target.value;
+    const tmpSplit = tmpMY.split("-");
+    const Months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    setMonth(Months[tmpSplit[1] - 1]);
+    console.log(tmpSplit);
+  };
+  const handleDay = (e) => {
+    console.log(e.target.value);
+  };
+  console.log(month);
   return (
     <>
       <div className="dashboard-status">
-        <MyResponsiveLine boardData={boardData} />
         <div className="table-box">
           <table className="Table">
             <thead>
@@ -91,7 +125,7 @@ const Dashboards = ({
                         (i.valve === 1 && Number(i.flow) === 0) ||
                         (i.valve === 0 && Number(i.flow) > 0),
                     })}
-                    onClick={() => setBoardId(i.b_id)}
+                    onClick={() => getBoardData(i.b_id)}
                   >
                     <td>{k + 1}</td>
                     <td>{i.b_name}</td>
@@ -140,33 +174,90 @@ const Dashboards = ({
           </table>
         </div>
       </div>
-      {boardData.length !== 0 ? (
-        <div
-          className="dashboard-ec-chart"
-          // style={{
-          //   height: 500,
-          //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-          //   border: "1px solid white",
-          //   borderRadius: "10px",
-          //   width: "100%",
-          //   display: "flex",
-          //   overflow: "auto",
-          //   justifyContent: "center",
 
-          //   // width: "70%",
-          // }}
-        >
-          <MyResponsiveLine
-            boardData={boardData}
-            boardId={boardId}
-            getBoardData={getBoardData()}
+      <div className="box-ec-chart">
+        {boardId !== "" ? (
+          boardData.message ? (
+            <h1>{boardData.message}</h1>
+          ) : boardData.length !== 0 ? (
+            <div
+              className="dashboard-ec-chart"
+              // style={{
+              //   height: 500,
+              //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+              //   border: "1px solid white",
+              //   borderRadius: "10px",
+              //   width: "100%",
+              //   display: "flex",
+              //   overflow: "auto",
+              //   justifyContent: "center",
+
+              //   // width: "70%",
+              // }}
+            >
+              <div className="chart">
+                <MyResponsiveLine
+                  boardData={boardData}
+                  boardId={boardId}
+                  // getBoardData={getBoardData()}
+                />
+              </div>
+            </div>
+          ) : (
+            <h1 className="center">
+              <img src="./loading.gif" />
+            </h1>
+          )
+        ) : (
+          <h1>PLEASE SELECT BOARD</h1>
+        )}
+      </div>
+
+      <div className="DataExport">
+        <div className="button mb-3">
+          <TextField
+            id="outlined-basic"
+            label="Outlined"
+            type="month"
+            variant="outlined"
+            onChange={handleMonthYear}
           />
+          <TextField
+            id="outlined-basic"
+            label="Day"
+            InputProps={{ inputProps: { min: 1, max: 31 } }}
+            type="Number"
+            variant="outlined"
+            onChange={handleDay}
+          />
+          <button
+            className="btn "
+            disabled={boardData.message}
+            onClick={() => {
+              getDataByType("day");
+            }}
+          >
+            DAY
+          </button>
+          <button className="btn" disabled={boardData.message}>
+            MONTH
+          </button>
+          <button
+            className="btn"
+            disabled={boardData.message}
+            onClick={() => {
+              setData([]);
+            }}
+          >
+            CLEAR
+          </button>
         </div>
-      ) : (
-        <h1 className="center">
-          <img src="./loading.gif" />
-        </h1>
-      )}
+        <div className="box-table">
+          {boardData.length !== 0 && !boardData.message && (
+            <DataExport data={data} boardId={boardId} />
+          )}
+        </div>
+      </div>
     </>
   );
 };
@@ -201,8 +292,8 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: "auto",
-        max: "auto",
+        min: 0,
+        max: max,
         stacked: true,
         reverse: false,
       }}
@@ -223,7 +314,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "count",
+        legend: "EC",
         legendOffset: -40,
         legendPosition: "middle",
       }}

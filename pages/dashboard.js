@@ -13,8 +13,9 @@ const Dashboard = () => {
   const [boardData, setBoardData] = useState([]);
   const [boardId, setBoardId] = useState("");
   const [loading, setLoading] = useState(true);
-  const server = "https://www.matchchemical.tk:57524";
-  // const server = "http://localhost:4003";
+  const [data, setData] = useState([]);
+  // const server = "https://www.matchchemical.tk:57524";
+  const server = "http://localhost:4003";
   useEffect(() => {
     const Verify = async () => {
       await CookieCheck();
@@ -23,7 +24,7 @@ const Dashboard = () => {
       // await getBoard();
     };
     // console.log(getAll);
-    const getData = setTimeout(() => {
+    const getData = setInterval(() => {
       // if (boardId === "" && boards.length !== 0) {
       //   setBoardId(boards[0].b_id);
       // }
@@ -36,15 +37,18 @@ const Dashboard = () => {
       Verify();
     }, 1000);
 
-    const getBoardDataT = setTimeout(async () => {}, 10000);
-    getBoardData();
+    const getBoardDataT = setTimeout(async () => {
+      if (boardId !== "") {
+        await getBoardData();
+      }
+    }, 1000);
     return () => {
-      clearTimeout(getData);
-      clearInterval(getBoardDataT);
+      clearInterval(getData);
+      clearTimeout(getBoardDataT);
     };
   }, []);
 
-  console.log(boardId, boardData);
+  // console.log();
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {
@@ -54,6 +58,15 @@ const Dashboard = () => {
       await Router.push("/login");
       // await (<Link to="/login" />);
     }
+  };
+
+  const getDataByType = async (type) => {
+    await axios
+      .post(`${server}/getDataByType`, { type: type, b_id: boardId })
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
   };
 
   const getBoardCompany = async () => {
@@ -78,31 +91,49 @@ const Dashboard = () => {
             if (res.data) {
               setBoards(res.data);
               setLoading(false);
-              if (boardId === "") {
-                setBoardId(res.data[0].b_id);
-              }
+              // if (boardId == "") {
+              //   getBoardData(res.data[0].b_id);
+              // }
             }
           });
       }
     }
   };
 
-  const getBoardData = async () => {
+  const getBoardData = async (id) => {
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
-
-    await axios
-      .post(`${server}/getBoardDataByCompany`, {
-        c_id: decode.c_id,
-        b_id: boardId,
-      })
-      .then((res) => {
-        const tmpData = res.data;
-        console.log(boardId);
-        const tmpReverse = tmpData.reverse();
-        setBoardData(tmpReverse);
-        console.log("GET");
-      });
+    if (id !== "") {
+      await axios
+        .post(`${server}/getBoardDataByCompany`, {
+          b_id: id,
+        })
+        .then((res) => {
+          const tmpData = res.data;
+          console.log(res);
+          setBoardId(id);
+          if (res.data.message) {
+            setBoardData(res.data);
+          } else {
+            const tmpReverse = tmpData.reverse();
+            setBoardData(tmpReverse);
+          }
+          console.log("GET");
+        });
+    } else {
+      await axios
+        .post(`${server}/getBoardDataByCompany`, {
+          b_id: boardId,
+        })
+        .then((res) => {
+          const tmpData = res.data;
+          console.log(boardId);
+          // setBoardId(id);
+          const tmpReverse = tmpData.reverse();
+          setBoardData(tmpReverse);
+          console.log("GET");
+        });
+    }
   };
 
   if (loading) {
@@ -124,113 +155,17 @@ const Dashboard = () => {
           <Dashboards
             boards={boards}
             setBoardId={setBoardId}
+            getBoardData={getBoardData}
+            getDataByType={getDataByType}
             boardData={boardData}
             boardId={boardId}
+            data={data}
+            setData={setData}
           />
-
-          {/* {boardData.length !== 0 ? (
-            <div
-              className="dashboard-ec-chart"
-              // style={{
-              //   height: 500,
-              //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-              //   border: "1px solid white",
-              //   borderRadius: "10px",
-              //   width: "100%",
-              //   display: "flex",
-              //   overflow: "auto",
-              //   justifyContent: "center",
-
-              //   // width: "70%",
-              // }}
-            >
-              <MyResponsiveLine
-                boardData={boardData}
-                boardId={boardId}
-                getBoardData={getBoardData()}
-              />
-            </div>
-          ) : (
-            <h1 className="center">
-              <img src="./loading.gif" />
-            </h1>
-          )} */}
         </div>
       </div>
     );
   }
-};
-
-const MyResponsiveLine = ({ boardData, boardId }) => {
-  const tmpData = boardData;
-  let b_name = "";
-  let dataTmp = [];
-  let max = 0;
-  tmpData.map((i) => {
-    if (b_name === "" && i.b_id === boardId) {
-      b_name = i.b_name;
-    }
-    if (max === 0) {
-      max = Number(i.ec) + 550;
-    }
-    const tmpTime = i.time;
-    const Time = tmpTime.split(" ");
-    dataTmp.push({ x: Time[4], y: Number(i.ec) });
-  });
-  const data = [
-    {
-      id: b_name,
-      color: "hsl(353, 70%, 50%)",
-      data: dataTmp,
-    },
-  ];
-  return (
-    <ResponsiveLine
-      data={data}
-      margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-      xScale={{ type: "point" }}
-      yScale={{
-        type: "linear",
-        min: "auto",
-        max: "auto",
-        stacked: true,
-        reverse: false,
-      }}
-      yFormat=" >-.2f"
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        orient: "bottom",
-        tickSize: 5,
-        tickPadding: 4,
-        tickRotation: -45,
-        legend: "TIME",
-        legendOffset: 34,
-        legendPosition: "middle",
-      }}
-      axisLeft={{
-        orient: "left",
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "count",
-        legendOffset: -40,
-        legendPosition: "middle",
-      }}
-      enableGridX={false}
-      colors={{ scheme: "purpleRed_green" }}
-      enablePoints={false}
-      pointSize={10}
-      pointColor={{ theme: "background" }}
-      pointBorderWidth={2}
-      pointBorderColor={{ from: "serieColor" }}
-      pointLabelYOffset={-12}
-      enableArea={true}
-      enableCrosshair={false}
-      useMesh={true}
-      legends={[]}
-    />
-  );
 };
 
 export default Dashboard;
