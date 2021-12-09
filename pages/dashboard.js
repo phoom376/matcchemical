@@ -122,39 +122,39 @@ const Dashboard = () => {
   const getBoardData = async (id, name) => {
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
-    if (id !== "") {
-      await axios
-        .post(`${server}/getBoardDataByCompany`, {
-          b_id: id,
-        })
-        .then((res) => {
-          const tmpData = res.data;
-          // console.log(res.data);
-          setBoardId(id);
-          setBoardName(name);
-          console.log(id, name);
-          if (res.data.message) {
-            setBoardData(res.data);
-          } else {
-            const tmpReverse = tmpData;
-            setBoardData(tmpReverse);
-          }
-          console.log("GET");
-        });
-    } else {
-      await axios
-        .post(`${server}/getBoardDataByCompany`, {
-          b_id: boardId,
-        })
-        .then((res) => {
-          const tmpData = res.data;
-          console.log(boardId);
-          // setBoardId(id);
+    // if (id !== "") {
+    await axios
+      .post(`${server}/getBoardDataByCompany`, {
+        b_id: id,
+      })
+      .then((res) => {
+        const tmpData = res.data;
+        // console.log(res.data);
+        setBoardId(id);
+        setBoardName(name);
+        console.log(id, name);
+        if (res.data.message) {
+          setBoardData(res.data);
+        } else {
           const tmpReverse = tmpData;
           setBoardData(tmpReverse);
-          console.log("GET");
-        });
-    }
+        }
+        console.log("GET");
+      });
+    // } else {
+    //   await axios
+    //     .post(`${server}/getBoardDataByCompany`, {
+    //       b_id: boardId,
+    //     })
+    //     .then((res) => {
+    //       const tmpData = res.data;
+    //       console.log(boardId);
+    //       // setBoardId(id);
+    //       const tmpReverse = tmpData;
+    //       setBoardData(tmpReverse);
+    //       console.log("GET");
+    //     });
+    // }
   };
 
   if (loading) {
