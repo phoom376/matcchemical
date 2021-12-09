@@ -162,30 +162,59 @@
   margin: 10px;
   border-radius: 10px;
   text-align: center;
-  padding: 10px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 20px;
   -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   background-color: #ffffff10;
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
+  width: 100%;
+}
+
+.DataExport .data-head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-width: 640px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 100%;
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.DataExport .data-head div {
+  width: 100%;
 }
 
 .DataExport .button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   padding: 10px;
-  border: 1px solid black;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   width: 100%;
 }
 
 .DataExport .button .btn {
+  margin: 10px;
   color: white;
   border: 1px solid white;
   width: 150px;
@@ -199,18 +228,24 @@
 
 .DataExport .box-table {
   overflow: auto;
-  padding: 20px;
-  max-height: 300px;
+  padding: 50px;
+  max-height: 500px;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%;
 }
 
 .DataExport .box-table .btn {
   color: white;
   border: 1px solid white;
-  width: 150px;
+  width: 300px;
   height: 50px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
 }
 
 .DataExport .box-table .btn:hover {
@@ -232,6 +267,7 @@
   background-color: #ffffff10;
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
+  height: 600px;
 }
 
 .box-ec-chart .dashboard-ec-chart {
@@ -248,11 +284,38 @@
 }
 
 .box-ec-chart .dashboard-ec-chart .chart {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   border-radius: 10px;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   width: 100%;
+}
+
+.box-ec-chart .dashboard-ec-chart .chart .lineChart {
+  margin-left: 3em;
+  width: 100%;
   height: 500px;
+}
+
+.box-ec-chart .dashboard-ec-chart .chart .time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 90%;
+  font-size: 15px;
 }
 /*# sourceMappingURL=dashboard.css.map */

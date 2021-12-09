@@ -5,10 +5,16 @@ import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveBar } from "@nivo/bar";
 import DataExport from "./DataExport";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+// import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import TextField from "@mui/material/TextField";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+
 const Dashboards = ({
   boards,
+  boardName,
   setBoardId,
   boardId,
   boardData,
@@ -19,42 +25,21 @@ const Dashboards = ({
   setMonth,
   setYear,
   setDay,
+  setDate,
+  date,
 }) => {
   console.log(boardData);
 
-  const handleMonthYear = (e) => {
-    const tmpMY = e.target.value;
-    const tmpSplit = tmpMY.split("-");
-    const Months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
-    setMonth(Months[tmpSplit[1] - 1]);
-    setYear(tmpSplit[0]);
+  const handleDate = (e) => {
+    const tmpDate = e.toString();
+    const tmpSplit = tmpDate.split(" ");
     console.log(tmpSplit);
-  };
-  const handleDay = (e) => {
-    // console.log();
-    const tmpDay = e.target.value;
-    let tDay = "";
-    if (tmpDay.length === 1) {
-      tDay = "0" + tmpDay;
-    } else {
-      tDay = tmpDay;
-    }
-    setDay(tDay);
-    console.log(tDay);
+
+    setYear(tmpSplit[3]);
+    setMonth(tmpSplit[1]);
+    setDay(tmpSplit[2]);
+
+    setDate(e);
   };
 
   return (
@@ -135,7 +120,7 @@ const Dashboards = ({
                         (i.valve === 1 && Number(i.flow) === 0) ||
                         (i.valve === 0 && Number(i.flow) > 0),
                     })}
-                    onClick={() => getBoardData(i.b_id)}
+                    onClick={() => getBoardData(i.b_id, i.b_name)}
                   >
                     <td>{k + 1}</td>
                     <td>{i.b_name}</td>
@@ -225,23 +210,19 @@ const Dashboards = ({
 
       <div className="DataExport">
         <div className="button mb-3">
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            type="month"
-            variant="outlined"
-            onChange={handleMonthYear}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Day"
-            InputProps={{ inputProps: { min: 1, max: 31 } }}
-            type="Number"
-            variant="outlined"
-            onChange={handleDay}
-          />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="DATE"
+              value={date}
+              onChange={(e) => {
+                handleDate(e);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+
           <button
-            className="btn "
+            className="btn"
             disabled={boardData.message}
             onClick={() => {
               getDataByType("day");
@@ -249,7 +230,13 @@ const Dashboards = ({
           >
             DAY
           </button>
-          <button className="btn" disabled={boardData.message}>
+          <button
+            className="btn"
+            disabled={boardData.message}
+            onClick={() => {
+              getDataByType("month");
+            }}
+          >
             MONTH
           </button>
           <button
@@ -264,7 +251,7 @@ const Dashboards = ({
         </div>
         <div className="box-table">
           {boardData.length !== 0 && !boardData.message && (
-            <DataExport data={data} boardId={boardId} />
+            <DataExport data={data} boardId={boardId} boardName={boardName} />
           )}
         </div>
       </div>
@@ -275,8 +262,21 @@ const Dashboards = ({
 const MyResponsiveLine = ({ boardData, boardId }) => {
   const tmpData = boardData;
   let b_name = "";
+  const tmpStartTime = boardData[0].time;
+  const tmpStopTime = boardData[boardData.length - 1].time;
+  const splitStartTime = tmpStartTime.split(" ");
+  const splitStopTime = tmpStopTime.split(" ");
+  const starTime = splitStartTime[4];
+  const stopTime = splitStopTime[4];
   let dataTmp = [];
   let max = 0;
+  let sumEc = 0;
+  let avgEc = 0;
+  for (let i = 0; i < boardData.length; i++) {
+    sumEc += Number(boardData[i].ec);
+  }
+
+  avgEc = sumEc / boardData.length;
   tmpData.map((i) => {
     if (b_name === "" && i.b_id === boardId) {
       b_name = i.b_name;
@@ -296,51 +296,61 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
     },
   ];
   return (
-    <ResponsiveLine
-      data={data}
-      margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-      xScale={{ type: "point" }}
-      yScale={{
-        type: "linear",
-        min: 0,
-        max: max,
-        stacked: true,
-        reverse: false,
-      }}
-      yFormat=" >-.2f"
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        orient: "bottom",
-        tickSize: 5,
-        tickPadding: 4,
-        tickRotation: -45,
-        legend: "TIME",
-        legendOffset: 34,
-        legendPosition: "middle",
-      }}
-      axisLeft={{
-        orient: "left",
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "EC",
-        legendOffset: -40,
-        legendPosition: "middle",
-      }}
-      enableGridX={false}
-      colors={{ scheme: "purpleRed_green" }}
-      enablePoints={false}
-      pointSize={10}
-      pointColor={{ theme: "background" }}
-      pointBorderWidth={2}
-      pointBorderColor={{ from: "serieColor" }}
-      pointLabelYOffset={-12}
-      enableArea={true}
-      enableCrosshair={false}
-      useMesh={true}
-      legends={[]}
-    />
+    <>
+      <div>
+        <h3>AVG EC: {Math.floor(avgEc)}</h3>
+      </div>
+      <div className="lineChart">
+        <ResponsiveLine
+          data={data}
+          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          xScale={{ type: "point" }}
+          yScale={{
+            type: "linear",
+            min: 0,
+            max: max,
+            stacked: true,
+            reverse: false,
+          }}
+          yFormat=" >-.2f"
+          axisTop={null}
+          axisRight={{
+            orient: "right",
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "",
+            legendOffset: 0,
+          }}
+          axisBottom={null}
+          axisLeft={{
+            orient: "left",
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "EC",
+            legendOffset: -40,
+            legendPosition: "middle",
+          }}
+          enableGridX={false}
+          colors={{ scheme: "purple_orange" }}
+          enablePoints={false}
+          pointSize={10}
+          pointColor={{ theme: "background" }}
+          pointBorderWidth={2}
+          pointBorderColor={{ from: "serieColor" }}
+          pointLabelYOffset={-12}
+          enableArea={true}
+          isInteractive={false}
+          legends={[]}
+        />
+      </div>
+
+      <div className="time">
+        <p>{starTime}</p>
+        <p>{stopTime}</p>
+      </div>
+    </>
   );
 };
 

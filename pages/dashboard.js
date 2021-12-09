@@ -7,17 +7,21 @@ import Router from "next/router";
 import Link from "next/link";
 import { ResponsiveBar } from "@nivo/bar";
 import { ResponsiveLine } from "@nivo/line";
+const Swal = require("sweetalert2");
 
 const Dashboard = () => {
   const [boards, setBoards] = useState([]);
   const [boardData, setBoardData] = useState([]);
   const [boardId, setBoardId] = useState("");
+  const [boardName, setBoardName] = useState("");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [day, setDay] = useState("");
+  const [date, setDate] = useState("");
   const server = "https://www.matchchemical.tk:57524";
+  // const server = "http://home420.trueddns.com:57525";
   // const server = "http://localhost:4003";
   useEffect(() => {
     const Verify = async () => {
@@ -40,14 +44,13 @@ const Dashboard = () => {
       Verify();
     }, 1000);
 
-    const getBoardDataT = setTimeout(async () => {
-      if (boardId !== "") {
-        await getBoardData();
-      }
-    }, 1000);
+    // console.log(boardId);
+
+    const getBoardDataT = setInterval(async () => {}, 1000);
+    getBoardData();
     return () => {
       clearInterval(getData);
-      clearTimeout(getBoardDataT);
+      clearInterval(getBoardDataT);
     };
   }, []);
 
@@ -64,18 +67,26 @@ const Dashboard = () => {
   };
 
   const getDataByType = async (type) => {
-    await axios
-      .post(`${server}/getDataByType`, {
-        type: type,
-        b_id: boardId,
-        day: day,
-        month: month,
-        year: year,
-      })
-      .then((res) => {
-        console.log(res.data);
-        setData(res.data);
+    if (date !== "") {
+      await axios
+        .post(`${server}/getDataByType`, {
+          type: type,
+          b_id: boardId,
+          day: day,
+          month: month,
+          year: year,
+        })
+        .then((res) => {
+          console.log(res.data);
+          setData(res.data);
+        });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please Select Date",
       });
+    }
   };
 
   const getBoardCompany = async () => {
@@ -109,7 +120,7 @@ const Dashboard = () => {
     }
   };
 
-  const getBoardData = async (id) => {
+  const getBoardData = async (id, name) => {
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
     if (id !== "") {
@@ -119,12 +130,14 @@ const Dashboard = () => {
         })
         .then((res) => {
           const tmpData = res.data;
-          console.log(res);
+          console.log(res.data);
           setBoardId(id);
+          setBoardName(name);
+          console.log(id);
           if (res.data.message) {
             setBoardData(res.data);
           } else {
-            const tmpReverse = tmpData.reverse();
+            const tmpReverse = tmpData;
             setBoardData(tmpReverse);
           }
           console.log("GET");
@@ -168,11 +181,14 @@ const Dashboard = () => {
             getDataByType={getDataByType}
             boardData={boardData}
             boardId={boardId}
+            boardName={boardName}
             data={data}
             setData={setData}
             setMonth={setMonth}
             setYear={setYear}
             setDay={setDay}
+            setDate={setDate}
+            date={date}
           />
         </div>
       </div>

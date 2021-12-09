@@ -138,21 +138,44 @@
   // display: flex;
   // justify-content: center;
   // align-items: center;
-  // flex-wrap: wrap;
-  padding: 10px;
+  flex-wrap: wrap;
+  padding: 20px;
   // border: 1px solid black;
   box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
   background-color: #ffffff10;
   backdrop-filter: blur(12px);
+  width: 100%;
+  .data-head {
+    display: flex;
+    min-width: 640px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    // border: 1px solid black;
+    padding: 10px;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    // background-color: white;
+    // color: black;
+    div {
+      width: 100%;
+    }
+  }
   .button {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     padding: 10px;
-    border: 1px solid black;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    // border: 1px solid black;
     width: 100%;
     .btn {
       // padding: 10px;
+      // margin-top: 10px;
+      // margin-left: 10px;
+      margin: 10px;
       color: white;
       border: 1px solid white;
       width: 150px;
@@ -164,16 +187,23 @@
     }
   }
   .box-table {
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     overflow: auto;
-    padding: 20px;
-    max-height: 300px;
-
+    padding: 50px;
+    max-height: 500px;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 100%;
     .btn {
       color: white;
       border: 1px solid white;
-      width: 150px;
+      width: 300px;
       height: 50px;
       align-items: center;
+      box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+
     }
     .btn:hover {
       color: black;
@@ -190,6 +220,7 @@
   border-radius: 10px;
   background-color: #ffffff10;
   backdrop-filter: blur(12px);
+  height: 600px;
   .dashboard-ec-chart {
     display: flex;
     // text-align: center;
@@ -203,13 +234,31 @@
     // padding: 10px;
     padding: 10px;
     .chart {
-      // margin-left: 2rem;
+      display: flex;
+      justify-content: center;
+      // margin-left: 3em;
 
+      // align-items: center;
+      flex-wrap: wrap;
       // border: 1px solid black;
       border-radius: 10px;
       flex: 1;
       width: 100%;
-      height: 500px;
+      .lineChart {
+        margin-left: 3em;
+        width: 100%;
+        height: 500px;
+      }
+      .time {
+        // flex: 1;
+        // margin-left: auto;
+        // border: 1px black solid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        font-size: 15px;
+      }
     }
   }
 }
