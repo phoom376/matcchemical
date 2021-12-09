@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
+import { CSVLink, CSVDownload } from "react-csv";
 
 const Dashboards = ({
   boards,
@@ -28,6 +29,32 @@ const Dashboards = ({
   setDate,
   date,
 }) => {
+  const headers = [
+    { label: "No.", key: "no" },
+    { label: "BOARD ID", key: "b_id" },
+    { label: "BOARD NAME", key: "b_name" },
+    { label: "PH", key: "ph" },
+    { label: "EC", key: "ec" },
+    { label: "WATER FLOW", key: "flow" },
+    { label: "WATER TOTAL", key: "total" },
+    { label: "TIME", key: "time" },
+  ];
+
+  const csv_data = [];
+  const Months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   console.log(boardData);
 
   const handleDate = (e) => {
@@ -248,10 +275,30 @@ const Dashboards = ({
           >
             CLEAR
           </button>
+
+          {data.length > 0 && (
+            <button className="btn">
+              <CSVLink
+                // className="btn"
+                style={{ textDecoration: "none", color: "white" }}
+                data={csv_data}
+                filename={`MATCHCHEMICAL_BOARD_ID_${boardId}`}
+                headers={headers}
+              >
+                Download CSV
+              </CSVLink>
+            </button>
+          )}
         </div>
         <div className="box-table">
           {boardData.length !== 0 && !boardData.message && (
-            <DataExport data={data} boardId={boardId} boardName={boardName} />
+            <DataExport
+              data={data}
+              boardId={boardId}
+              boardName={boardName}
+              csv_data={csv_data}
+              Months={Months}
+            />
           )}
         </div>
       </div>

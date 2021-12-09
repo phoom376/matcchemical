@@ -1,33 +1,7 @@
 import React, { Component, useState } from "react";
 import { CSVLink, CSVDownload } from "react-csv";
 
-const DataExport = ({ data, boardId, boardName }) => {
-  const headers = [
-    { label: "No.", key: "no" },
-    { label: "BOARD ID", key: "b_id" },
-    { label: "BOARD NAME", key: "b_name" },
-    { label: "PH", key: "ph" },
-    { label: "EC", key: "ec" },
-    { label: "WATER FLOW", key: "flow" },
-    { label: "WATER TOTAL", key: "total" },
-    { label: "TIME", key: "time" },
-  ];
-
-  const csv_data = [];
-  const Months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+const DataExport = ({ data, boardId, boardName, csv_data, Months }) => {
   return (
     <div>
       <div className="data-head">
@@ -39,19 +13,6 @@ const DataExport = ({ data, boardId, boardName }) => {
 
         <div>
           {data.message && <h2 style={{ color: "red" }}>{data.message}</h2>}
-          {data.length > 0 && (
-            <button className="btn mt-5">
-              <CSVLink
-                // className="btn"
-                style={{ textDecoration: "none", color: "white" }}
-                data={csv_data}
-                filename={`MATCHCHEMICAL_BOARD_ID_${boardId}`}
-                headers={headers}
-              >
-                Download CSV
-              </CSVLink>
-            </button>
-          )}
         </div>
       </div>
 
