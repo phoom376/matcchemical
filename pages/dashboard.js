@@ -20,7 +20,8 @@ const Dashboard = () => {
   const [year, setYear] = useState("");
   const [day, setDay] = useState("");
   const [date, setDate] = useState("");
-  const server = "https://www.matchchemical.tk:57524";
+  // const server = "https://www.matchchemical.tk:57524";
+  const server = "https://boardapi.herokuapp.com";
   // const server = "http://localhost:4003";
   useEffect(() => {
     const Verify = async () => {
