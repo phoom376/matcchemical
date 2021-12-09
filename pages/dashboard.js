@@ -46,7 +46,7 @@ const Dashboard = () => {
     // console.log(boardId);
 
     const getBoardDataT = setInterval(async () => {}, 1000);
-    getBoardData();
+    // getBoardData();
     return () => {
       clearInterval(getData);
       clearInterval(getBoardDataT);
