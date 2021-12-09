@@ -289,7 +289,7 @@ const Dashboards = ({
                 // className="btn"
                 style={{ textDecoration: "none", color: "white" }}
                 data={csv_data}
-                filename={`${boardName}_${boardId}_${day}_${nMonth}_${year}`}
+                filename={`${boardName}_${boardId}_${day}_${nMonth}_${year}.csv`}
                 headers={headers}
               >
                 Download CSV
