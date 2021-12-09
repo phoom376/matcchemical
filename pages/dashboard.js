@@ -21,7 +21,6 @@ const Dashboard = () => {
   const [day, setDay] = useState("");
   const [date, setDate] = useState("");
   const server = "https://www.matchchemical.tk:57524";
-  // const server = "http://home420.trueddns.com:57525";
   // const server = "http://localhost:4003";
   useEffect(() => {
     const Verify = async () => {
@@ -130,10 +129,10 @@ const Dashboard = () => {
         })
         .then((res) => {
           const tmpData = res.data;
-          console.log(res.data);
+          // console.log(res.data);
           setBoardId(id);
           setBoardName(name);
-          console.log(id);
+          console.log(id, name);
           if (res.data.message) {
             setBoardData(res.data);
           } else {
@@ -151,7 +150,7 @@ const Dashboard = () => {
           const tmpData = res.data;
           console.log(boardId);
           // setBoardId(id);
-          const tmpReverse = tmpData.reverse();
+          const tmpReverse = tmpData;
           setBoardData(tmpReverse);
           console.log("GET");
         });
