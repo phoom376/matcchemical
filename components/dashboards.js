@@ -28,6 +28,10 @@ const Dashboards = ({
   setDay,
   setDate,
   date,
+  setNMonth,
+  nMonth,
+  year,
+  day,
 }) => {
   const headers = [
     { label: "No.", key: "no" },
@@ -237,6 +241,9 @@ const Dashboards = ({
 
       <div className="DataExport">
         <div className="button mb-3">
+          <div className="head">
+            <h2>EXPORT DATA</h2>
+          </div>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="DATE"
@@ -282,7 +289,7 @@ const Dashboards = ({
                 // className="btn"
                 style={{ textDecoration: "none", color: "white" }}
                 data={csv_data}
-                filename={`MATCHCHEMICAL_BOARD_ID_${boardId}`}
+                filename={`${boardName}_${boardId}_${day}_${nMonth}_${year}`}
                 headers={headers}
               >
                 Download CSV
@@ -298,6 +305,7 @@ const Dashboards = ({
               boardName={boardName}
               csv_data={csv_data}
               Months={Months}
+              setNMonth={setNMonth}
             />
           )}
         </div>

@@ -1,7 +1,14 @@
 import React, { Component, useState } from "react";
 import { CSVLink, CSVDownload } from "react-csv";
 
-const DataExport = ({ data, boardId, boardName, csv_data, Months }) => {
+const DataExport = ({
+  data,
+  boardId,
+  boardName,
+  csv_data,
+  Months,
+  setNMonth,
+}) => {
   return (
     <div>
       <div className="data-head">
@@ -47,6 +54,7 @@ const DataExport = ({ data, boardId, boardName, csv_data, Months }) => {
                   tMonth = i + 1;
                 }
               }
+              setNMonth(tMonth);
               csv_data.push({
                 no: k + 1,
                 b_id: i.b_id,

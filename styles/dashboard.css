@@ -213,6 +213,10 @@
   width: 100%;
 }
 
+.DataExport .button .head {
+  width: 100%;
+}
+
 .DataExport .button .btn {
   margin: 10px;
   color: white;

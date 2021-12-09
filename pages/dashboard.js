@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [year, setYear] = useState("");
   const [day, setDay] = useState("");
   const [date, setDate] = useState("");
+  const [nMonth, setNMonth] = useState(0);
   // const server = "https://www.matchchemical.tk:57524";
   const server = "https://boardapi.herokuapp.com";
   // const server = "http://localhost:4003";
@@ -54,7 +55,7 @@ const Dashboard = () => {
     };
   }, []);
 
-  console.log(year, month, day);
+  // console.log(year, month, day);
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {
@@ -68,6 +69,14 @@ const Dashboard = () => {
 
   const getDataByType = async (type) => {
     if (date !== "") {
+      const wait = Swal.fire({
+        title: "PLEASE WAIT!",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       await axios
         .post(`${server}/getDataByType`, {
           type: type,
@@ -79,6 +88,7 @@ const Dashboard = () => {
         .then((res) => {
           console.log(res.data);
           setData(res.data);
+          wait.close();
         });
     } else {
       Swal.fire({
@@ -189,6 +199,10 @@ const Dashboard = () => {
             setDay={setDay}
             setDate={setDate}
             date={date}
+            setNMonth={setNMonth}
+            nMonth={nMonth}
+            day={day}
+            year={year}
           />
         </div>
       </div>
