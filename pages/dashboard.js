@@ -134,6 +134,14 @@ const Dashboard = () => {
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
     // if (id !== "") {
+    const wait = Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     await axios
       .post(`${server}/getBoardDataByCompany`, {
         b_id: id,
@@ -146,9 +154,11 @@ const Dashboard = () => {
         console.log(id, name);
         if (res.data.message) {
           setBoardData(res.data);
+          wait.close();
         } else {
           const tmpReverse = tmpData;
           setBoardData(tmpReverse);
+          wait.close();
         }
         console.log("GET");
       });

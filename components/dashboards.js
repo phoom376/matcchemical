@@ -201,115 +201,123 @@ const Dashboards = ({
         </div>
       </div>
 
-      <div className="box-ec-chart">
-        {boardId !== "" ? (
-          boardData.message ? (
-            <h1>{boardData.message}</h1>
-          ) : boardData.length !== 0 ? (
-            <div
-              className="dashboard-ec-chart"
-              // style={{
-              //   height: 500,
-              //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-              //   border: "1px solid white",
-              //   borderRadius: "10px",
-              //   width: "100%",
-              //   display: "flex",
-              //   overflow: "auto",
-              //   justifyContent: "center",
+      {boardData.length > 0 || boardData.message ? (
+        <>
+          <div className="box-ec-chart">
+            {boardId !== "" ? (
+              boardData.message ? (
+                <h1>{boardData.message}</h1>
+              ) : boardData.length !== 0 ? (
+                <div
+                  className="dashboard-ec-chart"
+                  // style={{
+                  //   height: 500,
+                  //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+                  //   border: "1px solid white",
+                  //   borderRadius: "10px",
+                  //   width: "100%",
+                  //   display: "flex",
+                  //   overflow: "auto",
+                  //   justifyContent: "center",
 
-              //   // width: "70%",
-              // }}
-            >
-              <div className="chart">
-                <MyResponsiveLine
-                  boardData={boardData}
-                  boardId={boardId}
-                  // getBoardData={getBoardData()}
-                />
-              </div>
-            </div>
-          ) : (
-            <h1 className="center">
-              <img src="./loading.gif" />
-            </h1>
-          )
-        ) : (
-          <h1>PLEASE SELECT BOARD</h1>
-        )}
-      </div>
-
-      <div className="DataExport">
-        <div className="button mb-3">
-          <div className="head">
-            <h2>EXPORT DATA</h2>
+                  //   // width: "70%",
+                  // }}
+                >
+                  <div className="chart">
+                    <MyResponsiveLine
+                      boardData={boardData}
+                      boardId={boardId}
+                      // getBoardData={getBoardData()}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <h1 className="center">
+                  <img src="./loading.gif" />
+                </h1>
+              )
+            ) : (
+              <h1>PLEASE SELECT BOARD</h1>
+            )}
           </div>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label="DATE"
-              value={date}
-              onChange={(e) => {
-                handleDate(e);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
 
-          <button
-            className="btn"
-            disabled={boardData.message}
-            onClick={() => {
-              getDataByType("day");
-            }}
-          >
-            DAY
-          </button>
-          <button
-            className="btn"
-            disabled={boardData.message}
-            onClick={() => {
-              getDataByType("month");
-            }}
-          >
-            MONTH
-          </button>
-          <button
-            className="btn"
-            disabled={boardData.message}
-            onClick={() => {
-              setData([]);
-            }}
-          >
-            CLEAR
-          </button>
+          <div className="DataExport">
+            <div className="button mb-3">
+              <div className="head">
+                <h2>EXPORT DATA</h2>
+              </div>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="DATE"
+                  value={date}
+                  onChange={(e) => {
+                    handleDate(e);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
 
-          {data.length > 0 && (
-            <button className="btn">
-              <CSVLink
-                // className="btn"
-                style={{ textDecoration: "none", color: "white" }}
-                data={csv_data}
-                filename={`${boardName}_${boardId}_${day}_${nMonth}_${year}.csv`}
-                headers={headers}
+              <button
+                className="btn"
+                disabled={boardData.message}
+                onClick={() => {
+                  getDataByType("day");
+                }}
               >
-                Download CSV
-              </CSVLink>
-            </button>
-          )}
+                DAY
+              </button>
+              <button
+                className="btn"
+                disabled={boardData.message}
+                onClick={() => {
+                  getDataByType("month");
+                }}
+              >
+                MONTH
+              </button>
+              <button
+                className="btn"
+                disabled={boardData.message}
+                onClick={() => {
+                  setData([]);
+                }}
+              >
+                CLEAR
+              </button>
+
+              {data.length > 0 && (
+                <button className="btn">
+                  <CSVLink
+                    // className="btn"
+                    style={{ textDecoration: "none", color: "white" }}
+                    data={csv_data}
+                    filename={`${boardName}_${boardId}_${day}_${nMonth}_${year}.csv`}
+                    headers={headers}
+                  >
+                    Download CSV
+                  </CSVLink>
+                </button>
+              )}
+            </div>
+            <div className="box-table">
+              {boardData.length !== 0 && !boardData.message && (
+                <DataExport
+                  data={data}
+                  boardId={boardId}
+                  boardName={boardName}
+                  csv_data={csv_data}
+                  Months={Months}
+                  setNMonth={setNMonth}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="container mt-5" style={{ textAlign: "center" }}>
+          <h1>PLEASE SELECT BOARD IN TABLE FOR SHOW DATA</h1>
         </div>
-        <div className="box-table">
-          {boardData.length !== 0 && !boardData.message && (
-            <DataExport
-              data={data}
-              boardId={boardId}
-              boardName={boardName}
-              csv_data={csv_data}
-              Months={Months}
-              setNMonth={setNMonth}
-            />
-          )}
-        </div>
-      </div>
+      )}
     </>
   );
 };
