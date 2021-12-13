@@ -294,7 +294,7 @@ const Dashboards = ({
                     filename={`${boardName}_${boardId}_${day}_${nMonth}_${year}.csv`}
                     headers={headers}
                   >
-                    Download CSV
+                    Download Excel
                   </CSVLink>
                 </button>
               )}
