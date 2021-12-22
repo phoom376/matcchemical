@@ -24,8 +24,8 @@ export default function Board() {
   const [age, setAge] = React.useState("");
 
   // const server = "https://boardapi.herokuapp.com";
-  const server = "https://www.matchchemical.tk:57524";
-  // const server = "http://localhost:4003";
+  // const server = "https://www.matchchemical.tk:57524";
+  const server = "http://localhost:4003";
 
   // const usServer = "https://userlogapi.herokuapp.com";
   const usServer = "https://www.matchchemical.tk:57521";
@@ -116,6 +116,15 @@ export default function Board() {
   };
 
   const handleSelectChange = (event) => {
+    const wait = Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      timer: 1000,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     setB_Select(event.target.value);
   };
 
