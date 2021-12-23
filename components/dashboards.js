@@ -84,10 +84,15 @@ const Dashboards = ({
                 <th className="thead">NAME</th>
                 <th className="thead">STATUS</th>
                 <th className="thead">PH</th>
+                <th className="thead">PH TEMP</th>
                 <th className="thead">EC</th>
-                <th className="thead">SCL</th>
-                <th className="thead">VALVE</th>
-                <th className="thead">BCL</th>
+                <th className="thead">EC TEMP</th>
+                <th className="thead">RELAY1 NAME</th>
+                <th className="thead">RELAY1 STATUS</th>
+                <th className="thead">RELAY2 NAME</th>
+                <th className="thead">RELAY2 STATUS</th>
+                <th className="thead">RELAY3 NAME</th>
+                <th className="thead">RELAY3 STATUS</th>
                 <th className="thead">PUMP ALERT</th>
               </tr>
             </thead>
@@ -163,7 +168,10 @@ const Dashboards = ({
                       )}
                     </td>
                     <td>{i.ph}</td>
+                    <td>{i.phTemp}</td>
                     <td>{i.ec}</td>
+                    <td>{i.ecTemp}</td>
+                    <td>{i.relay1Name}</td>
                     <td>
                       {i.scc === 0 ? (
                         <span className="offline">OFF</span>
@@ -171,6 +179,7 @@ const Dashboards = ({
                         <span className="online">ON</span>
                       )}
                     </td>
+                    <td>{i.relay2Name}</td>
                     <td>
                       {i.valve === 0 ? (
                         <span className="offline">OFF</span>
@@ -178,6 +187,7 @@ const Dashboards = ({
                         <span className="online">ON</span>
                       )}
                     </td>
+                    <td>{i.relay3Name}</td>
                     <td>
                       {i.bcl === 0 ? (
                         <span className="offline">OFF</span>
@@ -208,29 +218,32 @@ const Dashboards = ({
               boardData.message ? (
                 <h1>{boardData.message}</h1>
               ) : boardData.length !== 0 ? (
-                <div
-                  className="dashboard-ec-chart"
-                  // style={{
-                  //   height: 500,
-                  //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-                  //   border: "1px solid white",
-                  //   borderRadius: "10px",
-                  //   width: "100%",
-                  //   display: "flex",
-                  //   overflow: "auto",
-                  //   justifyContent: "center",
+                <>
+                  {" "}
+                  <div
+                    className="dashboard-ec-chart"
+                    // style={{
+                    //   height: 500,
+                    //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+                    //   border: "1px solid white",
+                    //   borderRadius: "10px",
+                    //   width: "100%",
+                    //   display: "flex",
+                    //   overflow: "auto",
+                    //   justifyContent: "center",
 
-                  //   // width: "70%",
-                  // }}
-                >
-                  <div className="chart">
-                    <MyResponsiveLine
-                      boardData={boardData}
-                      boardId={boardId}
-                      // getBoardData={getBoardData()}
-                    />
+                    //   // width: "70%",
+                    // }}
+                  >
+                    <div className="chart">
+                      <MyResponsiveLine
+                        boardData={boardData}
+                        boardId={boardId}
+                        // getBoardData={getBoardData()}
+                      />
+                    </div>
                   </div>
-                </div>
+                </>
               ) : (
                 <h1 className="center">
                   <img src="./loading.gif" />
@@ -240,7 +253,31 @@ const Dashboards = ({
               <h1>PLEASE SELECT BOARD</h1>
             )}
           </div>
-
+          <div className="box-ec-chart">
+            {boardId !== "" ? (
+              boardData.message ? (
+                <h1>{boardData.message}</h1>
+              ) : boardData.length !== 0 ? (
+                <>
+                  <div className="dashboard-ec-chart">
+                    <div className="chart">
+                      <PhLine
+                        boardData={boardData}
+                        boardId={boardId}
+                        // getBoardData={getBoardData()}
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <h1 className="center">
+                  <img src="./loading.gif" />
+                </h1>
+              )
+            ) : (
+              <h1>PLEASE SELECT BOARD</h1>
+            )}
+          </div>
           <div className="DataExport">
             <div className="button mb-3">
               <div className="head">
@@ -362,6 +399,101 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
     <>
       <div>
         <h3>AVG EC: {Math.floor(avgEc)}</h3>
+      </div>
+      <div className="lineChart">
+        <ResponsiveLine
+          data={data}
+          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          xScale={{ type: "point" }}
+          yScale={{
+            type: "linear",
+            min: 0,
+            max: max,
+            stacked: true,
+            reverse: false,
+          }}
+          yFormat=" >-.2f"
+          axisTop={null}
+          axisRight={{
+            orient: "right",
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "",
+            legendOffset: 0,
+          }}
+          axisBottom={null}
+          axisLeft={{
+            orient: "left",
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "EC",
+            legendOffset: -40,
+            legendPosition: "middle",
+          }}
+          enableGridX={false}
+          colors={{ scheme: "purple_orange" }}
+          enablePoints={false}
+          pointSize={10}
+          pointColor={{ theme: "background" }}
+          pointBorderWidth={2}
+          pointBorderColor={{ from: "serieColor" }}
+          pointLabelYOffset={-12}
+          enableArea={true}
+          isInteractive={false}
+          legends={[]}
+        />
+      </div>
+
+      <div className="time">
+        <p>{starTime}</p>
+        <p>{stopTime}</p>
+      </div>
+    </>
+  );
+};
+
+const PhLine = ({ boardData, boardId }) => {
+  const tmpData = boardData;
+  let b_name = "";
+  const tmpStartTime = boardData[0].time;
+  const tmpStopTime = boardData[boardData.length - 1].time;
+  const splitStartTime = tmpStartTime.split(" ");
+  const splitStopTime = tmpStopTime.split(" ");
+  const starTime = splitStartTime[4];
+  const stopTime = splitStopTime[4];
+  let dataTmp = [];
+  let max = 0;
+  let sumPh = 0;
+  let avgPh = 0;
+  for (let i = 0; i < boardData.length; i++) {
+    sumPh += Number(boardData[i].ph);
+  }
+
+  avgPh = sumPh / boardData.length;
+  tmpData.map((i) => {
+    if (b_name === "" && i.b_id === boardId) {
+      b_name = i.b_name;
+    }
+    if (max === 0) {
+      max = Number(i.ph) + 5;
+    }
+    const tmpTime = i.time;
+    const Time = tmpTime.split(" ");
+    dataTmp.push({ x: Time[4], y: Number(i.ph) });
+  });
+  const data = [
+    {
+      id: b_name,
+      color: "hsl(353, 70%, 50%)",
+      data: dataTmp,
+    },
+  ];
+  return (
+    <>
+      <div>
+        <h3>AVG PH: {Math.floor(avgPh)}</h3>
       </div>
       <div className="lineChart">
         <ResponsiveLine
