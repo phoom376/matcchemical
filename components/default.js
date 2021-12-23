@@ -23,8 +23,8 @@ import TextField from "@mui/material/TextField";
 import { styled, useTheme } from "@mui/material/styles";
 import { color } from "@mui/system";
 
-// const server = "https://boardapi.herokuapp.com";
-const server = "https://www.matchchemical.tk:57524";
+const server = "https://boardapi.herokuapp.com";
+// const server = "https://www.matchchemical.tk:57524";
 // const server = "http://localhost:4003";
 
 const Default = ({ board }) => {
@@ -651,8 +651,7 @@ const Default = ({ board }) => {
     },
   }));
 
-  const Export = ({ board }) => {
-    if (board.ph !== null || board.ec !== null) {
+
       const flow = Number(board.flow);
       const dateTime = board.uDate;
       const now = Date(Date.now);
@@ -709,7 +708,7 @@ const Default = ({ board }) => {
         nDay !== day ||
         nHour !== Hour ||
         nMin !== Min;
-      {
+      
         return (
           <div>
             <div
@@ -1279,29 +1278,29 @@ const Default = ({ board }) => {
 
                         {valveTimer.length > 0 &&
                           valveTimer.map((i, k) => {
-                            const v_day = board.aDay;
+                            const v_day = i.aDay;
                             {
                               /* console.log(valveTimer); */
                             }
                             return (
                               <>
-                                <div className="timer-box mt-3" key={board._id}>
+                                <div className="timer-box mt-3" key={i._id}>
                                   <div className="timer-header">
                                     <p>Timer : {k + 1}</p>
                                   </div>
                                   TYPE:
-                                  {board.Start && <span> START </span>}
-                                  {board.Stop && <span> STOP </span>}
+                                  {i.Start && <span> START </span>}
+                                  {i.Stop && <span> STOP </span>}
                                   <br></br>
-                                  <span>Start Time :{board.startTime}</span>
+                                  <span>Start Time :{i.startTime}</span>
                                   <br></br>
-                                  <span>Stop Time :{board.stopTime}</span>
+                                  <span>Stop Time :{i.stopTime}</span>
                                   <br></br>
                                   {v_day.map((i, d) => {
                                     return (
                                       <>
                                         <span>
-                                          DAY[{d + 1}]:{board.days}
+                                          DAY[{d + 1}]:{i.days}
                                         </span>
                                         <br></br>
                                       </>
@@ -1314,7 +1313,7 @@ const Default = ({ board }) => {
                                         handleTimerDelete(
                                           "valve",
                                           b_id,
-                                          board._id
+                                          i._id
                                         )
                                       }
                                       disabled={Disable}
@@ -1583,13 +1582,10 @@ const Default = ({ board }) => {
             </div>
           </div>
         );
-      }
-    } else {
-      return <div>BOARD NOT FOUNT</div>;
-    }
+      
+    
   };
 
-  return <Export board={board} />;
-};
+
 
 export default Default;

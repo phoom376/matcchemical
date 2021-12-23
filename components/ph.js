@@ -23,8 +23,8 @@ import TextField from "@mui/material/TextField";
 import { styled, useTheme } from "@mui/material/styles";
 import { color } from "@mui/system";
 
-// const server = "https://boardapi.herokuapp.com";
-const server = "https://www.matchchemical.tk:57524";
+const server = "https://boardapi.herokuapp.com";
+// const server = "https://www.matchchemical.tk:57524";
 // const server = "http://localhost:4003";
 
 const PH = ({ board }) => {
@@ -1012,7 +1012,7 @@ const PH = ({ board }) => {
             </div>
             {/* /***************PH TEMP PROGRESS*********************/}
 
-            <div> 
+            <div>
               <span className="title">PH TEMP</span>
               <br></br>
               <br></br>
@@ -1264,7 +1264,12 @@ const PH = ({ board }) => {
                     type="button"
                     className="btn btn-outline-danger"
                     onClick={() => relayControl(b_id, 1, 1)}
-                    disabled={Disable}
+                    disabled={
+                      Disable ||
+                      board.relay1EcStatus ||
+                      board.relay1PhStatus ||
+                      board.relay1TimerStatus
+                    }
                   >
                     OFF
                   </button>
@@ -1273,7 +1278,12 @@ const PH = ({ board }) => {
                     type="button"
                     className="btn btn-outline-success"
                     onClick={() => relayControl(b_id, 1, 0)}
-                    disabled={Disable}
+                    disabled={
+                      Disable ||
+                      board.relay1EcStatus ||
+                      board.relay1PhStatus ||
+                      board.relay1TimerStatus
+                    }
                   >
                     ON
                   </button>
@@ -1692,7 +1702,12 @@ const PH = ({ board }) => {
                     type="button"
                     className="btn btn-outline-danger"
                     onClick={() => relayControl(b_id, 2, 1)}
-                    disabled={Disable}
+                    disabled={
+                      Disable ||
+                      board.relay2EcStatus ||
+                      board.relay2PhStatus ||
+                      board.relay2TimerStatus
+                    }
                   >
                     OFF
                   </button>
@@ -1701,7 +1716,12 @@ const PH = ({ board }) => {
                     type="button"
                     className="btn btn-outline-success"
                     onClick={() => relayControl(b_id, 2, 0)}
-                    disabled={Disable}
+                    disabled={
+                      Disable ||
+                      board.relay2EcStatus ||
+                      board.relay2PhStatus ||
+                      board.relay2TimerStatus
+                    }
                   >
                     ON
                   </button>
@@ -2120,7 +2140,12 @@ const PH = ({ board }) => {
                     type="button"
                     className="btn btn-outline-danger"
                     onClick={() => relayControl(b_id, 3, 1)}
-                    disabled={Disable}
+                    disabled={
+                      Disable ||
+                      board.relay3EcStatus ||
+                      board.relay3PhStatus ||
+                      board.relay3TimerStatus
+                    }
                   >
                     OFF
                   </button>
@@ -2129,7 +2154,12 @@ const PH = ({ board }) => {
                     type="button"
                     className="btn btn-outline-success"
                     onClick={() => relayControl(b_id, 3, 0)}
-                    disabled={Disable}
+                    disabled={
+                      Disable ||
+                      board.relay3EcStatus ||
+                      board.relay3PhStatus ||
+                      board.relay3TimerStatus
+                    }
                   >
                     ON
                   </button>
