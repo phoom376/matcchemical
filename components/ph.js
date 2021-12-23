@@ -451,6 +451,46 @@ const PH = ({ board }) => {
           });
         }
         break;
+
+      case "PUMP_RELAY_ALERT":
+        const relayNo = document.getElementById("relayAlertRelay").value;
+        try {
+          if (relayNo < 4 || relayNo > 0) {
+            const alert = Swal.fire({
+              title: "PLEASE WAIT!",
+              timerProgressBar: true,
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            });
+            await axios
+              .post(`${server}/relayControlTimer`, {
+                b_id: b_id,
+                type: type,
+                relay: relay,
+                status: relayNo,
+              })
+              .then(() => {
+                alert.close();
+              })
+              .catch(function (error) {
+                // handle error
+                alert.close();
+                console.log(error);
+              });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "PLEASE INPUT MORE THAN 0 AND EQUAL 3",
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+
+        break;
     }
   };
 
@@ -504,7 +544,7 @@ const PH = ({ board }) => {
             });
           break;
         case "PH_SET_CONTROL":
-          switch (relay) {
+          switch (Number(relay)) {
             case 1:
               const relay1PhStart =
                 document.getElementById("relay1PhStart").value;
@@ -611,6 +651,42 @@ const PH = ({ board }) => {
               }
 
               break;
+
+            case 4:
+              const relayAlertPhStart =
+                document.getElementById("relayAlertPhStart").value;
+              const relayAlertPhStop =
+                document.getElementById("relayAlertPhStop").value;
+              if (relayAlertPhStart <= 14 && relayAlertPhStop >= 0) {
+                const alert = Swal.fire({
+                  title: "PLEASE WAIT!",
+                  timerProgressBar: true,
+                  allowOutsideClick: false,
+                  didOpen: () => {
+                    Swal.showLoading();
+                  },
+                });
+                await axios
+                  .post(`${server}/relayControlPh`, {
+                    b_id: b_id,
+                    relay: relay,
+                    status: status,
+                    type: type,
+                    phStart: relayAlertPhStart,
+                    phStop: relayAlertPhStop,
+                  })
+                  .then(() => {
+                    alert.close();
+                  });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                });
+              }
+
+              break;
           }
           break;
       }
@@ -643,7 +719,7 @@ const PH = ({ board }) => {
             });
           break;
         case "EC_SET_CONTROL":
-          switch (relay) {
+          switch (Number(relay)) {
             case 1:
               const relay1EcStart =
                 document.getElementById("relay1EcStart").value;
@@ -737,6 +813,41 @@ const PH = ({ board }) => {
                     type: type,
                     ecStart: relay3EcStart,
                     ecStop: relay3EcStop,
+                  })
+                  .then(() => {
+                    alert.close();
+                  });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                });
+              }
+
+              break;
+            case 4:
+              const relayAlertEcStart =
+                document.getElementById("relayAlertEcStart").value;
+              const relayAlertEcStop =
+                document.getElementById("relayAlertEcStop").value;
+              if (relayAlertEcStart <= 10000 && relayAlertEcStop >= 0) {
+                const alert = Swal.fire({
+                  title: "PLEASE WAIT!",
+                  timerProgressBar: true,
+                  allowOutsideClick: false,
+                  didOpen: () => {
+                    Swal.showLoading();
+                  },
+                });
+                await axios
+                  .post(`${server}/relayControlEc`, {
+                    b_id: b_id,
+                    relay: relay,
+                    status: status,
+                    type: type,
+                    ecStart: relayAlertEcStart,
+                    ecStop: relayAlertEcStop,
                   })
                   .then(() => {
                     alert.close();
@@ -2538,6 +2649,235 @@ const PH = ({ board }) => {
                       );
                     })}
                 </>
+              )}
+            </div>
+            {/* /******************************************/}
+            {/* /***************RELAY ALERT (4)*********************/}
+            <div className="box">
+              <div className="box-title">
+                <p className="button-title">RELAY ALERT</p>
+
+                {board.relayAlertStatus === 0 ? (
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger"
+                    onClick={() => relayControl(b_id, 4, 1)}
+                    disabled={Disable}
+                  >
+                    OFF
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-outline-success"
+                    onClick={() => relayControl(b_id, 4, 0)}
+                    disabled={Disable}
+                  >
+                    ON
+                  </button>
+                )}
+                {/* ******************* SWITCH ******************* */}
+
+                <div className="Switch mt-3">
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={board.relayAlertPhStatus}
+                        onChange={(e) =>
+                          relayControlPh(
+                            e.preventDefault(),
+                            board.b_id,
+                            4,
+                            "PH_STATUS",
+                            board.relayAlertPhStatus
+                          )
+                        }
+                      />
+                    }
+                    disabled={Disable}
+                    label="PH"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={board.relayAlertEcStatus}
+                        onChange={(e) =>
+                          relayControlEc(
+                            e.preventDefault(),
+                            board.b_id,
+                            4,
+                            "EC_STATUS",
+                            board.relayAlertEcStatus
+                          )
+                        }
+                      />
+                    }
+                    disabled={Disable}
+                    label="EC"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={board.relayAlertWaterStatus}
+                        onChange={(e) =>
+                          relayControlTimer(
+                            e.preventDefault(),
+                            board.b_id,
+                            board.relayAlertWaterStatus,
+                            4,
+                            "TIMER_STATUS"
+                          )
+                        }
+                      />
+                    }
+                    disabled={Disable}
+                    label="PUMP"
+                  />
+                </div>
+              </div>
+              {/* ******************* Ph ******************* */}
+              {board.relayAlertPhStatus && (
+                <form className="mt-3 box-form">
+                  <p>PH</p>
+                  <div className="mb-3">
+                    <label>START:</label>
+                    <input
+                      id="relayAlertPhStart"
+                      defaultValue={board.relayAlertPhStart}
+                      className="form-input"
+                      type="number"
+                      min="0"
+                      max="14"
+                      style={{ color: "white" }}
+                      disabled={Disable}
+                    ></input>
+                  </div>
+                  <div className="mb-3">
+                    <label>STOP:</label>
+                    <input
+                      id="relayAlertPhStop"
+                      defaultValue={board.relayAlertPhStop}
+                      className="form-input"
+                      type="number"
+                      min="0"
+                      max="14"
+                      style={{ color: "white" }}
+                      disabled={Disable}
+                    ></input>
+                  </div>
+                  <div>
+                    <button
+                      id="set"
+                      disabled={Disable}
+                      onClick={(e) =>
+                        relayControlPh(
+                          e.preventDefault(),
+                          board.b_id,
+                          4,
+                          "PH_SET_CONTROL",
+                          board.relayAlertPhStatus
+                        )
+                      }
+                    >
+                      SET
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* ******************* EC ******************* */}
+
+              {board.relayAlertEcStatus && (
+                <form className="mt-3 box-form">
+                  <p>EC</p>
+                  <div className="mb-3">
+                    <label>START:</label>
+                    <input
+                      id="relayAlertEcStart"
+                      defaultValue={board.relayAlertEcStart}
+                      className="form-input"
+                      type="number"
+                      min="0"
+                      max="10000"
+                      style={{ color: "white" }}
+                      disabled={Disable}
+                    ></input>
+                  </div>
+                  <div className="mb-3">
+                    <label>STOP:</label>
+                    <input
+                      id="relayAlertEcStop"
+                      defaultValue={board.relayAlertEcStop}
+                      className="form-input"
+                      type="number"
+                      min="0"
+                      max="10000"
+                      style={{ color: "white" }}
+                      disabled={Disable}
+                    ></input>
+                  </div>
+                  <div>
+                    <button
+                      id="set"
+                      disabled={Disable}
+                      onClick={(e) =>
+                        relayControlEc(
+                          e.preventDefault(),
+                          board.b_id,
+                          4,
+                          "EC_SET_CONTROL",
+                          board.relayAlertEcStatus
+                        )
+                      }
+                    >
+                      SET
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* ******************* WATER PUMP ******************* */}
+
+              {board.relayAlertWaterStatus && (
+                <form className="mt-3 box-form">
+                  <p>RELAY NO</p>
+                  <div className="mb-3">
+                    <label>RELAY:</label>
+                    <input
+                      id="relayAlertRelay"
+                      defaultValue={board.relayAlertEcStart}
+                      className="form-input"
+                      type="number"
+                      min="1"
+                      max="3"
+                      style={{ color: "white" }}
+                      disabled={Disable}
+                    ></input>
+                  </div>
+
+                  <div>
+                    <button
+                      id="set"
+                      disabled={Disable}
+                      onClick={(e) =>
+                        relayControlTimer(
+                          e.preventDefault(),
+                          board.b_id,
+                          4,
+                          4,
+                          "PUMP_RELAY_ALERT"
+                        )
+                      }
+                    >
+                      SET
+                    </button>
+                  </div>
+                </form>
               )}
             </div>
             {/* /******************************************/}
