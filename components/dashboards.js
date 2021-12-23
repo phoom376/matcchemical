@@ -493,7 +493,7 @@ const PhLine = ({ boardData, boardId }) => {
   return (
     <>
       <div>
-        <h3>AVG PH: {avgPh}</h3>
+        <h3>AVG PH: {avgPh.toFixed(2)}</h3>
       </div>
       <div className="lineChart">
         <ResponsiveLine
