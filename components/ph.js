@@ -455,7 +455,7 @@ const PH = ({ board }) => {
       case "PUMP_RELAY_ALERT":
         const relayNo = document.getElementById("relayAlertRelay").value;
         try {
-          if (relayNo < 4 || relayNo > 0) {
+          if (relayNo < 4 && relayNo > 0) {
             const alert = Swal.fire({
               title: "PLEASE WAIT!",
               timerProgressBar: true,
@@ -2850,7 +2850,7 @@ const PH = ({ board }) => {
                     <label>RELAY:</label>
                     <input
                       id="relayAlertRelay"
-                      defaultValue={board.relayAlertEcStart}
+                      defaultValue={board.relayAlertRelay}
                       className="form-input"
                       type="number"
                       min="1"
