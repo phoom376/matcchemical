@@ -2850,7 +2850,7 @@ const PH = ({ board }) => {
                     <label>RELAY:</label>
                     <input
                       id="relayAlertRelay"
-                      defaultValue={board.relayAlertRelay}
+                      defaultValue={board.relayAlertWaterRelay}
                       className="form-input"
                       type="number"
                       min="1"
