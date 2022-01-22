@@ -14,8 +14,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [online, setOnline] = useState(true);
 
-  const server = "https://userlogapi.herokuapp.com";
-  // const server = "https://www.matchchemical.tk:57521";
+  // const server = "https://userlogapi.herokuapp.com";
+  const server = "https://www.matchchemical.tk:57521";
 
   useEffect(() => {
     const Verify = async () => {
