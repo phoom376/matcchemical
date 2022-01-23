@@ -78,6 +78,10 @@ const PH = ({ board }) => {
           Swal.showLoading();
         },
       });
+      await axios.post(`${server}/dataUpdate`, {
+        b_id: b_id,
+        dataUpdate: true,
+      });
       await axios
         .post(`${server}/relayControl`, {
           b_id: b_id,
@@ -100,6 +104,10 @@ const PH = ({ board }) => {
         didOpen: () => {
           Swal.showLoading();
         },
+      });
+      await axios.post(`${server}/dataUpdate`, {
+        b_id: b_id,
+        dataUpdate: true,
       });
       await axios
         .post(`${server}/relayControl`, {
@@ -128,6 +136,10 @@ const PH = ({ board }) => {
       },
     });
     try {
+      await axios.post(`${server}/dataUpdate`, {
+        b_id: b_id,
+        dataUpdate: true,
+      });
       await axios
         .post(`${server}/relayControl`, {
           b_id: b_id,
@@ -166,6 +178,10 @@ const PH = ({ board }) => {
             Swal.showLoading();
           },
         });
+        await axios.post(`${server}/dataUpdate`, {
+          b_id: b_id,
+          dataUpdate: true,
+        });
         await axios
           .post(`${server}/relayControlTimer`, {
             b_id: b_id,
@@ -180,7 +196,7 @@ const PH = ({ board }) => {
         break;
 
       case "TIMER_SET":
-        if (length < 10) {
+        if (length < 8) {
           const alert = Swal.fire({
             title: "PLEASE WAIT!",
             timerProgressBar: true,
@@ -246,7 +262,14 @@ const PH = ({ board }) => {
                   relay1StartTimeNewHour + ":" + relay1StartTimeNewMin;
                 const relay1StopTimeNewHM =
                   relay1StopTimeNewHour + ":" + relay1StopTimeNewMin;
-
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
                 await axios
                   .post(`${server}/relayControlTimer`, {
                     b_id: b_id,
@@ -329,6 +352,11 @@ const PH = ({ board }) => {
                   relay2StartTimeNewHour + ":" + relay2StartTimeNewMin;
                 const relay2StopTimeNewHM =
                   relay2StopTimeNewHour + ":" + relay2StopTimeNewMin;
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
 
                 await axios
                   .post(`${server}/relayControlTimer`, {
@@ -413,6 +441,11 @@ const PH = ({ board }) => {
                 const relay3StopTimeNewHM =
                   relay3StopTimeNewHour + ":" + relay3StopTimeNewMin;
 
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlTimer`, {
                     b_id: b_id,
@@ -464,6 +497,12 @@ const PH = ({ board }) => {
                 Swal.showLoading();
               },
             });
+
+            await axios.post(`${server}/dataUpdate`, {
+              b_id: b_id,
+              dataUpdate: true,
+            });
+
             await axios
               .post(`${server}/relayControlTimer`, {
                 b_id: b_id,
@@ -505,6 +544,12 @@ const PH = ({ board }) => {
             Swal.showLoading();
           },
         });
+
+        await axios.post(`${server}/dataUpdate`, {
+          b_id: b_id,
+          dataUpdate: true,
+        });
+
         await axios
           .post(`${server}/relayControlTimer`, {
             b_id: b_id,
@@ -532,6 +577,12 @@ const PH = ({ board }) => {
               Swal.showLoading();
             },
           });
+
+          await axios.post(`${server}/dataUpdate`, {
+            b_id: b_id,
+            dataUpdate: true,
+          });
+
           await axios
             .post(`${server}/relayControlPh`, {
               b_id: b_id,
@@ -559,6 +610,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlPh`, {
                     b_id: b_id,
@@ -594,6 +651,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlPh`, {
                     b_id: b_id,
@@ -630,6 +693,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlPh`, {
                     b_id: b_id,
@@ -666,6 +735,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlPh`, {
                     b_id: b_id,
@@ -707,6 +782,12 @@ const PH = ({ board }) => {
               Swal.showLoading();
             },
           });
+
+          await axios.post(`${server}/dataUpdate`, {
+            b_id: b_id,
+            dataUpdate: true,
+          });
+
           await axios
             .post(`${server}/relayControlEc`, {
               b_id: b_id,
@@ -734,6 +815,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlEc`, {
                     b_id: b_id,
@@ -769,6 +856,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlEc`, {
                     b_id: b_id,
@@ -805,6 +898,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlEc`, {
                     b_id: b_id,
@@ -840,6 +939,12 @@ const PH = ({ board }) => {
                     Swal.showLoading();
                   },
                 });
+
+                await axios.post(`${server}/dataUpdate`, {
+                  b_id: b_id,
+                  dataUpdate: true,
+                });
+
                 await axios
                   .post(`${server}/relayControlEc`, {
                     b_id: b_id,
@@ -879,6 +984,12 @@ const PH = ({ board }) => {
           Swal.showLoading();
         },
       });
+
+      await axios.post(`${server}/dataUpdate`, {
+        b_id: b_id,
+        dataUpdate: true,
+      });
+
       await axios
         .post(`${server}/sensorInput`, {
           b_id: b_id,
