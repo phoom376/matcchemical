@@ -1481,6 +1481,47 @@ const PH = ({ board }) => {
                     {board.relay1Name}
                   </p>
                 )}
+
+                {board.relay1PhStatus ? (
+                  board.relay1PhStart > board.relay1PhStop ? (
+                    board.ph >= board.relay1PhStart ? (
+                      <div className="alert">
+                        <span>PH ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ph >= board.relay1PhStart ? (
+                    <div className="alert">
+                      <span>PH ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
+                {board.relay1EcStatus ? (
+                  board.relay1EcStart > board.relay1EcStop ? (
+                    board.ec >= board.relay1EcStart ? (
+                      <div className="alert">
+                        <span>EC ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ec >= board.relay1EcStart ? (
+                    <div className="alert">
+                      <span>EC ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
                 {board.relay1Status === 0 ? (
                   <button
                     type="button"
@@ -1919,6 +1960,47 @@ const PH = ({ board }) => {
                     {board.relay2Name}
                   </p>
                 )}
+
+                {board.relay2PhStatus ? (
+                  board.relay2PhStart > board.relay2PhStop ? (
+                    board.ph >= board.relay2PhStart ? (
+                      <div className="alert">
+                        <span>PH ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ph >= board.relay2PhStart ? (
+                    <div className="alert">
+                      <span>PH ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
+                {board.relay2EcStatus ? (
+                  board.relay2EcStart > board.relay2EcStop ? (
+                    board.ec >= board.relay2EcStart ? (
+                      <div className="alert">
+                        <span>EC ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ec >= board.relay2EcStart ? (
+                    <div className="alert">
+                      <span>EC ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
                 {board.relay2Status === 0 ? (
                   <button
                     type="button"
@@ -2357,6 +2439,47 @@ const PH = ({ board }) => {
                     {board.relay3Name}
                   </p>
                 )}
+
+                {board.relay3PhStatus ? (
+                  board.relay3PhStart > board.relay3PhStop ? (
+                    board.ph >= board.relay3PhStart ? (
+                      <div className="alert">
+                        <span>PH ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ph >= board.relay3PhStart ? (
+                    <div className="alert">
+                      <span>PH ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
+                {board.relay3EcStatus ? (
+                  board.relay3EcStart > board.relay3EcStop ? (
+                    board.ec >= board.relay3EcStart ? (
+                      <div className="alert">
+                        <span>EC ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ec >= board.relay3EcStart ? (
+                    <div className="alert">
+                      <span>EC ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
                 {board.relay3Status === 0 ? (
                   <button
                     type="button"
@@ -2767,6 +2890,46 @@ const PH = ({ board }) => {
             <div className="box">
               <div className="box-title">
                 <p className="button-title">RELAY ALERT</p>
+
+                {board.relayAlertPhStatus ? (
+                  board.relayAlertPhStart > board.relayAlertPhStop ? (
+                    board.ph >= board.relayAlertPhStart ? (
+                      <div className="alert">
+                        <span>PH ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ph >= board.relayAlertPhStart ? (
+                    <div className="alert">
+                      <span>PH ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+
+                {board.relayAlertEcStatus ? (
+                  board.relayAlertEcStart > board.relayAlertEcStop ? (
+                    board.ec >= board.relayAlertEcStart ? (
+                      <div className="alert">
+                        <span>EC ALERT</span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : board.ec >= board.relayAlertEcStart ? (
+                    <div className="alert">
+                      <span>EC ALERT</span>
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
 
                 {board.relayAlertStatus === 0 ? (
                   <button
