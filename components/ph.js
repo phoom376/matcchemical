@@ -480,7 +480,7 @@ const PH = ({ board }) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Max Timer is 10",
+            text: "Max Timer is 8",
           });
         }
         break;
