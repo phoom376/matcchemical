@@ -39,11 +39,11 @@ const Sidebar = ({ children }) => {
       Cookies.remove(e);
     });
 
-    await (<Link to="/login" />);
+    // await (<Link to="/login" />);
     await wait.close();
-    window.location.reload(true);
+    // window.location.reload(true);
 
-    await Router.push("/");
+    await Router.push("/login");
   };
 
   useEffect(() => {
