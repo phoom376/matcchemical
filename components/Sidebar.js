@@ -40,8 +40,7 @@ const Sidebar = ({ children }) => {
     });
     // window.location.reload(true);
 
-    // await (<Link to="/login" />);
-
+    await (<Link to="/login" />);
     await wait.close();
     await Router.push("/");
   };
