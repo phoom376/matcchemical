@@ -38,10 +38,11 @@ const Sidebar = ({ children }) => {
     Object.keys(Cookies.get()).forEach((e) => {
       Cookies.remove(e);
     });
-    // window.location.reload(true);
 
     await (<Link to="/login" />);
     await wait.close();
+    window.location.reload(true);
+
     await Router.push("/");
   };
 
@@ -55,8 +56,6 @@ const Sidebar = ({ children }) => {
     }, 1000);
 
     Verify();
-
-    
   }, []);
 
   const internetCheck = () => {
