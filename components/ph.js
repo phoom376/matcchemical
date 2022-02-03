@@ -1004,6 +1004,31 @@ const PH = ({ board }) => {
     }
   };
 
+  const autoStatus = async (b_id, auto) => {
+    const alert = Swal.fire({
+      title: "PLEASE WAIT!",
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    await axios.post(`${server}/dataUpdate`, {
+      b_id: b_id,
+      dataUpdate: true,
+    });
+
+    await axios
+      .post(`${server}/auto`, {
+        b_id: b_id,
+        auto: !auto,
+      })
+      .then(() => {
+        alert.close();
+      });
+  };
+
   function getStyles(name, day, theme) {
     return {
       fontWeight:
@@ -1176,6 +1201,19 @@ const PH = ({ board }) => {
                 {day}/{month}/{year} {Hour}:{Min}:{Sec}
               </span>
             </p>
+            <div>
+              <FormControlLabel
+                control={
+                  <IOSSwitch
+                    sx={{ m: 1 }}
+                    checked={board.auto}
+                    onChange={(e) => autoStatus(b_id, board.auto)}
+                  />
+                }
+                disabled={Disable}
+                label="AUTO"
+              />
+            </div>
           </div>
 
           <div className="board-box">
@@ -1491,7 +1529,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ph >= board.relay1PhStart ? (
+                  ) : board.ph <= board.relay1PhStart ? (
                     <div className="alert">
                       <span>PH ALERT</span>
                     </div>
@@ -1511,7 +1549,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ec >= board.relay1EcStart ? (
+                  ) : board.ec <= board.relay1EcStart ? (
                     <div className="alert">
                       <span>EC ALERT</span>
                     </div>
@@ -1970,7 +2008,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ph >= board.relay2PhStart ? (
+                  ) : board.ph <= board.relay2PhStart ? (
                     <div className="alert">
                       <span>PH ALERT</span>
                     </div>
@@ -1990,7 +2028,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ec >= board.relay2EcStart ? (
+                  ) : board.ec <= board.relay2EcStart ? (
                     <div className="alert">
                       <span>EC ALERT</span>
                     </div>
@@ -2449,7 +2487,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ph >= board.relay3PhStart ? (
+                  ) : board.ph <= board.relay3PhStart ? (
                     <div className="alert">
                       <span>PH ALERT</span>
                     </div>
@@ -2469,7 +2507,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ec >= board.relay3EcStart ? (
+                  ) : board.ec <= board.relay3EcStart ? (
                     <div className="alert">
                       <span>EC ALERT</span>
                     </div>
@@ -2900,7 +2938,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ph >= board.relayAlertPhStart ? (
+                  ) : board.ph <= board.relayAlertPhStart ? (
                     <div className="alert">
                       <span>PH ALERT</span>
                     </div>
@@ -2920,7 +2958,7 @@ const PH = ({ board }) => {
                     ) : (
                       <></>
                     )
-                  ) : board.ec >= board.relayAlertEcStart ? (
+                  ) : board.ec <= board.relayAlertEcStart ? (
                     <div className="alert">
                       <span>EC ALERT</span>
                     </div>
