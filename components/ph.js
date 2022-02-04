@@ -1201,6 +1201,12 @@ const PH = ({ board }) => {
                 {day}/{month}/{year} {Hour}:{Min}:{Sec}
               </span>
             </p>
+            <p className="time-box">
+              BOARD ID:{" "}
+              <span className="time">
+                {board.b_id}
+              </span>
+            </p>
             <div>
               <FormControlLabel
                 control={

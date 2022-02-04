@@ -574,7 +574,7 @@ const PhLine = ({ boardData, boardId }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "EC",
+            legend: "PH",
             legendOffset: -40,
             legendPosition: "middle",
           }}
