@@ -250,7 +250,7 @@ const Dashboards = ({
                 </h1>
               )
             ) : (
-              <h1>PLEASE SELECT BOARD</h1>
+              <h2>PLEASE SELECT BOARD</h2>
             )}
           </div>
           <div className="box-ec-chart">
@@ -352,7 +352,7 @@ const Dashboards = ({
         </>
       ) : (
         <div className="container mt-5" style={{ textAlign: "center" }}>
-          <h1>PLEASE SELECT BOARD IN TABLE FOR SHOW DATA</h1>
+          <h2>PLEASE SELECT BOARD IN TABLE FOR SHOW DATA</h2>
         </div>
       )}
     </>
@@ -361,6 +361,28 @@ const Dashboards = ({
 
 const MyResponsiveLine = ({ boardData, boardId }) => {
   const tmpData = boardData;
+  const Months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const TmpLastTime = boardData[0].time;
+  const lastTime = TmpLastTime.split(" ");
+  let tmpMonth = 0;
+  for (let i = 0; i < Months.length; i++) {
+    if (lastTime[1] == Months[i]) {
+      tmpMonth = i + 1;
+    }
+  }
   let b_name = "";
   const tmpStartTime = boardData[0].time;
   const tmpStopTime = boardData[boardData.length - 1].time;
@@ -368,6 +390,7 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
   const splitStopTime = tmpStopTime.split(" ");
   const starTime = splitStartTime[4];
   const stopTime = splitStopTime[4];
+
   let dataTmp = [];
   let max = 0;
   let sumEc = 0;
@@ -399,6 +422,9 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
     <>
       <div>
         <h3>AVG EC: {Math.floor(avgEc)}</h3>
+        <h5>
+          LAST UPDATE {lastTime[2]}/{tmpMonth}/{lastTime[3]}
+        </h5>
       </div>
       <div className="lineChart">
         <ResponsiveLine
@@ -455,6 +481,28 @@ const MyResponsiveLine = ({ boardData, boardId }) => {
 };
 
 const PhLine = ({ boardData, boardId }) => {
+  const Months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const TmpLastTime = boardData[0].time;
+  const lastTime = TmpLastTime.split(" ");
+  let tmpMonth = 0;
+  for (let i = 0; i < Months.length; i++) {
+    if (lastTime[1] == Months[i]) {
+      tmpMonth = i + 1;
+    }
+  }
   const tmpData = boardData;
   let b_name = "";
   const tmpStartTime = boardData[0].time;
@@ -494,6 +542,9 @@ const PhLine = ({ boardData, boardId }) => {
     <>
       <div>
         <h3>AVG PH: {avgPh.toFixed(1)}</h3>
+        <h5>
+          LAST UPDATE {lastTime[2]}/{tmpMonth}/{lastTime[3]}
+        </h5>
       </div>
       <div className="lineChart">
         <ResponsiveLine
