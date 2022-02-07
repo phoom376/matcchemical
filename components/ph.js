@@ -197,6 +197,10 @@ const PH = ({ board }) => {
 
       case "TIMER_SET":
         if (length < 8) {
+          await axios.post(`${server}/dataUpdate`, {
+            b_id: b_id,
+            dataUpdate: true,
+          });
           const alert = Swal.fire({
             title: "PLEASE WAIT!",
             timerProgressBar: true,
@@ -262,14 +266,7 @@ const PH = ({ board }) => {
                   relay1StartTimeNewHour + ":" + relay1StartTimeNewMin;
                 const relay1StopTimeNewHM =
                   relay1StopTimeNewHour + ":" + relay1StopTimeNewMin;
-                await axios.post(`${server}/dataUpdate`, {
-                  b_id: b_id,
-                  dataUpdate: true,
-                });
-                await axios.post(`${server}/dataUpdate`, {
-                  b_id: b_id,
-                  dataUpdate: true,
-                });
+               
                 await axios
                   .post(`${server}/relayControlTimer`, {
                     b_id: b_id,
@@ -353,11 +350,6 @@ const PH = ({ board }) => {
                 const relay2StopTimeNewHM =
                   relay2StopTimeNewHour + ":" + relay2StopTimeNewMin;
 
-                await axios.post(`${server}/dataUpdate`, {
-                  b_id: b_id,
-                  dataUpdate: true,
-                });
-
                 await axios
                   .post(`${server}/relayControlTimer`, {
                     b_id: b_id,
@@ -440,11 +432,6 @@ const PH = ({ board }) => {
                   relay3StartTimeNewHour + ":" + relay3StartTimeNewMin;
                 const relay3StopTimeNewHM =
                   relay3StopTimeNewHour + ":" + relay3StopTimeNewMin;
-
-                await axios.post(`${server}/dataUpdate`, {
-                  b_id: b_id,
-                  dataUpdate: true,
-                });
 
                 await axios
                   .post(`${server}/relayControlTimer`, {
@@ -1202,10 +1189,7 @@ const PH = ({ board }) => {
               </span>
             </p>
             <p className="time-box">
-              BOARD ID:{" "}
-              <span className="time">
-                {board.b_id}
-              </span>
+              BOARD ID: <span className="time">{board.b_id}</span>
             </p>
             <div>
               <FormControlLabel
@@ -1223,9 +1207,9 @@ const PH = ({ board }) => {
           </div>
 
           <div className="board-box">
-           {/* /***************BOARD TEMP PROGRESS*********************/}
+            {/* /***************BOARD TEMP PROGRESS*********************/}
 
-           <div>
+            <div>
               <span className="title">BOARD TEMP</span>
               <br></br>
               <br></br>
