@@ -1223,6 +1223,42 @@ const PH = ({ board }) => {
           </div>
 
           <div className="board-box">
+           {/* /***************BOARD TEMP PROGRESS*********************/}
+
+           <div>
+              <span className="title">BOARD TEMP</span>
+              <br></br>
+              <br></br>
+              <br></br>
+              <div className="progress-box">
+                <CircularProgressbar
+                  value={board.boardTemp}
+                  maxValue={100}
+                  circleRatio={0.7}
+                  styles={{
+                    trail: {
+                      strokeLinecap: "butt",
+                      transform: "rotate(-126deg)",
+                      transformOrigin: "center center",
+                    },
+
+                    path: {
+                      strokeLinecap: "butt",
+                      transform: "rotate(-126deg)",
+                      transformOrigin: "center center",
+                      stroke: "#5c459b",
+                    },
+                    text: {
+                      fill: "#05ace3",
+                      fontSize: "12px",
+                    },
+                  }}
+                  strokeWidth={10}
+                  text={`${board.boardTemp} *C`}
+                />
+              </div>
+            </div>
+
             {/* /***************PH PROGRESS*********************/}
 
             <div>
@@ -1286,7 +1322,7 @@ const PH = ({ board }) => {
               <div className="progress-box">
                 <CircularProgressbar
                   value={board.phTemp}
-                  maxValue={50}
+                  maxValue={100}
                   circleRatio={0.7}
                   styles={{
                     trail: {
@@ -1307,7 +1343,7 @@ const PH = ({ board }) => {
                     },
                   }}
                   strokeWidth={10}
-                  text={`${board.phTemp} C`}
+                  text={`${board.phTemp} *C`}
                 />
               </div>
             </div>
@@ -1374,7 +1410,7 @@ const PH = ({ board }) => {
               <div className="progress-box">
                 <CircularProgressbar
                   value={board.ecTemp}
-                  maxValue={50}
+                  maxValue={100}
                   circleRatio={0.7}
                   styles={{
                     trail: {
@@ -1395,7 +1431,7 @@ const PH = ({ board }) => {
                     },
                   }}
                   strokeWidth={10}
-                  text={`${board.ecTemp} C`}
+                  text={`${board.ecTemp} *C`}
                 />
               </div>
             </div>
