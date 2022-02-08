@@ -197,10 +197,7 @@ const PH = ({ board }) => {
 
       case "TIMER_SET":
         if (length < 8) {
-          await axios.post(`${server}/dataUpdate`, {
-            b_id: b_id,
-            dataUpdate: true,
-          });
+         
           const alert = Swal.fire({
             title: "PLEASE WAIT!",
             timerProgressBar: true,
@@ -208,6 +205,11 @@ const PH = ({ board }) => {
             didOpen: () => {
               Swal.showLoading();
             },
+          });
+
+          await axios.post(`${server}/dataUpdate`, {
+            b_id: b_id,
+            dataUpdate: true,
           });
 
           switch (relay) {
