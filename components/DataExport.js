@@ -30,8 +30,11 @@ const DataExport = ({
               <th>NO.</th>
               <th>BOARD ID</th>
               <th>BOARD NAME</th>
+              <th>BOARD TEMP</th>
               <th>PH</th>
+              <th>PH TEMP</th>
               <th>EC</th>
+              <th>EC TEMP</th>
               <th>WATER FLOW</th>
               <th>WATER TOTAL</th>
               <th>TIME</th>
@@ -71,8 +74,11 @@ const DataExport = ({
                     <td>{k + 1}</td>
                     <td>{i.b_id}</td>
                     <td>{i.b_name}</td>
+                    <td>{i.boardTemp}</td>
                     <td>{i.ph}</td>
+                    <td>{i.phTemp}</td>
                     <td>{i.ec}</td>
+                    <td>{i.ecTemp}</td>
                     <td>{i.flow}</td>
                     <td>{i.total}</td>
                     <td>
