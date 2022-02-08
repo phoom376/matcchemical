@@ -43,6 +43,8 @@ function MyApp({ Component, pageProps }) {
       // window.location.reload(false);
     } else {
       setIsLogin(false);
+      await Router.push("/login");
+
     }
   };
 
