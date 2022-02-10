@@ -1245,6 +1245,43 @@ const PH = ({ board }) => {
               </div>
             </div>
 
+             {/* /***************BOARD HUM PROGRESS*********************/}
+
+             <div>
+              <span className="title">BOARD HUM</span>
+              <br></br>
+              <br></br>
+              <br></br>
+              <div className="progress-box">
+                <CircularProgressbar
+                  value={board.boardHum}
+                  maxValue={100}
+                  circleRatio={0.7}
+                  styles={{
+                    trail: {
+                      strokeLinecap: "butt",
+                      transform: "rotate(-126deg)",
+                      transformOrigin: "center center",
+                    },
+
+                    path: {
+                      strokeLinecap: "butt",
+                      transform: "rotate(-126deg)",
+                      transformOrigin: "center center",
+                      stroke: "#5c459b",
+                    },
+                    text: {
+                      fill: "#05ace3",
+                      fontSize: "12px",
+                    },
+                  }}
+                  strokeWidth={10}
+                  text={`${board.boardHum} %`}
+                />
+              </div>
+            </div>
+
+
             {/* /***************PH PROGRESS*********************/}
 
             <div>
