@@ -31,6 +31,7 @@ const DataExport = ({
               <th>BOARD ID</th>
               <th>BOARD NAME</th>
               <th>BOARD TEMP</th>
+              <th>BOARD HUM</th>
               <th>PH</th>
               <th>PH TEMP</th>
               <th>EC</th>
@@ -75,6 +76,7 @@ const DataExport = ({
                     <td>{i.b_id}</td>
                     <td>{i.b_name}</td>
                     <td>{i.boardTemp}</td>
+                    <td>{i.boardHum}</td>
                     <td>{i.ph}</td>
                     <td>{i.phTemp}</td>
                     <td>{i.ec}</td>

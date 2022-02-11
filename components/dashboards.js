@@ -84,6 +84,7 @@ const Dashboards = ({
                 <th className="thead">NAME</th>
                 <th className="thead">STATUS</th>
                 <th className="thead">BOARD TEMP</th>
+                <th className="thead">BOARD HUM</th>
                 <th className="thead">PH</th>
                 <th className="thead">PH TEMP</th>
                 <th className="thead">EC</th>
@@ -169,6 +170,7 @@ const Dashboards = ({
                       )}
                     </td>
                     <td>{i.boardTemp}</td>
+                    <td>{i.boardHum}</td>
                     <td>{i.ph}</td>
                     <td>{i.phTemp}</td>
                     <td>{i.ec}</td>
