@@ -31,7 +31,6 @@ const Dashboard = () => {
 
       // await getBoard();
     };
-    // console.log(getAll);
     const getData = setInterval(() => {
       // if (boardId === "" && boards.length !== 0) {
       //   setBoardId(boards[0].b_id);
@@ -45,17 +44,10 @@ const Dashboard = () => {
       Verify();
     }, 1000);
 
-    // console.log(boardId);
-
-    const getBoardDataT = setInterval(async () => {}, 1000);
-    // getBoardData();
     return () => {
       clearInterval(getData);
-      clearInterval(getBoardDataT);
     };
   }, []);
-
-  // console.log(year, month, day);
 
   const CookieCheck = async () => {
     if (!Cookies.get("token")) {
@@ -86,7 +78,6 @@ const Dashboard = () => {
           year: year,
         })
         .then((res) => {
-          console.log(res.data);
           setData(res.data);
           wait.close();
         });
@@ -100,7 +91,6 @@ const Dashboard = () => {
   };
 
   const getBoardCompany = async () => {
-    // console.log("get");
     const tmpToken = Cookies.get("token");
     const decode = jwt.decode(tmpToken);
 
@@ -148,10 +138,8 @@ const Dashboard = () => {
       })
       .then((res) => {
         const tmpData = res.data;
-        // console.log(res.data);
         setBoardId(id);
         setBoardName(name);
-        console.log(id, name);
         if (res.data.message) {
           setBoardData(res.data);
           wait.close();
@@ -160,7 +148,6 @@ const Dashboard = () => {
           setBoardData(tmpReverse);
           wait.close();
         }
-        console.log("GET");
       });
     // } else {
     //   await axios
@@ -169,11 +156,9 @@ const Dashboard = () => {
     //     })
     //     .then((res) => {
     //       const tmpData = res.data;
-    //       console.log(boardId);
     //       // setBoardId(id);
     //       const tmpReverse = tmpData;
     //       setBoardData(tmpReverse);
-    //       console.log("GET");
     //     });
     // }
   };

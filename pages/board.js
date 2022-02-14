@@ -37,7 +37,6 @@ export default function Board() {
 
       // await getBoard();
     };
-    // console.log(getAll);
     const gProduct = setInterval(() => {
       // if (select !== "") {
       //   getBoardCompany();
@@ -73,7 +72,6 @@ export default function Board() {
     });
   };
   const getBoardCompany = async () => {
-    // console.log("get");
     const tmpToken = await Cookies.get("token");
     const decode = await jwt.decode(tmpToken);
     await setComId(decode.c_id);
@@ -89,7 +87,6 @@ export default function Board() {
           })
           .catch(function (error) {
             // handle error
-            console.log(error);
           });
       }
     } else {
@@ -110,7 +107,6 @@ export default function Board() {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
         });
     }
   };

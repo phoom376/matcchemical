@@ -81,7 +81,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if ((email, password) !== "") {
-      console.log("Login");
 
       const wait = Swal.fire({
         title: "PLEASE WAIT!",
@@ -117,7 +116,13 @@ const Login = () => {
             }
           });
       } catch (err) {
-        console.log(err);
+        wait.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "ERROR : " + err,
+        });
       }
     } else {
       Swal.fire({
