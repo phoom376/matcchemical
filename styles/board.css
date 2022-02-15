@@ -58,6 +58,28 @@
 .box_board .board .board-header .board-title .board-name {
   font-weight: normal;
   color: #05ace3;
+  cursor: pointer;
+}
+
+.box_board .board .board-header .board-title .button-title {
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.box_board .board .board-header .board-title .set-name {
+  padding: 20px;
+  background-color: #54545c;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.box_board .board .board-header .board-title .btn {
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .box_board .board .board-header .board-status {

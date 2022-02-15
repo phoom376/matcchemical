@@ -1216,12 +1216,22 @@ const Default = ({ board }) => {
                       setBoardName(e.target.value);
                     }}
                   ></input>
-                  <button
-                    className="btn btn-outline-success mt-2"
-                    onClick={() => updateBoardName(board.b_id, boardName)}
-                  >
-                    SET
-                  </button>
+                  <div>
+                    <button
+                      className="btn btn-outline-success mt-2"
+                      onClick={() => updateBoardName(board.b_id, boardName)}
+                    >
+                      SET
+                    </button>
+                    <button
+                      className="btn btn-outline-danger mt-2"
+                      onClick={() => {
+                        setBoardNameStatus(!boardNameStatus);
+                      }}
+                    >
+                      CANCEL
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <span
@@ -1630,6 +1640,14 @@ const Default = ({ board }) => {
                       }
                     >
                       SET
+                    </button>
+                    <button
+                      className="btn btn-outline-danger mt-2"
+                      onClick={() => {
+                        setRelay1Name(!relay1Name);
+                      }}
+                    >
+                      CANCEL
                     </button>
                   </div>
                 ) : (
@@ -2110,6 +2128,14 @@ const Default = ({ board }) => {
                     >
                       SET
                     </button>
+                    <button
+                      className="btn btn-outline-danger mt-2"
+                      onClick={() => {
+                        setRelay2Name(!relay2Name);
+                      }}
+                    >
+                      CANCEL
+                    </button>
                   </div>
                 ) : (
                   <p
@@ -2588,6 +2614,14 @@ const Default = ({ board }) => {
                       }
                     >
                       SET
+                    </button>
+                    <button
+                      className="btn btn-outline-danger mt-2"
+                      onClick={() => {
+                        setRelay3Name(!relay3Name);
+                      }}
+                    >
+                      CANCEL
                     </button>
                   </div>
                 ) : (
