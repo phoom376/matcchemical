@@ -219,71 +219,74 @@ const Dashboards = ({
 
       {boardData.length > 0 || boardData.message ? (
         <>
-          <div className="box-ec-chart">
-            {boardId !== "" ? (
-              boardData.message ? (
-                <h1>{boardData.message}</h1>
-              ) : boardData.length !== 0 ? (
-                <>
-                  {" "}
-                  <div
-                    className="dashboard-ec-chart"
-                    // style={{
-                    //   height: 500,
-                    //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
-                    //   border: "1px solid white",
-                    //   borderRadius: "10px",
-                    //   width: "100%",
-                    //   display: "flex",
-                    //   overflow: "auto",
-                    //   justifyContent: "center",
+          <div className="box-chart">
+            <div className="box-ec-chart">
+              {boardId !== "" ? (
+                boardData.message ? (
+                  <h1>{boardData.message}</h1>
+                ) : boardData.length !== 0 ? (
+                  <>
+                    {" "}
+                    <div
+                      className="dashboard-ec-chart"
+                      // style={{
+                      //   height: 500,
+                      //   boxShadow: "0px 0px 8px 4px rgba(0, 0, 0, 0.1)",
+                      //   border: "1px solid white",
+                      //   borderRadius: "10px",
+                      //   width: "100%",
+                      //   display: "flex",
+                      //   overflow: "auto",
+                      //   justifyContent: "center",
 
-                    //   // width: "70%",
-                    // }}
-                  >
-                    <div className="chart">
-                      <MyResponsiveLine
-                        boardData={boardData}
-                        boardId={boardId}
-                        // getBoardData={getBoardData()}
-                      />
+                      //   // width: "70%",
+                      // }}
+                    >
+                      <div className="chart">
+                        <MyResponsiveLine
+                          boardData={boardData}
+                          boardId={boardId}
+                          // getBoardData={getBoardData()}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </>
+                  </>
+                ) : (
+                  <h1 className="center">
+                    <img src="./loading.gif" />
+                  </h1>
+                )
               ) : (
-                <h1 className="center">
-                  <img src="./loading.gif" />
-                </h1>
-              )
-            ) : (
-              <h2>PLEASE SELECT BOARD</h2>
-            )}
-          </div>
-          <div className="box-ec-chart">
-            {boardId !== "" ? (
-              boardData.message ? (
-                <h1>{boardData.message}</h1>
-              ) : boardData.length !== 0 ? (
-                <>
-                  <div className="dashboard-ec-chart">
-                    <div className="chart">
-                      <PhLine
-                        boardData={boardData}
-                        boardId={boardId}
-                        // getBoardData={getBoardData()}
-                      />
+                <h2>PLEASE SELECT BOARD</h2>
+              )}
+            </div>
+            <div className="box-ec-chart">
+              {boardId !== "" ? (
+                boardData.message ? (
+                  <h1>{boardData.message}</h1>
+                ) : boardData.length !== 0 ? (
+                  <>
+                    <div className="dashboard-ec-chart">
+                      <div className="chart">
+                        <PhLine
+                          boardData={boardData}
+                          boardId={boardId}
+                          // getBoardData={getBoardData()}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </>
+                  </>
+                ) : (
+                  <h1 className="center">
+                    <img src="./loading.gif" />
+                  </h1>
+                )
               ) : (
-                <h1 className="center">
-                  <img src="./loading.gif" />
-                </h1>
-              )
-            ) : (
-              <h1>PLEASE SELECT BOARD</h1>
-            )}
+                <h1>PLEASE SELECT BOARD</h1>
+              )}
+            </div>
           </div>
+
           <div className="DataExport">
             <div className="button mb-3">
               <div className="head">
