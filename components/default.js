@@ -124,7 +124,6 @@ const Default = ({ board }) => {
           setRelay2Name(false);
           setRelay3Name(false);
           alert.close();
-
         });
     }
   };
@@ -1208,7 +1207,7 @@ const Default = ({ board }) => {
             <p className="board-title">
               BOARD NAME:{" "}
               {boardNameStatus ? (
-                <div className="mb-3 set-name">
+                <div className="mb-3 container set-name">
                   <input
                     className="form-control"
                     type="text"
@@ -3085,7 +3084,18 @@ const Default = ({ board }) => {
             {/* /***************RELAY ALERT (4)*********************/}
             <div className="box">
               <div className="box-title">
-                <p className="button-title">RELAY ALERT</p>
+                <p
+                  className="button-title"
+                  onClick={() => {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "ALERT CAN'T CHANGE NAME!",
+                    });
+                  }}
+                >
+                  RELAY ALERT
+                </p>
 
                 {board.relayAlertPhStatus ? (
                   board.relayAlertPhStart > board.relayAlertPhStop ? (

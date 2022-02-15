@@ -16,6 +16,7 @@ export default function Board() {
   const [board, setBoard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bLoading, setBLoading] = useState(true);
+  const [NonBoard, setNonBoard] = useState(true);
   const [company, setCompany] = useState([]);
   const [select, setSelect] = useState("");
   const [b_Select, setB_Select] = useState("");
@@ -34,15 +35,9 @@ export default function Board() {
     const Verify = async () => {
       await getCompany();
       await getBoardCompany();
-
-      // await getBoard();
+      await boardCheck();
     };
     const gProduct = setInterval(() => {
-      // if (select !== "") {
-      //   getBoardCompany();
-      // }
-
-      // getBoard();
       filterBoard();
       Verify();
     }, 1000);
@@ -66,6 +61,15 @@ export default function Board() {
       setGetAll(all);
     });
   };
+
+  const boardCheck = () => {
+    console.log(boards);
+
+    if (boards.length === 0) {
+      setNonBoard(false);
+    }
+  };
+
   const getCompany = () => {
     axios.get(`${usServer}/company`).then((res) => {
       setCompany(res.data);
@@ -83,10 +87,12 @@ export default function Board() {
           .then((res) => {
             if (res.data) {
               setBoards(res.data);
+            } else {
+              setLoading(false);
             }
           })
           .catch(function (error) {
-            // handle error
+            setLoading(false);
           });
       }
     } else {
@@ -97,9 +103,12 @@ export default function Board() {
             setBoards(res.data);
             setLoading(false);
           }
+          if (res.data.length === 0) {
+            setBLoading(false);
+          }
           if (res.data && b_Select === "") {
             setB_Select(res.data[0].b_name);
-            setBLoading(false);
+            // setBLoading(false);
           }
           if (b_Select !== "") {
             setBLoading(false);
@@ -188,14 +197,13 @@ export default function Board() {
                     </Select>
                   </FormControl>
                 </Box>
-
-                {bLoading || board.length == 0 ? (
+                {bLoading || NonBoard ? (
                   <div className="mt-5">
                     <img src="./loading.gif" />
                   </div>
                 ) : (
                   <>
-                    {boards.length != 0 ? (
+                    {boards.length !== 0 ? (
                       <Boards boards={board} />
                     ) : (
                       <div>
