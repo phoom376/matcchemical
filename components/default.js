@@ -119,11 +119,12 @@ const Default = ({ board }) => {
           relay: relay,
         })
         .then(() => {
-          alert.close();
           setName("");
           setRelay1Name(false);
           setRelay2Name(false);
           setRelay3Name(false);
+          alert.close();
+
         });
     }
   };

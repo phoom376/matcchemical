@@ -110,6 +110,7 @@
 }
 
 .dashboard-status .table-box .Table tbody tr td {
+  text-align: center;
   padding: 20px;
 }
 
