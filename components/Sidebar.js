@@ -164,11 +164,11 @@ const Sidebar = ({ children }) => {
                   <Link href="/board">
                     <a>
                       <SiArduino className="ic" />
-                      <span className="link_name">Board</span>
+                      <span className="link_name">Control</span>
                     </a>
                   </Link>
 
-                  <span className="t-tip">Board</span>
+                  <span className="t-tip">Control</span>
                 </li>
               </div>
 
