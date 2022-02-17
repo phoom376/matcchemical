@@ -29,20 +29,6 @@ const server = "https://boardapi.herokuapp.com";
 
 const Default = ({ board }) => {
   if (board.ph !== null || board.ec !== null) {
-    const [timerType, setTimerType] = useState("Start");
-    const [timerDay, setTimerDay] = useState("Everyday");
-    const [timerTime, setTimerTime] = useState("00:00");
-    const [valveTimeStart, setValveTimeStart] = useState(true);
-    const [valveTimeStop, setValveTimeStop] = useState(true);
-    const [bclTimeStart, setBclTimeStart] = useState(true);
-    const [bclTimeStop, setBclTimeStop] = useState(true);
-    const [type, setType] = useState("");
-    const [phStart, setPhStart] = useState(0);
-    const [phStop, setPhStop] = useState(0);
-    const [ecStart, setEcStart] = useState(0);
-    const [ecStop, setEcStop] = useState(0);
-    const [valveDays, setValveDays] = React.useState([]);
-    const [bclDays, setBclDays] = React.useState([]);
     const [boardNameStatus, setBoardNameStatus] = useState(false);
     const [boardName, setBoardName] = useState("");
     const [name, setName] = useState("");
@@ -216,269 +202,302 @@ const Default = ({ board }) => {
 
             switch (relay) {
               case 1:
-                if (relay1Days.length > 0) {
-                  const relay1StartTime =
-                    document.getElementById("relay1StartTime").value;
-                  const relay1StopTime =
-                    document.getElementById("relay1StopTime").value;
-                  const relay1StartTimeTmp = relay1StartTime.split(":");
-                  const relay1StopTimeTmp = relay1StopTime.split(":");
-                  const relay1StartTimeHour = relay1StartTimeTmp[0];
-                  const relay1StartTimeMin = relay1StartTimeTmp[1];
-                  const relay1StopTimeHour = relay1StopTimeTmp[0];
-                  const relay1StopTimeMin = relay1StopTimeTmp[1];
-                  let relay1StartTimeNewHour = "";
-                  let relay1StartTimeNewMin = "";
-                  let relay1StopTimeNewHour = "";
-                  let relay1StopTimeNewMin = "";
-                  switch (relay1StartTimeHour[0]) {
-                    case "0":
-                      relay1StartTimeNewHour = relay1StartTimeHour.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay1StartTimeNewHour = relay1StartTimeHour;
-                      break;
-                  }
-                  switch (relay1StartTimeMin[0]) {
-                    case "0":
-                      relay1StartTimeNewMin = relay1StartTimeMin.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay1StartTimeNewMin = relay1StartTimeMin;
-                      break;
-                  }
-                  switch (relay1StopTimeHour[0]) {
-                    case "0":
-                      relay1StopTimeNewHour = relay1StopTimeHour.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay1StopTimeNewHour = relay1StopTimeHour;
-                      break;
-                  }
-                  switch (relay1StopTimeMin[0]) {
-                    case "0":
-                      relay1StopTimeNewMin = relay1StopTimeMin.replace("0", "");
-                      break;
-                    default:
-                      relay1StopTimeNewMin = relay1StopTimeMin;
-                      break;
-                  }
-                  const relay1StartTimeNewHM =
-                    relay1StartTimeNewHour + ":" + relay1StartTimeNewMin;
-                  const relay1StopTimeNewHM =
-                    relay1StopTimeNewHour + ":" + relay1StopTimeNewMin;
+                if (relay1Days.length < 7) {
+                  if (relay1Days.length > 0) {
+                    const relay1StartTime =
+                      document.getElementById("relay1StartTime").value;
+                    const relay1StopTime =
+                      document.getElementById("relay1StopTime").value;
+                    const relay1StartTimeTmp = relay1StartTime.split(":");
+                    const relay1StopTimeTmp = relay1StopTime.split(":");
+                    const relay1StartTimeHour = relay1StartTimeTmp[0];
+                    const relay1StartTimeMin = relay1StartTimeTmp[1];
+                    const relay1StopTimeHour = relay1StopTimeTmp[0];
+                    const relay1StopTimeMin = relay1StopTimeTmp[1];
+                    let relay1StartTimeNewHour = "";
+                    let relay1StartTimeNewMin = "";
+                    let relay1StopTimeNewHour = "";
+                    let relay1StopTimeNewMin = "";
+                    switch (relay1StartTimeHour[0]) {
+                      case "0":
+                        relay1StartTimeNewHour = relay1StartTimeHour.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay1StartTimeNewHour = relay1StartTimeHour;
+                        break;
+                    }
+                    switch (relay1StartTimeMin[0]) {
+                      case "0":
+                        relay1StartTimeNewMin = relay1StartTimeMin.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay1StartTimeNewMin = relay1StartTimeMin;
+                        break;
+                    }
+                    switch (relay1StopTimeHour[0]) {
+                      case "0":
+                        relay1StopTimeNewHour = relay1StopTimeHour.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay1StopTimeNewHour = relay1StopTimeHour;
+                        break;
+                    }
+                    switch (relay1StopTimeMin[0]) {
+                      case "0":
+                        relay1StopTimeNewMin = relay1StopTimeMin.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay1StopTimeNewMin = relay1StopTimeMin;
+                        break;
+                    }
+                    const relay1StartTimeNewHM =
+                      relay1StartTimeNewHour + ":" + relay1StartTimeNewMin;
+                    const relay1StopTimeNewHM =
+                      relay1StopTimeNewHour + ":" + relay1StopTimeNewMin;
 
-                  await axios
-                    .post(`${server}/relayControlTimer`, {
-                      b_id: b_id,
-                      type: type,
-                      relay: relay,
-                      start: relay1TimeStart,
-                      stop: relay1TimeStop,
-                      startTime: String(relay1StartTimeNewHM),
-                      stopTime: String(relay1StopTimeNewHM),
-                      aDay: relay1Days,
-                    })
-                    .then(() => {
-                      alert.close();
-                    })
-                    .catch(function (error) {
-                      // handle error
-                      alert.close();
-                      console.log(error);
+                    await axios
+                      .post(`${server}/relayControlTimer`, {
+                        b_id: b_id,
+                        type: type,
+                        relay: relay,
+                        start: relay1TimeStart,
+                        stop: relay1TimeStop,
+                        startTime: String(relay1StartTimeNewHM),
+                        stopTime: String(relay1StopTimeNewHM),
+                        aDay: relay1Days,
+                      })
+                      .then(() => {
+                        alert.close();
+                      })
+                      .catch(function (error) {
+                        // handle error
+                        alert.close();
+                        console.log(error);
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "PLEASE SELECT DAY",
                     });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "PLEASE SELECT DAY",
+                    text: "PLEASE SELECT EVERYDAY",
                   });
                 }
                 break;
               case 2:
-                if (relay2Days.length > 0) {
-                  const relay2StartTime =
-                    document.getElementById("relay2StartTime").value;
-                  const relay2StopTime =
-                    document.getElementById("relay2StopTime").value;
-                  const relay2StartTimeTmp = relay2StartTime.split(":");
-                  const relay2StopTimeTmp = relay2StopTime.split(":");
-                  const relay2StartTimeHour = relay2StartTimeTmp[0];
-                  const relay2StartTimeMin = relay2StartTimeTmp[1];
-                  const relay2StopTimeHour = relay2StopTimeTmp[0];
-                  const relay2StopTimeMin = relay2StopTimeTmp[1];
-                  let relay2StartTimeNewHour = "";
-                  let relay2StartTimeNewMin = "";
-                  let relay2StopTimeNewHour = "";
-                  let relay2StopTimeNewMin = "";
-                  switch (relay2StartTimeHour[0]) {
-                    case "0":
-                      relay2StartTimeNewHour = relay2StartTimeHour.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay2StartTimeNewHour = relay2StartTimeHour;
-                      break;
-                  }
-                  switch (relay2StartTimeMin[0]) {
-                    case "0":
-                      relay2StartTimeNewMin = relay2StartTimeMin.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay2StartTimeNewMin = relay2StartTimeMin;
-                      break;
-                  }
-                  switch (relay2StopTimeHour[0]) {
-                    case "0":
-                      relay2StopTimeNewHour = relay2StopTimeHour.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay2StopTimeNewHour = relay2StopTimeHour;
-                      break;
-                  }
-                  switch (relay2StopTimeMin[0]) {
-                    case "0":
-                      relay2StopTimeNewMin = relay2StopTimeMin.replace("0", "");
-                      break;
-                    default:
-                      relay2StopTimeNewMin = relay2StopTimeMin;
-                      break;
-                  }
-                  const relay2StartTimeNewHM =
-                    relay2StartTimeNewHour + ":" + relay2StartTimeNewMin;
-                  const relay2StopTimeNewHM =
-                    relay2StopTimeNewHour + ":" + relay2StopTimeNewMin;
+                if (relay2Days.length < 7) {
+                  if (relay2Days.length > 0) {
+                    const relay2StartTime =
+                      document.getElementById("relay2StartTime").value;
+                    const relay2StopTime =
+                      document.getElementById("relay2StopTime").value;
+                    const relay2StartTimeTmp = relay2StartTime.split(":");
+                    const relay2StopTimeTmp = relay2StopTime.split(":");
+                    const relay2StartTimeHour = relay2StartTimeTmp[0];
+                    const relay2StartTimeMin = relay2StartTimeTmp[1];
+                    const relay2StopTimeHour = relay2StopTimeTmp[0];
+                    const relay2StopTimeMin = relay2StopTimeTmp[1];
+                    let relay2StartTimeNewHour = "";
+                    let relay2StartTimeNewMin = "";
+                    let relay2StopTimeNewHour = "";
+                    let relay2StopTimeNewMin = "";
+                    switch (relay2StartTimeHour[0]) {
+                      case "0":
+                        relay2StartTimeNewHour = relay2StartTimeHour.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay2StartTimeNewHour = relay2StartTimeHour;
+                        break;
+                    }
+                    switch (relay2StartTimeMin[0]) {
+                      case "0":
+                        relay2StartTimeNewMin = relay2StartTimeMin.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay2StartTimeNewMin = relay2StartTimeMin;
+                        break;
+                    }
+                    switch (relay2StopTimeHour[0]) {
+                      case "0":
+                        relay2StopTimeNewHour = relay2StopTimeHour.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay2StopTimeNewHour = relay2StopTimeHour;
+                        break;
+                    }
+                    switch (relay2StopTimeMin[0]) {
+                      case "0":
+                        relay2StopTimeNewMin = relay2StopTimeMin.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay2StopTimeNewMin = relay2StopTimeMin;
+                        break;
+                    }
+                    const relay2StartTimeNewHM =
+                      relay2StartTimeNewHour + ":" + relay2StartTimeNewMin;
+                    const relay2StopTimeNewHM =
+                      relay2StopTimeNewHour + ":" + relay2StopTimeNewMin;
 
-                  await axios
-                    .post(`${server}/relayControlTimer`, {
-                      b_id: b_id,
-                      type: type,
-                      relay: relay,
-                      start: relay2TimeStart,
-                      stop: relay2TimeStop,
-                      startTime: String(relay2StartTimeNewHM),
-                      stopTime: String(relay2StopTimeNewHM),
-                      aDay: relay2Days,
-                    })
-                    .then(() => {
-                      alert.close();
-                    })
-                    .catch(function (error) {
-                      // handle error
-                      alert.close();
-                      console.log(error);
+                    await axios
+                      .post(`${server}/relayControlTimer`, {
+                        b_id: b_id,
+                        type: type,
+                        relay: relay,
+                        start: relay2TimeStart,
+                        stop: relay2TimeStop,
+                        startTime: String(relay2StartTimeNewHM),
+                        stopTime: String(relay2StopTimeNewHM),
+                        aDay: relay2Days,
+                      })
+                      .then(() => {
+                        alert.close();
+                      })
+                      .catch(function (error) {
+                        // handle error
+                        alert.close();
+                        console.log(error);
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "PLEASE SELECT DAY",
                     });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "PLEASE SELECT DAY",
+                    text: "PLEASE SELECT EVERYDAY",
                   });
                 }
                 break;
               case 3:
-                if (relay3Days.length > 0) {
-                  const relay3StartTime =
-                    document.getElementById("relay3StartTime").value;
-                  const relay3StopTime =
-                    document.getElementById("relay3StopTime").value;
-                  const relay3StartTimeTmp = relay3StartTime.split(":");
-                  const relay3StopTimeTmp = relay3StopTime.split(":");
-                  const relay3StartTimeHour = relay3StartTimeTmp[0];
-                  const relay3StartTimeMin = relay3StartTimeTmp[1];
-                  const relay3StopTimeHour = relay3StopTimeTmp[0];
-                  const relay3StopTimeMin = relay3StopTimeTmp[1];
-                  let relay3StartTimeNewHour = "";
-                  let relay3StartTimeNewMin = "";
-                  let relay3StopTimeNewHour = "";
-                  let relay3StopTimeNewMin = "";
-                  switch (relay3StartTimeHour[0]) {
-                    case "0":
-                      relay3StartTimeNewHour = relay3StartTimeHour.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay3StartTimeNewHour = relay3StartTimeHour;
-                      break;
-                  }
-                  switch (relay3StartTimeMin[0]) {
-                    case "0":
-                      relay3StartTimeNewMin = relay3StartTimeMin.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay3StartTimeNewMin = relay3StartTimeMin;
-                      break;
-                  }
-                  switch (relay3StopTimeHour[0]) {
-                    case "0":
-                      relay3StopTimeNewHour = relay3StopTimeHour.replace(
-                        "0",
-                        ""
-                      );
-                      break;
-                    default:
-                      relay3StopTimeNewHour = relay3StopTimeHour;
-                      break;
-                  }
-                  switch (relay3StopTimeMin[0]) {
-                    case "0":
-                      relay3StopTimeNewMin = relay3StopTimeMin.replace("0", "");
-                      break;
-                    default:
-                      relay3StopTimeNewMin = relay3StopTimeMin;
-                      break;
-                  }
-                  const relay3StartTimeNewHM =
-                    relay3StartTimeNewHour + ":" + relay3StartTimeNewMin;
-                  const relay3StopTimeNewHM =
-                    relay3StopTimeNewHour + ":" + relay3StopTimeNewMin;
+                if (relay1Days.length < 7) {
+                  if (relay3Days.length > 0) {
+                    const relay3StartTime =
+                      document.getElementById("relay3StartTime").value;
+                    const relay3StopTime =
+                      document.getElementById("relay3StopTime").value;
+                    const relay3StartTimeTmp = relay3StartTime.split(":");
+                    const relay3StopTimeTmp = relay3StopTime.split(":");
+                    const relay3StartTimeHour = relay3StartTimeTmp[0];
+                    const relay3StartTimeMin = relay3StartTimeTmp[1];
+                    const relay3StopTimeHour = relay3StopTimeTmp[0];
+                    const relay3StopTimeMin = relay3StopTimeTmp[1];
+                    let relay3StartTimeNewHour = "";
+                    let relay3StartTimeNewMin = "";
+                    let relay3StopTimeNewHour = "";
+                    let relay3StopTimeNewMin = "";
+                    switch (relay3StartTimeHour[0]) {
+                      case "0":
+                        relay3StartTimeNewHour = relay3StartTimeHour.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay3StartTimeNewHour = relay3StartTimeHour;
+                        break;
+                    }
+                    switch (relay3StartTimeMin[0]) {
+                      case "0":
+                        relay3StartTimeNewMin = relay3StartTimeMin.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay3StartTimeNewMin = relay3StartTimeMin;
+                        break;
+                    }
+                    switch (relay3StopTimeHour[0]) {
+                      case "0":
+                        relay3StopTimeNewHour = relay3StopTimeHour.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay3StopTimeNewHour = relay3StopTimeHour;
+                        break;
+                    }
+                    switch (relay3StopTimeMin[0]) {
+                      case "0":
+                        relay3StopTimeNewMin = relay3StopTimeMin.replace(
+                          "0",
+                          ""
+                        );
+                        break;
+                      default:
+                        relay3StopTimeNewMin = relay3StopTimeMin;
+                        break;
+                    }
+                    const relay3StartTimeNewHM =
+                      relay3StartTimeNewHour + ":" + relay3StartTimeNewMin;
+                    const relay3StopTimeNewHM =
+                      relay3StopTimeNewHour + ":" + relay3StopTimeNewMin;
 
-                  await axios
-                    .post(`${server}/relayControlTimer`, {
-                      b_id: b_id,
-                      type: type,
-                      relay: relay,
-                      start: relay3TimeStart,
-                      stop: relay3TimeStop,
-                      startTime: String(relay3StartTimeNewHM),
-                      stopTime: String(relay3StopTimeNewHM),
-                      aDay: relay3Days,
-                    })
-                    .then(() => {
-                      alert.close();
-                    })
-                    .catch(function (error) {
-                      // handle error
-                      alert.close();
-                      console.log(error);
+                    await axios
+                      .post(`${server}/relayControlTimer`, {
+                        b_id: b_id,
+                        type: type,
+                        relay: relay,
+                        start: relay3TimeStart,
+                        stop: relay3TimeStop,
+                        startTime: String(relay3StartTimeNewHM),
+                        stopTime: String(relay3StopTimeNewHM),
+                        aDay: relay3Days,
+                      })
+                      .then(() => {
+                        alert.close();
+                      })
+                      .catch(function (error) {
+                        // handle error
+                        alert.close();
+                        console.log(error);
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "PLEASE SELECT DAY",
                     });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "PLEASE SELECT DAY",
+                    text: "PLEASE SELECT EVERYDAY",
                   });
                 }
                 break;
@@ -610,38 +629,51 @@ const Default = ({ board }) => {
                   document.getElementById("relay1PhStart").value;
                 const relay1PhStop =
                   document.getElementById("relay1PhStop").value;
-                if (relay1PhStart <= 14 && relay1PhStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
-
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlPh`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      phStart: relay1PhStart,
-                      phStop: relay1PhStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relay1PhStart !== relay1PhStop) {
+                  if (
+                    relay1PhStart <= 14 &&
+                    relay1PhStop >= 0 &&
+                    relay1PhStart >= 0 &&
+                    relay1PhStop <= 14
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlPh`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        phStart: relay1PhStart,
+                        phStop: relay1PhStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 14 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -651,38 +683,52 @@ const Default = ({ board }) => {
                   document.getElementById("relay2PhStart").value;
                 const relay2PhStop =
                   document.getElementById("relay2PhStop").value;
-                if (relay2PhStart <= 14 && relay2PhStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
 
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlPh`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      phStart: relay2PhStart,
-                      phStop: relay2PhStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relay2PhStart !== relay2PhStop) {
+                  if (
+                    relay2PhStart <= 14 &&
+                    relay2PhStop >= 0 &&
+                    relay2PhStart >= 0 &&
+                    relay2PhStop <= 14
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlPh`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        phStart: relay2PhStart,
+                        phStop: relay2PhStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 14 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -693,38 +739,52 @@ const Default = ({ board }) => {
                   document.getElementById("relay3PhStart").value;
                 const relay3PhStop =
                   document.getElementById("relay3PhStop").value;
-                if (relay3PhStart <= 14 && relay3PhStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
 
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlPh`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      phStart: relay3PhStart,
-                      phStop: relay3PhStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relay3PhStart !== relay3PhStop) {
+                  if (
+                    relay3PhStart <= 14 &&
+                    relay3PhStop >= 0 &&
+                    relay3PhStart >= 0 &&
+                    relay3PhStop <= 14
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlPh`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        phStart: relay3PhStart,
+                        phStop: relay3PhStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 14 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -735,38 +795,51 @@ const Default = ({ board }) => {
                   document.getElementById("relayAlertPhStart").value;
                 const relayAlertPhStop =
                   document.getElementById("relayAlertPhStop").value;
-                if (relayAlertPhStart <= 14 && relayAlertPhStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
-
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlPh`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      phStart: relayAlertPhStart,
-                      phStop: relayAlertPhStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relayAlertPhStart !== relayAlertPhStop) {
+                  if (
+                    relayAlertPhStart <= 14 &&
+                    relayAlertPhStop >= 0 &&
+                    relayAlertPhStart >= 0 &&
+                    relayAlertPhStop <= 14
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlPh`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        phStart: relayAlertPhStart,
+                        phStop: relayAlertPhStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 14 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -775,7 +848,7 @@ const Default = ({ board }) => {
             break;
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
 
@@ -815,38 +888,52 @@ const Default = ({ board }) => {
                   document.getElementById("relay1EcStart").value;
                 const relay1EcStop =
                   document.getElementById("relay1EcStop").value;
-                if (relay1EcStart <= 10000 && relay1EcStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
 
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlEc`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      ecStart: relay1EcStart,
-                      ecStop: relay1EcStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relay1EcStart !== relay1EcStop) {
+                  if (
+                    relay1EcStart <= 10000 &&
+                    relay1EcStop >= 0 &&
+                    relay1EcStart >= 0 &&
+                    relay1EcStop <= 10000
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlEc`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        ecStart: relay1EcStart,
+                        ecStop: relay1EcStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 10000 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -856,38 +943,51 @@ const Default = ({ board }) => {
                   document.getElementById("relay2EcStart").value;
                 const relay2EcStop =
                   document.getElementById("relay2EcStop").value;
-                if (relay2EcStart <= 10000 && relay2EcStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
-
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlEc`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      ecStart: relay2EcStart,
-                      ecStop: relay2EcStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relay2EcStart !== relay2EcStop) {
+                  if (
+                    relay2EcStart <= 10000 &&
+                    relay2EcStop >= 0 &&
+                    relay1EcStart >= 0 &&
+                    relay20EcStop <= 10000
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlEc`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        ecStart: relay2EcStart,
+                        ecStop: relay2EcStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 10000 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -898,38 +998,51 @@ const Default = ({ board }) => {
                   document.getElementById("relay3EcStart").value;
                 const relay3EcStop =
                   document.getElementById("relay3EcStop").value;
-                if (relay3EcStart <= 10000 && relay3EcStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
-
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlEc`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      ecStart: relay3EcStart,
-                      ecStop: relay3EcStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relay3EcStart !== relay3EcStart) {
+                  if (
+                    relay3EcStart <= 10000 &&
+                    relay3EcStop >= 0 &&
+                    relay3EcStart >= 0 &&
+                    relay3EcStop <= 10000
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlEc`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        ecStart: relay3EcStart,
+                        ecStop: relay3EcStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 10000 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 
@@ -939,38 +1052,51 @@ const Default = ({ board }) => {
                   document.getElementById("relayAlertEcStart").value;
                 const relayAlertEcStop =
                   document.getElementById("relayAlertEcStop").value;
-                if (relayAlertEcStart <= 10000 && relayAlertEcStop >= 0) {
-                  const alert = Swal.fire({
-                    title: "PLEASE WAIT!",
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                      Swal.showLoading();
-                    },
-                  });
-
-                  await axios.post(`${server}/dataUpdate`, {
-                    b_id: b_id,
-                    dataUpdate: true,
-                  });
-
-                  await axios
-                    .post(`${server}/relayControlEc`, {
-                      b_id: b_id,
-                      relay: relay,
-                      status: status,
-                      type: type,
-                      ecStart: relayAlertEcStart,
-                      ecStop: relayAlertEcStop,
-                    })
-                    .then(() => {
-                      alert.close();
+                if (relayAlertEcStart !== relayAlertEcStop) {
+                  if (
+                    relayAlertEcStart <= 10000 &&
+                    relayAlertEcStop >= 0 &&
+                    relayAlertEcStart >= 0 &&
+                    relayAlertEcStop <= 10000
+                  ) {
+                    const alert = Swal.fire({
+                      title: "PLEASE WAIT!",
+                      timerProgressBar: true,
+                      allowOutsideClick: false,
+                      didOpen: () => {
+                        Swal.showLoading();
+                      },
                     });
+
+                    await axios.post(`${server}/dataUpdate`, {
+                      b_id: b_id,
+                      dataUpdate: true,
+                    });
+
+                    await axios
+                      .post(`${server}/relayControlEc`, {
+                        b_id: b_id,
+                        relay: relay,
+                        status: status,
+                        type: type,
+                        ecStart: relayAlertEcStart,
+                        ecStop: relayAlertEcStop,
+                      })
+                      .then(() => {
+                        alert.close();
+                      });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please Input Start Or Stop Less Than Or Equal 10000 and Start Or Stop More Than 0",
+                    });
+                  }
                 } else {
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Please Input Start Less Than Or Equal 14 and Stop More Than 0",
+                    text: "CAN'T INPUT EQUAL VALUE",
                   });
                 }
 

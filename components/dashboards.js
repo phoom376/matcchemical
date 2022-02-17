@@ -63,12 +63,10 @@ const Dashboards = ({
     "Nov",
     "Dec",
   ];
-  console.log(boardData);
 
   const handleDate = (e) => {
     const tmpDate = e.toString();
     const tmpSplit = tmpDate.split(" ");
-    console.log(tmpSplit);
 
     setYear(tmpSplit[3]);
     setMonth(tmpSplit[1]);
