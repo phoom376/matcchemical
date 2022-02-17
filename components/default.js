@@ -3,7 +3,7 @@ import "react-circular-progressbar/dist/styles.css";
 const Swal = require("sweetalert2");
 import axios from "axios";
 // import Select from "react-select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,6 +21,14 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { styled, useTheme } from "@mui/material/styles";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+
 import { color } from "@mui/system";
 
 const server = "https://boardapi.herokuapp.com";
@@ -44,6 +52,10 @@ const Default = ({ board }) => {
     const [relay1Days, setRelay1Days] = useState([]);
     const [relay2Days, setRelay2Days] = useState([]);
     const [relay3Days, setRelay3Days] = useState([]);
+    const [tempCheck, setTempCheck] = useState(false);
+    const [relay1TimerOpen, setRelay1TimerOpen] = useState(false);
+    const [relay2TimerOpen, setRelay2TimerOpen] = useState(false);
+    const [relay3TimerOpen, setRelay3TimerOpen] = useState(false);
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -54,6 +66,42 @@ const Default = ({ board }) => {
           width: 250,
         },
       },
+    };
+
+    useEffect(() => {
+      const check = () => {
+        tempCheckAlert();
+      };
+
+      const timCheck = setInterval(() => {
+        check();
+      }, 1000);
+
+      return () => {
+        clearInterval(timCheck);
+      };
+    }, []);
+
+    const tempCheckAlert = () => {
+      if (board.boardTemp >= 35) {
+        setTempCheck(true);
+      } else if (board.boardTemp <= 35) {
+        setTempCheck(false);
+      }
+    };
+
+    const handleOpenTimer = async (relay) => {
+      switch (relay) {
+        case 1:
+          setRelay1TimerOpen(!relay1TimerOpen);
+          break;
+        case 2:
+          setRelay2TimerOpen(!relay2TimerOpen);
+          break;
+        case 3:
+          setRelay3TimerOpen(!relay3TimerOpen);
+          break;
+      }
     };
 
     // console.log(start, stop);
@@ -562,6 +610,18 @@ const Default = ({ board }) => {
     };
 
     const relayControlTimerDelete = async (e, b_id, relay, id, type) => {
+      switch (Number(relay)) {
+        case 1:
+          handleOpenTimer(1);
+          break;
+        case 2:
+          handleOpenTimer(2);
+          break;
+        case 3:
+          handleOpenTimer(3);
+          break;
+      }
+
       switch (type) {
         case "TIMER_DELETE":
           const alert = Swal.fire({
@@ -1431,7 +1491,12 @@ const Default = ({ board }) => {
               <div>
                 <span className="title">BOARD TEMP</span>
                 <br></br>
-                <br></br>
+                {tempCheck ? (
+                  <p style={{ color: "red" }}>FAN START</p>
+                ) : (
+                  <br></br>
+                )}
+
                 <br></br>
                 <div className="progress-box">
                   <CircularProgressbar
@@ -2201,60 +2266,103 @@ const Default = ({ board }) => {
                         >
                           SET
                         </button>
+                        {board.relay1Timers.length > 0 && (
+                          <button
+                            id="set"
+                            className="mt-2"
+                            onClick={(e) => {
+                              handleOpenTimer(1, e.preventDefault());
+                            }}
+                          >
+                            SHOW TIMER :{board.relay1Timers.length}
+                          </button>
+                        )}
                       </div>
                     </form>
 
-                    {board.relay1Timers.length > 0 &&
-                      board.relay1Timers.map((i, k) => {
-                        const v_day = i.aDay;
-                        {
-                          /* console.log(valveTimer); */
-                        }
-                        return (
-                          <>
-                            <div className="timer-box mt-3" key={i._id}>
-                              <div className="timer-header">
-                                <p>Timer : {k + 1}</p>
-                              </div>
-                              TYPE:
-                              {i.start && <span> START </span>}
-                              {i.stop && <span> STOP </span>}
-                              <br></br>
-                              <span>Start Time :{i.startTime}</span>
-                              <br></br>
-                              <span>Stop Time :{i.stopTime}</span>
-                              <br></br>
-                              {v_day.map((i, d) => {
+                    <Dialog
+                      open={relay1TimerOpen}
+                      // onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        <h2>TIMER RELAY 1</h2>
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          <table className="table table-hover table-dark">
+                            <thead>
+                              <tr style={{ textAlign: "center" }}>
+                                <th>TIMER</th>
+                                <th>START TIME</th>
+                                <th>STOP TIME</th>
+                                <th>DAYS</th>
+                                <th>DELETE</th>
+                              </tr>
+                            </thead>
+                            <tbody style={{ textAlign: "center" }}>
+                              {board.relay1Timers.map((i, k) => {
                                 return (
-                                  <>
-                                    <span>
-                                      DAY[{d + 1}]:{i.days}
-                                    </span>
-                                    <br></br>
-                                  </>
+                                  <tr>
+                                    <td>{k + 1}</td>
+                                    <td>{i.startTime}</td>
+                                    <td>{i.stopTime}</td>
+                                    <td>
+                                      {i.aDay.map((j, k) => {
+                                        return (
+                                          <>
+                                            {i.aDay.length > 1 ? (
+                                              k === i.aDay.length - 1 ? (
+                                                <span>{j.days}</span>
+                                              ) : (
+                                                <span>{j.days},</span>
+                                              )
+                                            ) : (
+                                              <span>{j.days}</span>
+                                            )}
+                                          </>
+                                        );
+                                      })}
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      <div className="timer-button">
+                                        <button
+                                          className="btn btn-outline-danger"
+                                          onClick={(e) =>
+                                            relayControlTimerDelete(
+                                              e.preventDefault(),
+                                              b_id,
+                                              1,
+                                              i._id,
+                                              "TIMER_DELETE"
+                                            )
+                                          }
+                                          disabled={Disable}
+                                        >
+                                          Delete
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
                                 );
                               })}
-                              <div className="timer-button mt-3">
-                                <button
-                                  className="btn btn-outline-danger"
-                                  onClick={(e) =>
-                                    relayControlTimerDelete(
-                                      e.preventDefault(),
-                                      b_id,
-                                      1,
-                                      i._id,
-                                      "TIMER_DELETE"
-                                    )
-                                  }
-                                  disabled={Disable}
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
+                            </tbody>
+                          </table>
+                          {/* {board.relay1Timers.map((i,k)=>{
+                            return(
+
+                            )
+                          })} */}
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={() => handleOpenTimer(1)}>
+                          CLOSE
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </>
                 )}
               </div>
@@ -2692,60 +2800,103 @@ const Default = ({ board }) => {
                         >
                           SET
                         </button>
+                        {board.relay2Timers.length > 0 && (
+                          <button
+                            id="set"
+                            className="mt-2"
+                            onClick={(e) => {
+                              handleOpenTimer(2, e.preventDefault());
+                            }}
+                          >
+                            SHOW TIMER :{board.relay2Timers.length}
+                          </button>
+                        )}
                       </div>
                     </form>
 
-                    {board.relay2Timers.length > 0 &&
-                      board.relay2Timers.map((i, k) => {
-                        const v_day = i.aDay;
-                        {
-                          /* console.log(valveTimer); */
-                        }
-                        return (
-                          <>
-                            <div className="timer-box mt-3" key={i._id}>
-                              <div className="timer-header">
-                                <p>Timer : {k + 1}</p>
-                              </div>
-                              TYPE:
-                              {i.start && <span> START </span>}
-                              {i.stop && <span> STOP </span>}
-                              <br></br>
-                              <span>Start Time :{i.startTime}</span>
-                              <br></br>
-                              <span>Stop Time :{i.stopTime}</span>
-                              <br></br>
-                              {v_day.map((i, d) => {
+                    <Dialog
+                      open={relay2TimerOpen}
+                      // onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        <h2>TIMER RELAY 2</h2>
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          <table className="table table-hover table-dark">
+                            <thead>
+                              <tr style={{ textAlign: "center" }}>
+                                <th>TIMER</th>
+                                <th>START TIME</th>
+                                <th>STOP TIME</th>
+                                <th>DAYS</th>
+                                <th>DELETE</th>
+                              </tr>
+                            </thead>
+                            <tbody style={{ textAlign: "center" }}>
+                              {board.relay2Timers.map((i, k) => {
                                 return (
-                                  <>
-                                    <span>
-                                      DAY[{d + 1}]:{i.days}
-                                    </span>
-                                    <br></br>
-                                  </>
+                                  <tr>
+                                    <td>{k + 1}</td>
+                                    <td>{i.startTime}</td>
+                                    <td>{i.stopTime}</td>
+                                    <td>
+                                      {i.aDay.map((j, k) => {
+                                        return (
+                                          <>
+                                            {i.aDay.length > 1 ? (
+                                              k === i.aDay.length - 1 ? (
+                                                <span>{j.days}</span>
+                                              ) : (
+                                                <span>{j.days},</span>
+                                              )
+                                            ) : (
+                                              <span>{j.days}</span>
+                                            )}
+                                          </>
+                                        );
+                                      })}
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      <div className="timer-button">
+                                        <button
+                                          className="btn btn-outline-danger"
+                                          onClick={(e) =>
+                                            relayControlTimerDelete(
+                                              e.preventDefault(),
+                                              b_id,
+                                              2,
+                                              i._id,
+                                              "TIMER_DELETE"
+                                            )
+                                          }
+                                          disabled={Disable}
+                                        >
+                                          Delete
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
                                 );
                               })}
-                              <div className="timer-button mt-3">
-                                <button
-                                  className="btn btn-outline-danger"
-                                  onClick={(e) =>
-                                    relayControlTimerDelete(
-                                      e.preventDefault(),
-                                      b_id,
-                                      2,
-                                      i._id,
-                                      "TIMER_DELETE"
-                                    )
-                                  }
-                                  disabled={Disable}
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
+                            </tbody>
+                          </table>
+                          {/* {board.relay1Timers.map((i,k)=>{
+                            return(
+
+                            )
+                          })} */}
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={() => handleOpenTimer(2)}>
+                          CLOSE
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </>
                 )}
               </div>
@@ -3183,60 +3334,103 @@ const Default = ({ board }) => {
                         >
                           SET
                         </button>
+                        {board.relay3Timers.length > 0 && (
+                          <button
+                            id="set"
+                            className="mt-2"
+                            onClick={(e) => {
+                              handleOpenTimer(3, e.preventDefault());
+                            }}
+                          >
+                            SHOW TIMER :{board.relay3Timers.length}
+                          </button>
+                        )}
                       </div>
                     </form>
 
-                    {board.relay3Timers.length > 0 &&
-                      board.relay3Timers.map((i, k) => {
-                        const v_day = i.aDay;
-                        {
-                          /* console.log(valveTimer); */
-                        }
-                        return (
-                          <>
-                            <div className="timer-box mt-3" key={i._id}>
-                              <div className="timer-header">
-                                <p>Timer : {k + 1}</p>
-                              </div>
-                              TYPE:
-                              {i.start && <span> START </span>}
-                              {i.stop && <span> STOP </span>}
-                              <br></br>
-                              <span>Start Time :{i.startTime}</span>
-                              <br></br>
-                              <span>Stop Time :{i.stopTime}</span>
-                              <br></br>
-                              {v_day.map((i, d) => {
+                    <Dialog
+                      open={relay3TimerOpen}
+                      // onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        <h2>TIMER RELAY 3</h2>
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          <table className="table table-hover table-dark">
+                            <thead>
+                              <tr style={{ textAlign: "center" }}>
+                                <th>TIMER</th>
+                                <th>START TIME</th>
+                                <th>STOP TIME</th>
+                                <th>DAYS</th>
+                                <th>DELETE</th>
+                              </tr>
+                            </thead>
+                            <tbody style={{ textAlign: "center" }}>
+                              {board.relay3Timers.map((i, k) => {
                                 return (
-                                  <>
-                                    <span>
-                                      DAY[{d + 1}]:{i.days}
-                                    </span>
-                                    <br></br>
-                                  </>
+                                  <tr>
+                                    <td>{k + 1}</td>
+                                    <td>{i.startTime}</td>
+                                    <td>{i.stopTime}</td>
+                                    <td>
+                                      {i.aDay.map((j, k) => {
+                                        return (
+                                          <>
+                                            {i.aDay.length > 1 ? (
+                                              k === i.aDay.length - 1 ? (
+                                                <span>{j.days}</span>
+                                              ) : (
+                                                <span>{j.days},</span>
+                                              )
+                                            ) : (
+                                              <span>{j.days}</span>
+                                            )}
+                                          </>
+                                        );
+                                      })}
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      <div className="timer-button">
+                                        <button
+                                          className="btn btn-outline-danger"
+                                          onClick={(e) =>
+                                            relayControlTimerDelete(
+                                              e.preventDefault(),
+                                              b_id,
+                                              3,
+                                              i._id,
+                                              "TIMER_DELETE"
+                                            )
+                                          }
+                                          disabled={Disable}
+                                        >
+                                          Delete
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
                                 );
                               })}
-                              <div className="timer-button mt-3">
-                                <button
-                                  className="btn btn-outline-danger"
-                                  onClick={(e) =>
-                                    relayControlTimerDelete(
-                                      e.preventDefault(),
-                                      b_id,
-                                      3,
-                                      i._id,
-                                      "TIMER_DELETE"
-                                    )
-                                  }
-                                  disabled={Disable}
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
+                            </tbody>
+                          </table>
+                          {/* {board.relay1Timers.map((i,k)=>{
+                            return(
+
+                            )
+                          })} */}
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={() => handleOpenTimer(3)}>
+                          CLOSE
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </>
                 )}
               </div>
