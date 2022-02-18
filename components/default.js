@@ -1220,6 +1220,10 @@ const Default = ({ board }) => {
 
         setBoardNameStatus(false);
       } else {
+        await axios.post(`${server}/dataUpdate`, {
+          b_id: b_id,
+          dataUpdate: true,
+        });
         await axios
           .post(`${server}/boardName`, {
             b_id: b_id,
