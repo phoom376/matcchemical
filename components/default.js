@@ -1495,7 +1495,7 @@ const Default = ({ board }) => {
               <div>
                 <span className="title">BOARD TEMP</span>
                 <br></br>
-                {tempCheck ? (
+                {board.boardFan ? (
                   <p style={{ color: "red" }}>FAN START</p>
                 ) : (
                   <br></br>
