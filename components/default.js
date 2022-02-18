@@ -68,7 +68,6 @@ const Default = ({ board }) => {
       },
     };
 
-    
     const handleOpenTimer = async (relay) => {
       switch (relay) {
         case 1:
@@ -1477,11 +1476,15 @@ const Default = ({ board }) => {
                 {board.boardFan ? (
                   <>
                     {" "}
-                    <span style={{ color: "red" }}>FAN START</span>
+                    <span style={{ color: "green" }}>FAN START</span>
                     <br></br>
                   </>
                 ) : (
-                  <br></br>
+                  <>
+                    {" "}
+                    <span style={{ color: "red" }}>FAN STOP</span>
+                    <br></br>
+                  </>
                 )}
 
                 <br></br>
