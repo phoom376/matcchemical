@@ -68,28 +68,7 @@ const Default = ({ board }) => {
       },
     };
 
-    useEffect(() => {
-      const check = () => {
-        tempCheckAlert();
-      };
-
-      const timCheck = setInterval(() => {
-        check();
-      }, 1000);
-
-      return () => {
-        clearInterval(timCheck);
-      };
-    }, []);
-
-    const tempCheckAlert = () => {
-      if (board.boardTemp >= 34.9) {
-        setTempCheck(true);
-      } else if (board.boardTemp <= 33) {
-        setTempCheck(false);
-      }
-    };
-
+    
     const handleOpenTimer = async (relay) => {
       switch (relay) {
         case 1:
@@ -1496,7 +1475,11 @@ const Default = ({ board }) => {
                 <span className="title">BOARD TEMP</span>
                 <br></br>
                 {board.boardFan ? (
-                  <p style={{ color: "red" }}>FAN START</p>
+                  <>
+                    {" "}
+                    <span style={{ color: "red" }}>FAN START</span>
+                    <br></br>
+                  </>
                 ) : (
                   <br></br>
                 )}
