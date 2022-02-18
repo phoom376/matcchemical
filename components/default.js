@@ -83,9 +83,9 @@ const Default = ({ board }) => {
     }, []);
 
     const tempCheckAlert = () => {
-      if (board.boardTemp >= 35) {
+      if (board.boardTemp >= 34.9) {
         setTempCheck(true);
-      } else if (board.boardTemp <= 35) {
+      } else if (board.boardTemp <= 33) {
         setTempCheck(false);
       }
     };
