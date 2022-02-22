@@ -985,7 +985,7 @@ const Default = ({ board }) => {
                   if (
                     relay2EcStart <= 10000 &&
                     relay2EcStop >= 0 &&
-                    relay1EcStart >= 0 &&
+                    relay2EcStart >= 0 &&
                     relay2EcStop <= 10000
                   ) {
                     const alert = Swal.fire({
