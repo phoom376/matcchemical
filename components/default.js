@@ -1036,7 +1036,7 @@ const Default = ({ board }) => {
                   document.getElementById("relay3EcStart").value;
                 const relay3EcStop =
                   document.getElementById("relay3EcStop").value;
-                if (relay3EcStart !== relay3EcStart) {
+                if (relay3EcStart !== relay3EcStop) {
                   if (
                     relay3EcStart <= 10000 &&
                     relay3EcStop >= 0 &&
