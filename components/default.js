@@ -85,32 +85,40 @@ const Default = ({ board }) => {
     // console.log(start, stop);
     const handleSetName = async (b_id, relay, D_name) => {
       if (name !== "") {
-        const alert = Swal.fire({
-          title: "PLEASE WAIT!",
-          timerProgressBar: true,
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-        await axios.post(`${server}/dataUpdate`, {
-          b_id: b_id,
-          dataUpdate: true,
-        });
-        await axios
-          .post(`${server}/relayControl`, {
-            b_id: b_id,
-            type: "SET_NAME",
-            name: name,
-            relay: relay,
-          })
-          .then(() => {
-            alert.close();
-            setName("");
-            setRelay1Name(false);
-            setRelay2Name(false);
-            setRelay3Name(false);
+        if (name.length <= 10) {
+          const alert = Swal.fire({
+            title: "PLEASE WAIT!",
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
           });
+          await axios.post(`${server}/dataUpdate`, {
+            b_id: b_id,
+            dataUpdate: true,
+          });
+          await axios
+            .post(`${server}/relayControl`, {
+              b_id: b_id,
+              type: "SET_NAME",
+              name: name,
+              relay: relay,
+            })
+            .then(() => {
+              alert.close();
+              setName("");
+              setRelay1Name(false);
+              setRelay2Name(false);
+              setRelay3Name(false);
+            });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "TOO LONGER NAME",
+          });
+        }
       } else {
         const alert = Swal.fire({
           title: "PLEASE WAIT!",

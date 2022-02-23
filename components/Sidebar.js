@@ -51,7 +51,7 @@ const Sidebar = ({ children }) => {
       await CookieCheck();
       await verifyToken();
     };
-    const ic = setInterval(() => {
+    setInterval(() => {
       internetCheck();
     }, 1000);
 
